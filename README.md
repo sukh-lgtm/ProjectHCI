@@ -1,6 +1,7 @@
 # ProjectHCI
 
-A photographer with a huge set of photos in her library wants a system to help her track the photos (which includes adding and deleting photos) and to manage sales of them. The main issue present is having to manage both one's personal photo album, and the photos that they are selling, on two separate platforms. This is very time consuming for those that wish to sell their photos, as they will have to categorize each photo on two separate platforms.
+A photographer with a huge set of photos in her library wants a system to help her track the photos (which includes adding and deleting photos) and to manage sales of them. The main issue present is having to manage both one's personal photo album, and the photos that they are selling, on two separate platforms. This is very time consuming for those that wish to sell their photos, as they will have to categorize each photo on two separate platforms. 
+> [Project Website](https://sukh-lgtm.github.io/ProjectHCI/)
 
 
 ## Context
