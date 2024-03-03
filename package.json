@@ -1,0 +1,22 @@
+{
+  "name": "projecthci",
+  "version": "1.0.0",
+  "description": "Photo management library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sukh-lgtm/ProjectHCI.git"
+  },
+  "author": "Group 8",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sukh-lgtm/ProjectHCI/issues"
+  },
+  "homepage": "https://github.com/sukh-lgtm/ProjectHCI#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
