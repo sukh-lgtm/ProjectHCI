@@ -9,11 +9,11 @@ We aim to create a system where users can not only manage their pictures, but al
 
 
 ## Authors
-- [Matheus Brandao: ??](https://github.com/duckrobin)
-- [Mason Harris: ??](https://github.com/MasonHarris)
+- [Matheus Brandao: 30094226](https://github.com/duckrobin)
+- [Mason Harris: 30092071](https://github.com/MasonHarris)
 - [Parth Patel: ??](https://github.com/ParthPatel100)
 - [Sukhnaaz Sidhu: 30161587](https://github.com/sukh-lgtm)
-- [Shaheryar Syed: ??](https://github.com/shaheryar99)
+- [Shaheryar Syed: 30052162](https://github.com/shaheryar99)
 
 ## Requirements
 * Uploading & Deleting Pictures
