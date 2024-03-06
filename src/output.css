@@ -562,7 +562,7 @@ video {
   height: 100%;
   border-radius: 2rem;
   object-fit: cover;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .textoverlay {
@@ -575,8 +575,9 @@ video {
   gap: 2em;
   transition: .5s ease;
 }
+
 .textoverlay:hover {
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 .nav-bar-button {
@@ -596,7 +597,11 @@ video {
   --tw-text-opacity: 1;
   color: rgb(163 163 163 / var(--tw-text-opacity));
 }
-
+.nav-bar-button:focus {
+  fill: #2563eb;
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
 
 .sr-only {
   position: absolute;
