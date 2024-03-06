@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="!scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="bg-gray-100">
+
+    <!--- Back Button --->
+    <div class="pt-8 px-8 fixed top-5 left-5 w-full z-10">
+        <div class="flex flex-row">
+            <button type="button" class="text-black focus:text-blue-600 text-5xl">
+                <i class="fa fa-arrow-left fa-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!--- Profile Picture --->
+    <div class="flex pt-60 mx-auto justify-center align-middle self-center items-center">
+        <div class="relative">
+            <img src="images/Default_pfp.png" alt="Blank Profile Picture" class="w-[28rem] h-[26rem] object-cover border-2 border-gray-700 rounded-full mx-auto"/>
+        </div>
+    </div>
+
+    <!--- Profile Information --->
+    <div class="flex px-16 py-32 align-start self-center items-start">
+        <div class="grid grid-flow-row-dense grid-rows-5 border-4 border-gray-700 bg-gray-200 rounded-2xl">
+            <h2 class="font-bold text-7xl place-self-center">User Info</h2>
+
+            <div class="m-5">
+                <div class="grid grid-flow-col-dense grid-cols-3 place-items-start">
+                    <div class="relative font-semibold text-6xl">Email</div>
+                    <div class="relative font-normal text-5xl col-span-2 self-center">JohnDoe@gmail.com</div>
+                </div>
+            </div>
+
+            <div class="m-5">
+                <div class="grid grid-flow-col-dense grid-cols-3 place-items-start">
+                    <div class="relative font-semibold text-6xl">Name</div>
+                    <div class="relative font-normal text-5xl col-span-2 self-center">Johnathan Doe</div>
+                </div> 
+            </div>
+
+            <div class="m-5">
+                <div class="grid grid-flow-col-dense grid-cols-3 place-items-start">
+                    <div class="relative font-semibold text-6xl">Location</div>
+                    <div class="relative font-normal text-5xl col-span-2 self-center">Calgary, Canada</div>
+                </div>
+            </div>
+
+            <div class="m-5">
+                <div class="grid grid-flow-col-dense grid-cols-3 place-items-start">
+                    <div class="relative font-semibold text-6xl">Phone Number</div>
+                    <div class="relative font-normal text-5xl col-span-2 self-center">XXX-XXX-XXXX</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--- Logout Button --->
+    <div class="static w-full max-w-full z-10 flex flex-col justify-center align-middle self-center items-center">
+        <div class="relative">
+            <button type="button" class="text-black focus:text-red-600 bg-gray-400 rounded-[36px] text-5xl px-5 py-2.5">
+                <i class="fa fa-sign-out text-black"></i>Log Out
+            </button>
+        </div>
+    </div>
+
+</body>
