@@ -3,11 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-    .custom-image{
+    .image-container{
         @apply aspect-square max-w-full h-auto object-cover border-2 border-gray-700 rounded-[1rem] mx-auto box-border;
     }
 
     .nav-bar-button{
         @apply w-full text-neutral-400 bg-none text-[45px] px-5 py-2.5 focus:text-blue-600 fill-neutral-400 focus:fill-blue-600 flex flex-col align-middle items-center justify-center
+    }
+
+    .tag-section{
+        @apply self-center text-4xl block p-4 ps-10 text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-blue-500 placeholder:text-4xl placeholder:self-center w-[85%]
     }
 }

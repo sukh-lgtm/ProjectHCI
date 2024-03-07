@@ -34,70 +34,33 @@
     </div>
 
     <!-- Image content -->
-    <div class="flex-grow pt-60 mx-auto">
-        <div class="grid grid-cols-2 mx-6 my-4 gap-4 mb-52">
+    <div class="pt-60 flex-col flex">
+        <div class="grid grid-cols-2 mx-6 my-4 gap-4 mb-32">
             <div class="relative image-container">
-                <img src="images/king_julien.jpeg" alt="Image 1" class="image-container p-10 border-8 border-blue-600">
-                <svg class="absolute top-2 left-2" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_233_2526)">
-                        <path d="M16.59 7.58L10 14.17L6.41 10.59L5 12L10 17L18 9L16.59 7.58ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="#0000FF"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_233_2526">
-                            <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
+                <img src="images/king_julien.jpeg" alt="Image 1" class="image-container">
             </div>
             <div class="relative image-container">
-                <img src="images/giraffe.jpeg" alt="Image 1" class="image-container p-10 border-8 border-blue-600">
-                <svg class="absolute top-2 left-2" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_233_2526)">
-                        <path d="M16.59 7.58L10 14.17L6.41 10.59L5 12L10 17L18 9L16.59 7.58ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="#0000FF"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_233_2526">
-                            <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
+                <img src="images/giraffe.jpeg" alt="Image 1" class="image-container">
             </div>
             <div class="relative image-container">
-                <img src="images/bird.jpeg" alt="Image 1" class="image-container p-10 border-8 border-blue-600">
-                <svg class="absolute top-2 left-2" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_233_2526)">
-                        <path d="M16.59 7.58L10 14.17L6.41 10.59L5 12L10 17L18 9L16.59 7.58ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="#0000FF"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_233_2526">
-                            <rect width="24" height="24" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
+                <img src="images/bird.jpeg" alt="Image 1" class="image-container">
             </div>
+        </div>
 
-            <div class="image-container">
-                <img src="images/snake.jpeg" alt="Image 1" class="image-container">
+        <form class="h-full flex flex-col gap-4 bg-neutral-300 justify-center rounded-2xl mx-6 py-12">
+            <h2 class="text-5xl text-center mb-6">Common tag</h2>
+            <label for="img3-location-tag" class="mb-2 text-gray-900 sr-only">Location Tag</label>
+            <input type="text" id="img3-location-tag" class="tag-section" placeholder="Location" />
+            <label for="img3-date-tag" class="mb-2 text-gray-900 sr-only">Location Tag</label>
+            <input type="date" id="img3-date-tag" class="tag-section" placeholder="Date" />
+            <label for="img3-tags" class="mb-2 text-gray-900 sr-only">Tags</label>
+            <input type="text" id="img3-tags" class="tag-section" placeholder="Tag" />
+        </form>
 
-            </div>
-            <div class="image-container">
-                <img src="images/elephant.jpeg" alt="Image 1" class="image-container">
-            </div>
-            <div class="image-container">
-                <img src="images/monkey.jpeg" alt="Image 1" class="image-container">
-
-            </div>
-            <div class="image-container">
-                <img src="images/palmTree.jpeg" alt="Image 1" class="image-container">
-
-            </div>
-            <div class="image-container">
-                <img src="images/turtle.jpeg" alt="Image 1" class="image-container">
-            </div>
-            <div class="image-container">
-                <img src="images/snow.jpeg" alt="Image 1" class="image-container">
-            </div>
-
+        <div class="self-end mt-8 mx-6">
+            <button class="text-5xl border-blue-400 text-white rounded-2xl bg-blue-400 p-6">
+                Done
+            </button>
         </div>
     </div>
 
@@ -117,8 +80,8 @@
                 </svg>
 
                 <span class="text-5xl mt-2 font-light">
-                            Album
-                        </span>
+                                Album
+                            </span>
             </button>
             <button type="button" class="nav-bar-button stroke-neutral-400 focus:stroke-blue-600">
                 <svg width="65" height="65" viewBox="0 0 44 33"  xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -127,8 +90,8 @@
                 </svg>
 
                 <span class="text-5xl mt-2 font-light">
-                            Tag
-                    </span>
+                                Tag
+                        </span>
 
             </button>
             <button type="button" class="nav-bar-button">
@@ -143,8 +106,8 @@
                     </defs>
                 </svg>
                 <span class="text-5xl mt-2 font-light">
-                            Delete
-                        </span>
+                                Delete
+                            </span>
             </button>
 
             <button type="button" class="nav-bar-button">
@@ -161,8 +124,8 @@
 
 
                 <span class="text-5xl mt-2 font-light">
-                            Sell
-                        </span>
+                                Sell
+                            </span>
             </button>
 
         </div>
