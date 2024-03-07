@@ -1083,3 +1083,11 @@ input {
   color: rgba(0, 0, 0, 0.65);
   transform: translateY(0);
 }
+.round {
+  border-radius: 50%;
+}
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+  font-size: 48px;
+}
