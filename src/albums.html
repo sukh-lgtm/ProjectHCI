@@ -21,7 +21,6 @@
     <!-- Album Covers & Text-->
     <div class="flex-grow pt-55 mx-auto">
         <div class="grid gap-6 grid-cols-2 mx-6 my-4 mb-52 group">
-
         <div class = "group">
             <div class="textoverlay">
                 <img src="images/corvette-main.jpg" alt="Corvette" class="album-image">
@@ -36,7 +35,7 @@
             <div class="textoverlay">
                 <img src="images/view-main.jpg" alt="View" class="album-image">
                 <div class="absolute bottom-0 px-4 py-2 bg-gray-500/50 w-full">
-                    <h1 class="text-white font-semibold text-4xl"> [VACATION PHOTOS] </h1> 
+                    <h1 class="text-white font-semibold text-4xl"> [VACATION] </h1> 
                     <br>
                     <p class="text-lg font-bold"> | PHOTOS: 10 | </p> 
                     <br>
@@ -67,6 +66,23 @@
                     <br>
                     <p class="text-lg font-bold"> | PHOTOS: 650 | </p> 
                     <br>
+                </div>
+            </div>
+            <div class="textoverlay">
+                <form>
+                    <h1 class="newFormText">Create New Album</h1>
+                    <br>
+                    <label for="albumname" class="labelstyle">Album Name:</label><br>
+                    <input type="text" id="albumname" name="albumname" class="textinput"><br>
+                    <br>
+                    <label for="thumbnail" class="labelstyle">Upload Thumbnail:</label><br>
+                    <button type="thumbnail-btn" class="button-1">Upload</button>
+                    <br>
+                    <label for="pictures" class="labelstyle">Upload Pictures:</label><br>
+                    <button type="thumbnail-btn" class="button-1">Upload</button><br>
+
+                    <button type="create-btn" class="button-submit">Create Album!</button>
+                </form>
             </div>
         </div>
     </div>
