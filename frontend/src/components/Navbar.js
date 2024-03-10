@@ -1,10 +1,20 @@
 import '../index.css'
+import {Link, useLocation} from 'react-router-dom';
+
 function Navbar() {
+    const location = useLocation();
+
+    // Function to check if a link is active
+    const isActiveLink = (path) => {
+        return location.pathname === path;
+    };
+
+
     return (
         <div
             className="px-6 bg-neutral-800 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full max-w-full z-10 flex flex-col">
             <div className="grid grid-cols-4 gap-6">
-                <button type="button" className="nav-bar-button">
+                <Link className={`nav-bar-button ${isActiveLink('/library') ? 'fill-blue-300 text-blue-300' : ''}`} to="/library">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_202_2489)">
@@ -21,8 +31,8 @@ function Navbar() {
                     <span>
                         Library
                     </span>
-                </button>
-                <button type="button" className="nav-bar-button">
+                </Link>
+                <Link className={`nav-bar-button ${isActiveLink('/explore') ? 'fill-blue-300 text-blue-300' : ''}`} to="/explore">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_203_2510)">
@@ -39,8 +49,8 @@ function Navbar() {
                     <span>
                         Explore
                     </span>
-                </button>
-                <button type="button" className="nav-bar-button">
+                </Link>
+                <Link className={`nav-bar-button ${isActiveLink('/albums') ? 'fill-blue-300 text-blue-300' : ''}`} to="/albums">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 22 27"
                          xmlns="http://www.w3.org/2000/svg">
                         <rect y="8" width="22" height="19" rx="3"/>
@@ -54,8 +64,8 @@ function Navbar() {
                         Albums
                     </span>
 
-                </button>
-                <button type="button" className="nav-bar-button">
+                </Link>
+                <Link className={`nav-bar-button ${isActiveLink('/account') ? 'fill-blue-300 text-blue-300' : ''}`}  to="/account">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_202_2493)">
@@ -72,10 +82,40 @@ function Navbar() {
                     <span>
                         Account
                     </span>
-                </button>
+                </Link>
             </div>
         </div>
     );
 }
 
 export default Navbar;
+
+
+// import { Link, useMatch, useResolvedPath } from "react-router-dom"
+//
+// export default function Navbar() {
+//     return (
+//         <nav className="nav">
+//             <Link to="/" className="site-title">
+//                 Site Name
+//             </Link>
+//             <ul>
+//                 <CustomLink to="/pricing">Pricing</CustomLink>
+//                 <CustomLink to="/about">About</CustomLink>
+//             </ul>
+//         </nav>
+//     )
+// }
+//
+// function CustomLink({ to, children, ...props }) {
+//     const resolvedPath = useResolvedPath(to)
+//     const isActive = useMatch({ path: resolvedPath.pathname, end: true })
+//
+//     return (
+//         <li className={isActive ? "active" : ""}>
+//             <Link to={to} {...props}>
+//                 {children}
+//             </Link>
+//         </li>
+//     )
+// }
