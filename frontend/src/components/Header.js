@@ -19,10 +19,10 @@ function Header() {
                         <label htmlFor="default-search" className="mb-2 text-gray-900 sr-only">Search</label>
                         <div className="relative w-full flex flex-row">
                             <input type="search" id="default-search"
-                                   className="self-center block w-full p-4 ps-10 text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 placeholder:self-center"
+                                   className="self-center block w-full p-2 ps-10 text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 placeholder:self-center"
                                    placeholder="Search Photos"/>
                             <button type="submit"
-                                    className="text-black absolute end-2.5 bottom-2.5 rounded-lg px-4 py-2">
+                                    className="text-black absolute end-2 bottom-2 rounded-lg px-4 py-2">
                                 <i className="fa fa-search mr-2"></i>
                             </button>
                         </div>

@@ -36,15 +36,19 @@ import Albums from "./pages/Albums";
 import Explore from "./pages/Explore";
 import Account from "./pages/Account";
 import Header from "./components/Header";
+import Actionbar from "./components/Actionbar";
 
 
 function App() {
 
     return (
-        <>
+        <html lang="en" className="!scroll-smooth">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <body className={"w-screen"}>
             <Header/>
             <Navbar />
-            <div className="container">
+            {/*<Actionbar/>*/}
+            <div>
                 <Routes>
                     <Route path="/library" element={<Library />} />
                     <Route path="/albums" element={<Albums />} />
@@ -52,7 +56,8 @@ function App() {
                     <Route path="/account" element={<Account />} />
                 </Routes>
             </div>
-        </>
+        </body>
+        </html>
     )
 }
 
