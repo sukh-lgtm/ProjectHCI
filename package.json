@@ -18,5 +18,8 @@
   "homepage": "https://github.com/sukh-lgtm/ProjectHCI#readme",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "semver": "^7.6.0"
   }
 }
