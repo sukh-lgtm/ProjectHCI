@@ -1,6 +1,6 @@
 function Account() {
     return (
-        <div>
+        <div className="flex w-full justify-center align-middle">
             Account
         </div>
     );

@@ -24,7 +24,6 @@ function Library() {
             <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                 {images.keys().map((image, index) => (
                     <Image className={"image-container"} src={require("../images/" + image.split('/').pop())} />
-
                 ))}
             </div>
         </div>

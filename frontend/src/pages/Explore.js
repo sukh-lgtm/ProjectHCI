@@ -1,6 +1,6 @@
 function Explore() {
     return (
-        <div>
+        <div className="flex w-full justify-center align-middle">
             Explore
         </div>
     );
