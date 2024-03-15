@@ -18,11 +18,23 @@ code {
 
 @layer components {
   .image-container{
-    @apply aspect-square max-w-full h-auto object-cover border-2 border-gray-700 rounded-[1rem] mx-auto box-border;
+    @apply aspect-square max-w-full h-auto object-cover border-0 border-black rounded-[0.2rem] mx-auto box-border;
   }
 
   .nav-bar-button{
-    @apply w-full text-neutral-400 bg-none px-2.5 py-1 focus:text-blue-300 fill-neutral-400 focus:fill-blue-300 flex flex-col align-middle items-center justify-center
+    @apply w-full text-neutral-800 bg-none px-2.5 py-1 fill-neutral-800  flex flex-col align-middle items-center justify-center
+  }
+
+  .action-bar-button{
+    @apply w-full text-neutral-100 bg-none px-2.5 py-1 fill-neutral-100  flex flex-col align-middle items-center justify-center
+  }
+
+  .active-action-link{
+    @apply fill-blue-200 text-blue-200
+  }
+
+  .active-nav-link{
+    @apply fill-blue-800 text-blue-800
   }
 
   .tag-section{

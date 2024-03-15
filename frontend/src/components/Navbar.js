@@ -12,9 +12,9 @@ function Navbar() {
 
     return (
         <div
-            className="px-6 bg-neutral-800 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full max-w-full z-10 flex flex-col">
-            <div className="grid grid-cols-4 gap-6">
-                <Link className={`nav-bar-button ${isActiveLink('/library') ? 'fill-blue-300 text-blue-300' : ''}`} to="/library">
+            className="px-2 bg-neutral-500 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full max-w-full z-10 flex flex-col text-black py-3">
+            <div className="grid grid-cols-4 gap-6 ">
+                <Link className={`nav-bar-button ${isActiveLink('/library') ? 'active-nav-link' : ''}`} to="/library">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_202_2489)">
@@ -28,11 +28,11 @@ function Navbar() {
                         </defs>
                     </svg>
 
-                    <span>
-                        Library
-                    </span>
+                    {/*<span>*/}
+                    {/*    Library*/}
+                    {/*</span>*/}
                 </Link>
-                <Link className={`nav-bar-button ${isActiveLink('/explore') ? 'fill-blue-300 text-blue-300' : ''}`} to="/explore">
+                <Link className={`nav-bar-button ${isActiveLink('/explore') ? 'active-nav-link' : ''}`} to="/explore">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_203_2510)">
@@ -46,11 +46,11 @@ function Navbar() {
                         </defs>
                     </svg>
 
-                    <span>
-                        Explore
-                    </span>
+                    {/*<span>*/}
+                    {/*    Explore*/}
+                    {/*</span>*/}
                 </Link>
-                <Link className={`nav-bar-button ${isActiveLink('/albums') ? 'fill-blue-300 text-blue-300' : ''}`} to="/albums">
+                <Link className={`nav-bar-button ${isActiveLink('/albums') ? 'active-nav-link' : ''}`} to="/albums">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 22 27"
                          xmlns="http://www.w3.org/2000/svg">
                         <rect y="8" width="22" height="19" rx="3"/>
@@ -60,12 +60,12 @@ function Navbar() {
                             d="M4.04459 0.894863C4.04459 0.284513 4.51169 3.04003e-10 5.08788 3.04003e-10H16.9119C17.6077 -1.0739e-05 17.9552 0.284513 17.9552 0.894863C17.9552 1.50521 18.1839 2 17.6077 2H4.39256C3.81637 2 4.04459 1.50521 4.04459 0.894863Z"/>
                     </svg>
 
-                    <span>
-                        Albums
-                    </span>
+                    {/*<span>*/}
+                    {/*    Albums*/}
+                    {/*</span>*/}
 
                 </Link>
-                <Link className={`nav-bar-button ${isActiveLink('/account') ? 'fill-blue-300 text-blue-300' : ''}`}  to="/account">
+                <Link className={`nav-bar-button ${isActiveLink('/account') ? 'active-nav-link' : ''}`}  to="/account">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_202_2493)">
@@ -79,9 +79,9 @@ function Navbar() {
                         </defs>
                     </svg>
 
-                    <span>
-                        Account
-                    </span>
+                    {/*<span>*/}
+                    {/*    Account*/}
+                    {/*</span>*/}
                 </Link>
             </div>
         </div>
