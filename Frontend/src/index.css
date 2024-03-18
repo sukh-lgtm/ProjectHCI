@@ -4,7 +4,7 @@
 
 @layer components {
     .image-container{
-        @apply aspect-square max-w-full h-auto object-cover border-0 border-black rounded-[0.2rem] mx-auto box-border;
+        @apply aspect-square max-w-full h-auto object-cover border-0 border-black rounded-[0.2rem] mx-auto box-border ;
     }
 
     .nav-bar-button{

@@ -2,9 +2,14 @@ import React, {useEffect, useState} from 'react';
 
 import { Image } from 'react-bootstrap'
 
-function Library() {
+function Library({ selectionMode }) {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedImages, setSelectedImages] = useState([]);
+
+    useEffect(() => {
+        setSelectedImages([]);
+    }, [selectionMode]);
 
     useEffect(() => {
         async function fetchImages() {
@@ -19,6 +24,17 @@ function Library() {
         }
         fetchImages();
     }, []);
+
+    const toggleSelectImage = (index) => {
+        const isSelected = selectedImages.includes(index);
+        if (isSelected) {
+            setSelectedImages(selectedImages.filter((i) => i !== index));
+        } else {
+            setSelectedImages([...selectedImages, index]);
+        }
+        console.log(selectedImages)
+    };
+
 
     return (
         <>
@@ -40,10 +56,21 @@ function Library() {
                 <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                         {images.map((image, index) => (
-                                <Image className={"image-container"} key={index} src={image.src}
-                                       alt={`Image ${index}`}/>
-                            ))
-                        }
+                            <div key={index}>
+                                <div
+                                    onClick={() => selectionMode && toggleSelectImage(index)}
+                                    className={selectionMode && selectedImages.includes(index) ? "border-2 border-blue-500 relative overflow-hidden w-full h-full" : "border-0 relative overflow-hidden w-full h-full"}
+                                >
+                                    <img
+                                        src={image.src}
+                                        alt={`Image ${index}`}
+                                        className="aspect-square w-full h-full object-cover"
+
+                                    />
+                                </div>
+
+                            </div>
+                        ))}
                     </div>
                 </div>
         }
@@ -54,73 +81,82 @@ function Library() {
 
 export default Library;
 
-
-// import React, { useState, useEffect } from 'react';
-//
-// function ImageGallery() {
-//     const [images, setImages] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//
-//     useEffect(() => {
-//         async function fetchImages() {
-//             const imageFiles = import.meta.glob('../images/*.{jpg,jpeg,png,gif}');
-//             const imagePaths = Object.keys(imageFiles);
-//
-//             for (const path of imagePaths) {
-//                 const imageModule = await imageFiles[path]();
-//                 setImages(prevImages => [...prevImages, { path, src: imageModule.default }]);
-//             }
-//             setLoading(false);
-//         }
-//         fetchImages();
-//     }, []);
-//
-//     return (
-//         <div>
-//             {loading ? <p>Loading images...</p> :
-//                 images.map((image, index) => (
-//                     <img key={index} src={image.src} alt={`Image ${index}`} />
-//                 ))
-//             }
-//         </div>
-//     );
-// }
-//
-// export default ImageGallery;
-
-
-// import React, { useState, useEffect } from 'react';
+// import React, { useEffect, useState } from 'react';
+// import { Image } from 'react-bootstrap';
 //
 // function Library() {
 //     const [images, setImages] = useState([]);
 //     const [loading, setLoading] = useState(true);
+//     const [selectionMode, setSelectionMode] = useState(false);
+//     const [selectedImages, setSelectedImages] = useState([]);
 //
 //     useEffect(() => {
 //         async function fetchImages() {
 //             const imageFiles = import.meta.glob('../images/*.{jpg,jpeg,png,gif}');
 //             const imagePaths = Object.keys(imageFiles);
-//
-//             for (const path of imagePaths) {
+//             const imageList = await Promise.all(imagePaths.map(async (path) => {
 //                 const imageModule = await imageFiles[path]();
-//                 setImages(prevImages => [...prevImages, { path, src: imageModule.default }]);
-//             }
+//                 return { path, src: imageModule.default };
+//             }));
 //             setLoading(false);
+//             setImages(imageList);
 //         }
 //         fetchImages();
 //     }, []);
 //
+//     const toggleSelectImage = (index) => {
+//         const isSelected = selectedImages.includes(index);
+//         if (isSelected) {
+//             setSelectedImages(selectedImages.filter((i) => i !== index));
+//         } else {
+//             setSelectedImages([...selectedImages, index]);
+//         }
+//     };
+//
+//     const deleteSelectedImages = () => {
+//         const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
+//         setImages(remainingImages);
+//         setSelectedImages([]);
+//     };
+//
+//     const toggleSelectionMode = () => {
+//         setSelectionMode(!selectionMode);
+//         setSelectedImages([]); // Clear selected images when toggling selection mode
+//     };
+//
 //     return (
-//         <div>
-//             {loading ? <p>Loading images...</p> :
-//                 // <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
-//                 //     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
-//                         images.map((image, index) => (
-//                             <img key={index} src={image.src} alt={`Image ${index}`} />
-//                         ))
-//                 //     </div>
-//                 // </div>
-//             }
-//         </div>
+//         <>
+//             <div className="flex justify-center  mt-24">
+//                 <button onClick={toggleSelectionMode}>
+//                     {selectionMode ? 'Exit Selection Mode' : 'Enter Selection Mode'}
+//                 </button>
+//                 {selectionMode && (
+//                     <button onClick={deleteSelectedImages}>Delete Selected Images</button>
+//                 )}
+//             </div>
+//             {loading ? (
+//                 <div role="status" className="flex flex-row w-screen h-screen justify-center align-middle items-center">
+//                     <span className="font-bold ml-4">Loading Images</span>
+//                 </div>
+//             ) : (
+//                 <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
+//                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
+//                         {images.map((image, index) => (
+//                             <div key={index} className="image-container">
+//                                 {selectionMode && (
+//                                     <input
+//                                         type="checkbox"
+//                                         checked={selectedImages.includes(index)}
+//                                         onChange={() => toggleSelectImage(index)}
+//                                     />
+//                                 )}
+//                                 <Image src={image.src} alt={`Image ${index}`} />
+//                             </div>
+//                         ))}
+//                     </div>
+//                 </div>
+//             )}
+//         </>
 //     );
 // }
 //
