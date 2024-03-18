@@ -22,7 +22,7 @@ function Header({ selectionMode, toggleSelectionMode }) {
                                    className="self-center block w-full p-2 ps-10 text-gray-900 border-2 border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 placeholder:self-center"
                                    placeholder="Search photo tags"/>
                             <button type="submit"
-                                    className="text-black absolute end-3 bottom-3">
+                                    className="text-black absolute start-3 bottom-3 ml-2">
                                 <i className="fa fa-search mr-2"></i>
                             </button>
                         </div>

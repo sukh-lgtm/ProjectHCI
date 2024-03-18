@@ -59,14 +59,29 @@ function Library({ selectionMode }) {
                             <div key={index}>
                                 <div
                                     onClick={() => selectionMode && toggleSelectImage(index)}
-                                    className={selectionMode && selectedImages.includes(index) ? "border-2 border-blue-500 relative overflow-hidden w-full h-full" : "border-0 relative overflow-hidden w-full h-full"}
+                                    className={selectionMode && selectedImages.includes(index) ? "border-blue-500 border-4 relative overflow-hidden w-full h-full p-6 transition ease-in-out" : "border-2 border-gray-300 relative overflow-hidden w-full h-full"}
                                 >
                                     <img
                                         src={image.src}
                                         alt={`Image ${index}`}
-                                        className="aspect-square w-full h-full object-cover"
-
+                                        className={`aspect-square w-full h-full object-cover  ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
                                     />
+                                    {selectionMode && selectedImages.includes(index) ?
+                                        <div className={"absolute z-100 top-1.5 left-1.5 fill-blue-600"}>
+                                            <svg width="20" height="20" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M14.5 5.5L8 12.17L4.41 8.59L3 10L8 15L16 7L14.5 5.5ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.58 18 2 14.42 2 10C2 5.58 5.58 2 10 2C14.42 2 18 5.58 18 10C18 14.42 14.42 18 10 18Z"
+                                                    />
+                                            </svg>
+                                        </div> :
+                                        selectionMode && !selectedImages.includes(index)?
+                                            <div className={"absolute z-100 top-1.5 left-1.5 stroke-gray-300 stroke-2 fill-none"}>
+                                                <svg width="20" height="20" viewBox="0 0 20 20"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="9"/>
+                                                </svg>
+                                            </div> : <div></div>}
                                 </div>
 
                             </div>
