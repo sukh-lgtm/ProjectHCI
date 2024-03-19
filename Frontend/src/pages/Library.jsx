@@ -1,40 +1,109 @@
 import React, {useEffect, useState} from 'react';
 
-import { Image } from 'react-bootstrap'
+import Actionbar from "../components/Actionbar.jsx";
+import Axios from "axios";
+import {Image} from "react-bootstrap";
 
 function Library({ selectionMode }) {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedImages, setSelectedImages] = useState([]);
 
+    // const deleteSelectedImages = () => {
+        // const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
+        // setImages(remainingImages);
+        // setSelectedImages([]);
+        // const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
+        // const deletedImages = images.filter((_, index) => selectedImages.includes(index));
+        // const fs = require('fs');
+        // const path = require('path');
+        // deletedImages.map(image => {
+        //     console.log(image.path)
+        //     const f = path.basename(image.path);
+        //     const dest = path.resolve("../deleted_images/", f)
+        //     fs.rename(image.path, dest, (err)=>{
+        //         if(err) throw err;
+        //         else console.log('Successfully moved');
+        //     });
+        // });
+    // };
+
+    const deleteSelectedImages = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+
+        // Make a backend call to move the selected images
+        try {
+            const response = await Axios.post(
+                'http://localhost:3000/delete-images',
+                { imageFilenames: selectedImagePath }, // Data object
+                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+            );
+            console.log(response.data);
+            // If successful, update the state to reflect the changes
+            const remainingImages = images.filter((image) => !selectedImages.includes(image));
+            setImages(remainingImages);
+            setSelectedImages([]);
+        } catch (error) {
+            console.error('Error moving images:', error);
+        }
+    };
+
+
     useEffect(() => {
         setSelectedImages([]);
     }, [selectionMode]);
 
+    // useEffect( () => {
+    //     async function fetchImages() {
+    //         setImages([])
+    //         const imageFiles = import.meta.glob('../../../Backend/library_images/*.{jpg,jpeg,png,gif}');
+    //         const imagePaths = Object.keys(imageFiles);
+    //         console.log(imagePaths)
+    //         const imageList = await Promise.all(imagePaths.map(async (path) => {
+    //             const imageModule = await imageFiles[path]();
+    //             const fileName = path.split('/').pop();
+    //             return {path, src: imageModule.default, fileName};
+    //         }));
+    //
+    //         setLoading(false);
+    //         setImages(imageList);
+    //         console.log(imageList)
+    //     }
+    //     fetchImages();
+    // }, []);
+
     useEffect(() => {
         async function fetchImages() {
-            const imageFiles = import.meta.glob('../images/*.{jpg,jpeg,png,gif}');
-            const imagePaths = Object.keys(imageFiles);
-            const imageList = await Promise.all(imagePaths.map(async (path) => {
-                const imageModule = await imageFiles[path]();
-                return { path, src: imageModule.default };
-            }));
-            setLoading(false);
-            setImages(imageList);
+            setLoading(true)
+            try {
+                const response = await Axios.get('http://localhost:3000/fetch-images'); // Replace 'your_endpoint_url_here' with your actual endpoint URL
+                const imageList = response.data.images.map((image, index) => ({
+                    src: image.src,
+                    fileName: image.id
+                }));
+                setImages(imageList);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching images:', error);
+                setLoading(false);
+            }
         }
         fetchImages();
     }, []);
 
-    const toggleSelectImage = (index) => {
-        const isSelected = selectedImages.includes(index);
+
+    const toggleSelectImage = (image) => {
+        const isSelected = selectedImages.includes(image);
         if (isSelected) {
-            setSelectedImages(selectedImages.filter((i) => i !== index));
+            setSelectedImages(selectedImages.filter((i) => i !== image));
         } else {
-            setSelectedImages([...selectedImages, index]);
+            setSelectedImages([...selectedImages, image]);
         }
-        console.log(selectedImages)
     };
 
+    function getImageUrl(path) {
+        return new URL(path, import.meta.url).href
+    }
 
     return (
         <>
@@ -56,17 +125,18 @@ function Library({ selectionMode }) {
                 <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                         {images.map((image, index) => (
+
                             <div key={index}>
                                 <div
-                                    onClick={() => selectionMode && toggleSelectImage(index)}
-                                    className={selectionMode && selectedImages.includes(index) ? "border-blue-500 border-4 relative overflow-hidden w-full h-full p-6 transition ease-in-out" : "border-2 border-gray-300 relative overflow-hidden w-full h-full"}
+                                    onClick={() => selectionMode && toggleSelectImage(image)}
+                                    className={selectionMode && selectedImages.includes(image) ? "border-blue-500 border-4 relative overflow-hidden w-full h-full p-6 transition ease-in-out" : "border-2 border-gray-300 relative overflow-hidden w-full h-full"}
                                 >
-                                    <img
-                                        src={image.src}
-                                        alt={`Image ${index}`}
+                                    <Image
+                                        thumbnail src={getImageUrl(image.src)}
+                                        alt={image.fileName}
                                         className={`aspect-square w-full h-full object-cover  ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
                                     />
-                                    {selectionMode && selectedImages.includes(index) ?
+                                    {selectionMode && selectedImages.includes(image) ?
                                         <div className={"absolute z-100 top-1.5 left-1.5 fill-blue-600"}>
                                             <svg width="20" height="20" viewBox="0 0 20 20"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +145,7 @@ function Library({ selectionMode }) {
                                                     />
                                             </svg>
                                         </div> :
-                                        selectionMode && !selectedImages.includes(index)?
+                                        selectionMode && !selectedImages.includes(image)?
                                             <div className={"absolute z-100 top-1.5 left-1.5 stroke-gray-300 stroke-2 fill-none"}>
                                                 <svg width="20" height="20" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -89,90 +159,10 @@ function Library({ selectionMode }) {
                     </div>
                 </div>
         }
+            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} />: null}
         </>
     );
 
 }
 
 export default Library;
-
-// import React, { useEffect, useState } from 'react';
-// import { Image } from 'react-bootstrap';
-//
-// function Library() {
-//     const [images, setImages] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [selectionMode, setSelectionMode] = useState(false);
-//     const [selectedImages, setSelectedImages] = useState([]);
-//
-//     useEffect(() => {
-//         async function fetchImages() {
-//             const imageFiles = import.meta.glob('../images/*.{jpg,jpeg,png,gif}');
-//             const imagePaths = Object.keys(imageFiles);
-//             const imageList = await Promise.all(imagePaths.map(async (path) => {
-//                 const imageModule = await imageFiles[path]();
-//                 return { path, src: imageModule.default };
-//             }));
-//             setLoading(false);
-//             setImages(imageList);
-//         }
-//         fetchImages();
-//     }, []);
-//
-//     const toggleSelectImage = (index) => {
-//         const isSelected = selectedImages.includes(index);
-//         if (isSelected) {
-//             setSelectedImages(selectedImages.filter((i) => i !== index));
-//         } else {
-//             setSelectedImages([...selectedImages, index]);
-//         }
-//     };
-//
-//     const deleteSelectedImages = () => {
-//         const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
-//         setImages(remainingImages);
-//         setSelectedImages([]);
-//     };
-//
-//     const toggleSelectionMode = () => {
-//         setSelectionMode(!selectionMode);
-//         setSelectedImages([]); // Clear selected images when toggling selection mode
-//     };
-//
-//     return (
-//         <>
-//             <div className="flex justify-center  mt-24">
-//                 <button onClick={toggleSelectionMode}>
-//                     {selectionMode ? 'Exit Selection Mode' : 'Enter Selection Mode'}
-//                 </button>
-//                 {selectionMode && (
-//                     <button onClick={deleteSelectedImages}>Delete Selected Images</button>
-//                 )}
-//             </div>
-//             {loading ? (
-//                 <div role="status" className="flex flex-row w-screen h-screen justify-center align-middle items-center">
-//                     <span className="font-bold ml-4">Loading Images</span>
-//                 </div>
-//             ) : (
-//                 <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
-//                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
-//                         {images.map((image, index) => (
-//                             <div key={index} className="image-container">
-//                                 {selectionMode && (
-//                                     <input
-//                                         type="checkbox"
-//                                         checked={selectedImages.includes(index)}
-//                                         onChange={() => toggleSelectImage(index)}
-//                                     />
-//                                 )}
-//                                 <Image src={image.src} alt={`Image ${index}`} />
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-//             )}
-//         </>
-//     );
-// }
-//
-// export default Library;

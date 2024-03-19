@@ -25,12 +25,10 @@ function App() {
     };
 
     return (
-        <html lang="en" className="!scroll-smooth">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-        <body className={"w-screen"}>
+
         <div className="w-screen">
             <Header selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
-            <Navbar/>
+            {!selectionMode ? <Navbar/> : null}
             <div>
                 <Routes>
                     <Route path="/library" element={<Library selectionMode={selectionMode} />}/>
@@ -40,8 +38,6 @@ function App() {
                 </Routes>
             </div>
         </div>
-        </body>
-        </html>
 )
 }
 

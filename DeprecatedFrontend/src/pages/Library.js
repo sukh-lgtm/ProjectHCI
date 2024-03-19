@@ -17,13 +17,13 @@ function Library() {
         }
     }
 
-    const images = require.context('../images/', true);
+    const images = require.context('../library_images/', true);
 
     return (
         <div className="flex mt-24 flex-grow mx-auto justify-center items-center w-screen">
             <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                 {images.keys().map((image, index) => (
-                    <Image className={"image-container"} src={require("../images/" + image.split('/').pop())} />
+                    <Image className={"image-container"} src={require("../library_images/" + image.split('/').pop())} />
                 ))}
             </div>
         </div>
