@@ -8,30 +8,19 @@ function Library({ selectionMode }) {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedImages, setSelectedImages] = useState([]);
+    const [showPopup, setShowPopup] = useState(false);
 
-    // const deleteSelectedImages = () => {
-        // const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
-        // setImages(remainingImages);
-        // setSelectedImages([]);
-        // const remainingImages = images.filter((_, index) => !selectedImages.includes(index));
-        // const deletedImages = images.filter((_, index) => selectedImages.includes(index));
-        // const fs = require('fs');
-        // const path = require('path');
-        // deletedImages.map(image => {
-        //     console.log(image.path)
-        //     const f = path.basename(image.path);
-        //     const dest = path.resolve("../deleted_images/", f)
-        //     fs.rename(image.path, dest, (err)=>{
-        //         if(err) throw err;
-        //         else console.log('Successfully moved');
-        //     });
-        // });
-    // };
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
+    };
 
     const deleteSelectedImages = async () => {
-        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        togglePopup(); // Show the popup for confirmation
+    };
 
-        // Make a backend call to move the selected images
+    const confirmDelete = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        // Make a backend call to delete the selected images
         try {
             const response = await Axios.post(
                 'http://localhost:3000/delete-images',
@@ -43,10 +32,34 @@ function Library({ selectionMode }) {
             const remainingImages = images.filter((image) => !selectedImages.includes(image));
             setImages(remainingImages);
             setSelectedImages([]);
+            togglePopup(); // Hide the popup after deletion
         } catch (error) {
-            console.error('Error moving images:', error);
+            console.error('Error deleting images:', error);
         }
     };
+
+
+
+
+    // const deleteSelectedImages = async () => {
+    //     const selectedImagePath = selectedImages.map(image => (image.fileName));
+    //
+    //     // Make a backend call to move the selected images
+    //     try {
+    //         const response = await Axios.post(
+    //             'http://localhost:3000/delete-images',
+    //             { imageFilenames: selectedImagePath }, // Data object
+    //             { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+    //         );
+    //         console.log(response.data);
+    //         // If successful, update the state to reflect the changes
+    //         const remainingImages = images.filter((image) => !selectedImages.includes(image));
+    //         setImages(remainingImages);
+    //         setSelectedImages([]);
+    //     } catch (error) {
+    //         console.error('Error moving images:', error);
+    //     }
+    // };
 
 
     useEffect(() => {
@@ -160,6 +173,24 @@ function Library({ selectionMode }) {
                 </div>
         }
             {selectionMode ? <Actionbar onDelete={deleteSelectedImages} />: null}
+            {showPopup && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-55">
+                    <div className="bg-white p-4 rounded-lg">
+                        <p className="text-[0.75rem] flex justify-center">Are you sure you want to delete?</p>
+                        <p className="text-[0.75rem] flex justify-center">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span> for 30 days</p>
+                        <div className="flex w-full justify-around mt-4">
+                            <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
+                                    onClick={togglePopup}>
+                                Cancel
+                            </button>
+                            <button className="bg-red-500 text-white px-4 py-2 rounded-md self-end"
+                                    onClick={confirmDelete}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 

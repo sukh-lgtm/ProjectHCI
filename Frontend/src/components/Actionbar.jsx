@@ -1,4 +1,5 @@
 function Actionbar({onDelete}) {
+
     return (
         <div
             className="px-6 bg-neutral-800 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col">
@@ -36,8 +37,8 @@ function Actionbar({onDelete}) {
                     </span>
 
                 </button>
-                <button type="button" className="action-bar-button">
-                    <svg width="35" height="35" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" className="fill-inherit" onClick={onDelete}>
+                <button type="button" className="action-bar-button" onClick={onDelete}>
+                    <svg width="35" height="35" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" className="fill-inherit">
                         <g clipPath="url(#clip0_255_2562)">
                             <path
                                 d="M8.75033 27.7083C8.75033 29.3125 10.0628 30.625 11.667 30.625H23.3337C24.9378 30.625 26.2503 29.3125 26.2503 27.7083V10.2083H8.75033V27.7083ZM11.667 13.125H23.3337V27.7083H11.667V13.125ZM22.6045 5.83333L21.1462 4.375H13.8545L12.3962 5.83333H7.29199V8.75H27.7087V5.83333H22.6045Z"
