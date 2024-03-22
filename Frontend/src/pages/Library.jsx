@@ -38,28 +38,19 @@ function Library({ selectionMode }) {
         }
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
+                setShowPopup(false);
+            }
+        };
 
+        document.addEventListener("click", handleClickOutside);
 
-
-    // const deleteSelectedImages = async () => {
-    //     const selectedImagePath = selectedImages.map(image => (image.fileName));
-    //
-    //     // Make a backend call to move the selected images
-    //     try {
-    //         const response = await Axios.post(
-    //             'http://localhost:3000/delete-images',
-    //             { imageFilenames: selectedImagePath }, // Data object
-    //             { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
-    //         );
-    //         console.log(response.data);
-    //         // If successful, update the state to reflect the changes
-    //         const remainingImages = images.filter((image) => !selectedImages.includes(image));
-    //         setImages(remainingImages);
-    //         setSelectedImages([]);
-    //     } catch (error) {
-    //         console.error('Error moving images:', error);
-    //     }
-    // };
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [showPopup]);
 
 
     useEffect(() => {
@@ -164,7 +155,7 @@ function Library({ selectionMode }) {
                                         </div> :
                                         selectionMode && !selectedImages.includes(image) ?
                                             <div
-                                                className={"absolute z-100 top-1.5 left-1.5 stroke-gray-300 stroke-2 fill-none"}>
+                                                className={"absolute z-100 top-1.5 left-1.5 stroke-white stroke-2 fill-none"}>
                                                 <svg width="20" height="20" viewBox="0 0 20 20"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="10" cy="10" r="9"/>
@@ -180,7 +171,7 @@ function Library({ selectionMode }) {
             {selectionMode ? <Actionbar onDelete={deleteSelectedImages} selectedImages={selectedImages}/>: null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-55">
-                    <div className="bg-white p-4 rounded-lg">
+                    <div className="bg-white p-4 rounded-lg popup-container">
                         <p className="text-[0.75rem] flex justify-center">Are you sure you want to delete?</p>
                         <p className="text-[0.75rem] flex justify-center">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span> for 30 days</p>
                         <div className="flex w-full justify-around mt-4">

@@ -3,7 +3,7 @@ function Actionbar({onDelete, selectedImages}) {
 
     return (
         <div
-            className="px-1 bg-neutral-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5">
+            className="px-1 bg-neutral-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section">
             <div className="grid grid-cols-4 gap-6">
                 <button disabled={!onImageSelected} type="button" className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
                     <svg width="35" height="35" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
