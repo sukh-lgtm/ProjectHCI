@@ -12,11 +12,11 @@
     }
 
     .action-bar-button{
-        @apply w-full text-neutral-100 bg-none px-2.5 py-1 fill-neutral-100  flex flex-col align-middle items-center justify-center
+        @apply w-full text-neutral-600 bg-none px-2.5 py-1 fill-neutral-600  flex flex-col align-middle items-center justify-center
     }
 
     .active-action-link{
-        @apply fill-blue-200 text-blue-200
+        @apply  w-full text-blue-800 bg-none px-2.5 py-1 fill-blue-800 flex flex-col align-middle items-center justify-center
     }
 
     .active-nav-link{

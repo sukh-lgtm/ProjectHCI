@@ -26,7 +26,7 @@ function App() {
 
     return (
 
-        <div className="w-screen">
+        <div className= "w-screen h-[5000px] bg-gray-800 overflow-x-hidden" >
             <Header selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
             {!selectionMode ? <Navbar/> : null}
             <div>

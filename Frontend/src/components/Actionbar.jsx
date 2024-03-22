@@ -1,10 +1,11 @@
-function Actionbar({onDelete}) {
+function Actionbar({onDelete, selectedImages}) {
+    const onImageSelected = selectedImages.length > 0;
 
     return (
         <div
-            className="px-6 bg-neutral-800 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col">
+            className="px-1 bg-neutral-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5">
             <div className="grid grid-cols-4 gap-6">
-                <button type="button" className="action-bar-button">
+                <button disabled={!onImageSelected} type="button" className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
                     <svg width="35" height="35" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_255_2541)">
                             <path
@@ -22,11 +23,11 @@ function Actionbar({onDelete}) {
                     </span>
                 </button>
 
-                <button type="button" className="action-bar-button stroke-neutral-200 focus:stroke-blue-300">
-                    <svg width="35" height="35" viewBox="0 0 44 33" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <button type="button" disabled={!onImageSelected} className={`${onImageSelected ? "active-action-link stroke-blue-800" : "action-bar-button stroke-neutral-600"}`}>
+                    <svg width="33" height="33" viewBox="0 0 44 33" xmlns="http://www.w3.org/2000/svg" fill="none">
                         <path
                             d="M25.9964 1.03235H25.9966C26.2875 1.03229 26.4905 1.0221 26.67 1.01309C27.0506 0.993996 27.3256 0.9802 28.1077 1.07943C28.9591 1.28537 29.4931 1.53679 29.8448 1.91799L29.8448 1.91801L29.8503 1.92389L42.023 14.9038L42.0312 14.9126L42.0397 14.9212C42.264 15.149 42.3768 15.3405 42.4297 15.4905L42.43 15.4915C42.5055 15.705 42.542 15.9183 42.542 16.1364C42.542 16.3543 42.5056 16.5683 42.4299 16.7834C42.3771 16.9323 42.2643 17.1234 42.0397 17.3516L42.0396 17.3515L42.0302 17.3613L29.8576 30.0697L29.8512 30.0764L29.8448 30.0833C29.3922 30.5737 28.8081 30.9973 28.1622 31.178C27.4238 31.1775 27.0268 31.1775 26.5912 31.1774C26.4091 31.1774 26.2201 31.1774 25.9967 31.1773H25.9964L3.2295 31.1784C2.60703 31.0011 2.05248 30.5703 1.56531 30.0664C1.15731 29.6443 1.00032 29.2331 1.00032 28.8031V3.19902C1.00032 2.76897 1.15731 2.35777 1.56531 1.93573C1.95385 1.53382 2.49015 1.22233 3.22408 1.03235L25.9964 1.03235Z"
-                            strokeWidth="3"/>
+                            strokeWidth="4"/>
                         <path
                             d="M32.2231 19.3878C30.3966 19.3573 28.9159 17.8517 28.9159 16.0249C28.9159 14.1981 30.3966 12.7419 32.2231 12.7724C34.0496 12.8029 35.5303 14.3085 35.5303 16.1353C35.5303 17.9621 34.0496 19.4183 32.2231 19.3878Z"
                             strokeWidth="2"/>
@@ -37,7 +38,7 @@ function Actionbar({onDelete}) {
                     </span>
 
                 </button>
-                <button type="button" className="action-bar-button" onClick={onDelete}>
+                <button type="button" disabled={!onImageSelected} className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`} onClick={onDelete}>
                     <svg width="35" height="35" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg" className="fill-inherit">
                         <g clipPath="url(#clip0_255_2562)">
                             <path
@@ -56,7 +57,7 @@ function Actionbar({onDelete}) {
                     </span>
                 </button>
 
-                <button type="button" className="action-bar-button">
+                <button type="button"  disabled={!onImageSelected} className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
                     <svg width="35" height="35" viewBox="0 0 35 35" className="fill-inherit" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_255_2593)">
                             <path
@@ -72,7 +73,7 @@ function Actionbar({onDelete}) {
 
 
                     <span>
-                        sell
+                        Sell
                     </span>
                 </button>
 
