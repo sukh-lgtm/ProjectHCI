@@ -38,6 +38,7 @@ function Library({ selectionMode }) {
         }
     };
 
+    const numberOfImagesSelected = selectedImages.length
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
@@ -171,15 +172,16 @@ function Library({ selectionMode }) {
             {selectionMode ? <Actionbar onDelete={deleteSelectedImages} selectedImages={selectedImages}/>: null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-55">
-                    <div className="bg-white p-4 rounded-lg popup-container">
-                        <p className="text-[0.75rem] flex justify-center">Are you sure you want to delete?</p>
-                        <p className="text-[0.75rem] flex justify-center">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span> for 30 days</p>
-                        <div className="flex w-full justify-around mt-4">
-                            <button className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                        <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
+                        <p className="px-4 text-[0.8rem] flex justify-center">These images will be stored in<span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-blue-800 px-2 py-3 border-r-2"
                                     onClick={togglePopup}>
                                 Cancel
                             </button>
-                            <button className="bg-red-500 text-white px-4 py-2 rounded-md self-end"
+                            <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
                                     onClick={confirmDelete}>
                                 Delete
                             </button>
