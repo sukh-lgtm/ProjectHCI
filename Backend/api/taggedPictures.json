@@ -1,0 +1,60 @@
+{
+  "pictures": [
+    {
+      "name": "bird",
+      "path": "/library_images/bird.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "elephant",
+      "path": "/library_images/elephant.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "giraffe",
+      "path": "/library_images/giraffe.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "king_julien",
+      "path": "/library_images/king_julien.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "monkey",
+      "path": "/library_images/monkey.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "palmTree",
+      "path": "/library_images/palmTree.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "snake",
+      "path": "/library_images/snake.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    },
+    {
+      "name": "turtle",
+      "path": "/library_images/turtle.jpeg",
+      "location": "",
+      "date": "",
+      "tags": []
+    }
+  ]
+}

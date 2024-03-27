@@ -7,14 +7,45 @@ const cors = require("cors")
 app.use(express.json())
 app.use(cors())
 
-// Define the directory paths
 const imagesDir = path.join(__dirname, '../library_images');
 const deletedImagesDir = path.join(__dirname, '../deleted_images');
+const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
+
 
 app.get('/test', (req, res) => {
     console.log("Successful")
     res.status(200).send("Test successful")
 })
+
+function generatePicturesJSON() {
+    fs.readdir(imagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading images directory:', err);
+        } else {
+            const pictures = files.map(file => {
+                const name = file.split('.')[0];
+                const extension = path.extname(file);
+                return {
+                    name: name,
+                    path: `/library_images/${file}`,
+                    location: '',
+                    date: '',
+                    tags: []
+                };
+            });
+            const data = { pictures };
+            fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
+                if (err) {
+                    console.error('Error writing JSON file:', err);
+                } else {
+                    console.log('JSON file generated successfully.');
+                }
+            });
+        }
+    });
+}
+
+generatePicturesJSON();
 
 // Endpoint to fetch images
 app.get('/fetch-images', (req, res) => {
