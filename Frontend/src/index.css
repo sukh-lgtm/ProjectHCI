@@ -12,7 +12,7 @@
     }
 
     .action-bar-button{
-        @apply w-full text-neutral-600 bg-none px-2.5 py-1 fill-neutral-600  flex flex-col align-middle items-center justify-center
+        @apply w-full text-neutral-500 bg-none px-2.5 py-1 fill-neutral-500  flex flex-col align-middle items-center justify-center
     }
 
     .active-action-link{

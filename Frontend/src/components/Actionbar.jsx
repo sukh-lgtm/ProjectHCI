@@ -5,7 +5,7 @@ function Actionbar({onDelete, selectedImages}) {
 
     return (
         <div
-            className="px-1 bg-neutral-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section">
+            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section">
             <div className="grid grid-cols-4 gap-6">
                 <button disabled={!onImageSelected} type="button"
                         className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
@@ -41,7 +41,7 @@ function Actionbar({onDelete, selectedImages}) {
                 {/*    </span>*/}
                 {/*</button>*/}
                 <Link disabled={!onImageSelected}
-                      className={`${onImageSelected ? "active-action-link stroke-blue-800" : "action-bar-button stroke-neutral-600"}`}
+                      className={`${onImageSelected ? "active-action-link stroke-blue-800" : "action-bar-button stroke-neutral-500"}`}
                       to={"/tag"}
                       state={{selectedImages: selectedImages}}
                       >

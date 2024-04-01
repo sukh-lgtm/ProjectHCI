@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const cors = require("cors")
+const multer = require('multer');
 
 app.use(express.json())
 app.use(cors())
@@ -16,6 +17,20 @@ app.get('/test', (req, res) => {
     console.log("Successful")
     res.status(200).send("Test successful")
 })
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../library_images/');
+    },
+    filename: function (req, file, cb) {
+        // Append a timestamp to ensure unique filenames
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
 
 function generatePicturesJSON() {
     fs.readdir(imagesDir, (err, files) => {
@@ -86,6 +101,22 @@ app.post('/delete-images', (req, res) => {
     });
 
     res.status(200).send("Images moved successfully.");
+});
+
+app.post('/upload', upload.array('files'), (req, res) => {
+    // Check if files are present in the request
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: 'No files were uploaded.' });
+    }
+
+    // Process uploaded files
+    const uploadedFiles = req.files.map(file => ({
+        filename: file.filename,
+        path: file.path
+    }));
+
+    // Respond with success message and list of uploaded files
+    res.status(200).json({ message: 'Files uploaded successfully', uploadedFiles });
 });
 
 app.listen(3000, () => {

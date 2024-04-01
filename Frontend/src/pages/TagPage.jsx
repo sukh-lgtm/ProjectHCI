@@ -55,12 +55,12 @@ function TagPage() {
         <div className={"mt-28 flex flex-col"}>
 
             <Nav
-                className="justify-content-center flex"
+                className="justify-content-center flex "
                 activeKey={activePage}
                 onSelect={(selectedKey) => setActivePage(selectedKey)}
             >
                 <Nav.Item>
-                    <Nav.Link eventKey="common">Common Tag</Nav.Link>
+                    <Nav.Link eventKey="common" className={"text-neutral-300"}>Common Tag</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link eventKey="separate">Separate Tag</Nav.Link>
