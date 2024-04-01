@@ -27,12 +27,14 @@ function App() {
         setSelectionMode(!selectionMode);
     };
 
+    const locationPath = location.pathname.substring(1)
+    const currentPage = locationPath.charAt(0).toUpperCase() + locationPath.slice(1);
 
     return (
 
         <div className= "w-screen h-[5000px] bg-gray-300 overflow-x-hidden" >
             <LibraryProvider>
-                <Header selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
+                <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
                 {!selectionMode ? <Navbar/> : null}
                 <div>
                     <Routes>

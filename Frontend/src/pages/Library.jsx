@@ -110,6 +110,7 @@ function Library({ selectionMode }) {
 
     return (
         <>
+
             {images.length === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
