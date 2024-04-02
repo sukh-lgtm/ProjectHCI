@@ -40,6 +40,7 @@ function Library({ selectionMode }) {
         }
     };
 
+
     async function handleChange(event) {
         if (event.target.files) {
             await uploadFiles(event.target.files);
@@ -211,6 +212,7 @@ function Library({ selectionMode }) {
                                                     </svg>
                                                 </div>
                                             </div>: <div></div>}
+
                                 </div>
 
                             </div>
@@ -225,6 +227,7 @@ function Library({ selectionMode }) {
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
                     <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
                         <p className="px-4 text-[0.8rem]">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>
+
                         <hr className={"mt-4"}></hr>
                         <div className="w-full grid grid-cols-2 mb-0">
                             <button className="text-[1.2em] text-blue-800 px-2 py-3 border-r-2"
