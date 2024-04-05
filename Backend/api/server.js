@@ -3,18 +3,64 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const cors = require("cors")
+const multer = require('multer');
 
 app.use(express.json())
 app.use(cors())
 
-// Define the directory paths
 const imagesDir = path.join(__dirname, '../library_images');
 const deletedImagesDir = path.join(__dirname, '../deleted_images');
+const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
+
 
 app.get('/test', (req, res) => {
     console.log("Successful")
     res.status(200).send("Test successful")
 })
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../library_images/');
+    },
+    filename: function (req, file, cb) {
+        // Append a timestamp to ensure unique filenames
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
+function generatePicturesJSON() {
+    fs.readdir(imagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading images directory:', err);
+        } else {
+            const pictures = files.map(file => {
+                const name = file.split('.')[0];
+                const extension = path.extname(file);
+                return {
+                    name: name,
+                    path: `/library_images/${file}`,
+                    location: '',
+                    date: '',
+                    tags: []
+                };
+            });
+            const data = { pictures };
+            fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
+                if (err) {
+                    console.error('Error writing JSON file:', err);
+                } else {
+                    console.log('JSON file generated successfully.');
+                }
+            });
+        }
+    });
+}
+
+generatePicturesJSON();
 
 // Endpoint to fetch images
 app.get('/fetch-images', (req, res) => {
@@ -55,6 +101,22 @@ app.post('/delete-images', (req, res) => {
     });
 
     res.status(200).send("Images moved successfully.");
+});
+
+app.post('/upload', upload.array('files'), (req, res) => {
+    // Check if files are present in the request
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: 'No files were uploaded.' });
+    }
+
+    // Process uploaded files
+    const uploadedFiles = req.files.map(file => ({
+        filename: file.filename,
+        path: file.path
+    }));
+
+    // Respond with success message and list of uploaded files
+    res.status(200).json({ message: 'Files uploaded successfully', uploadedFiles });
 });
 
 app.listen(3000, () => {
