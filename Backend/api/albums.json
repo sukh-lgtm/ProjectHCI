@@ -1,0 +1,23 @@
+{
+    "albums": [
+        {
+            "title": "cars",
+            "images": [
+                {
+                    "name": "1712002449938-414434039",
+                    "path": "/library_images/1712002449938-414434039.jpeg",
+                    "location": "",
+                    "date": "",
+                    "tags": []
+                },
+                {
+                    "name": "1712002460021-248080241",
+                    "path": "/library_images/1712002460021-248080241.jpeg",
+                    "location": "",
+                    "date": "",
+                    "tags": []
+                }
+            ]
+        }
+    ]
+}

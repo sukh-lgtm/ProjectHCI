@@ -11,6 +11,7 @@ app.use(cors())
 const imagesDir = path.join(__dirname, '../library_images');
 const deletedImagesDir = path.join(__dirname, '../deleted_images');
 const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
+const albumsJSON = path.join(__dirname, '../api/albums.json');
 
 
 app.get('/test', (req, res) => {
@@ -77,6 +78,38 @@ app.get('/fetch-images', (req, res) => {
             res.json({ images });
         }
     });
+});
+
+// Endpoint to fetch albums
+app.get('/fetch-albums', (req, res) => {
+    // Read the albums json and send the list of albums to the client
+    fs.readFile(albumsJSON, (err, file) => {
+        if (err) {
+            console.error('Error reading albums JSON: ', err);
+            res.status(500).json( {error: 'Error reading albums JSON'});
+        }
+        else {
+            const fileJSON = JSON.parse(file.toString())
+            res.json(fileJSON.albums);
+        }
+
+
+    });
+
+    /*
+    fs.readdir(imagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading images directory:', err);
+            res.status(500).json({ error: 'Error reading images directory' });
+        } else {
+            const images = files.map(file => ({
+                id: file, // You can use a unique identifier for each image, such as the filename
+                src: `http://localhost:3000/library_images/${file}` // Construct the URL for each image
+            }));
+            res.json({ images });
+        }
+    });
+    */
 });
 app.use(express.static('..'))
 
