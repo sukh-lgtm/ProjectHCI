@@ -31,7 +31,7 @@ export const AlbumsProvider = ({ children }) => {
         setLoading(true);
         try {
             const response = await Axios.get('http://localhost:3000/fetch-albums');
-            const albumList = response.data.albums;
+            const albumList = response.data;
             setAlbums(albumList);
             setLoading(false);
         } catch (error) {

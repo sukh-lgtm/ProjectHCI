@@ -20,7 +20,6 @@ function Albums({ selectionMode }) {
         togglePopup(); // Show the popup for confirmation
     };
 
-    /*
     const confirmDelete = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         // Make a backend call to delete the selected images
@@ -32,15 +31,14 @@ function Albums({ selectionMode }) {
             );
             console.log(response.data);
             // If successful, update the state to reflect the changes
-            const remainingImages = images.filter((image) => !selectedImages.includes(image));
-            setImages(remainingImages);
-            setSelectedImages([]);
+            const remainingImages = albums.filter((image) => !selectedAlbums.includes(image));
+            setAlbums(remainingImages);
+            setSelectedAlbums([]);
             togglePopup(); // Hide the popup after deletion
         } catch (error) {
             console.error('Error deleting images:', error);
         }
     };
-    */
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -49,7 +47,7 @@ function Albums({ selectionMode }) {
         }
 
     }
-    /*
+
     async function uploadFiles(files) {
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
@@ -68,7 +66,7 @@ function Albums({ selectionMode }) {
 
         fetchAlbums()
     }
-    */
+
     const onUploadButtonClick = () => {
         // `current` points to the mounted file input element
         inputFile.current.click();
@@ -112,9 +110,14 @@ function Albums({ selectionMode }) {
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href
     }
+
+    function getAlbumThumbnail(album) {
+        return album.images[0]
+    }
+
     return (
         <>
-            {albums ?
+            {albums.length === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
@@ -154,7 +157,6 @@ function Albums({ selectionMode }) {
                     </div>
                 </div> :
 
-
                 loading ?
                     <div role="status"
                          className="flex flex-row w-screen h-screen justify-center align-middle items-center overflow-x-hidden">
@@ -170,35 +172,35 @@ function Albums({ selectionMode }) {
                     </svg>
                     <span className="font-bold ml-4 text-neutral-700">Loading Images</span>
                 </div> :
+
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                         {
-                        /*albums.map((image, index) => (
-
-                            <div key={index}>
+                        albums.map(album => (
+                            <div key={album.title}>
                                 <div
-                                    onClick={() => selectionMode && toggleSelectedAlbum(image)}
-                                    className={selectionMode && selectedAlbums.includes(image) ? "bg-neutral-800 relative overflow-hidden w-full h-full" : "relative overflow-hidden w-full h-full"}
+                                    onClick={() => selectionMode && toggleSelectedAlbum(getAlbumThumbnail(album))}
+                                    className={selectionMode && selectedAlbums.includes(getAlbumThumbnail(album)) ? "bg-neutral-800 relative overflow-hidden w-full h-full" : "relative overflow-hidden w-full h-full"}
                                 >
                                     <Image
-                                        thumbnail src={getImageUrl(image.src)}
-                                        alt={image.fileName}
-                                        className={`aspect-square w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${albums.includes(image) ? "opacity-70" : ""}`}
+                                        thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
+                                        alt={getAlbumThumbnail(album).fileName}
+                                        className={'aspect-square rounded-lg w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${albums.includes(getAlbumThumbnail(album)) ? "opacity-70" : ""}'}
                                     />
-                                    {selectionMode && selectedAlbums.includes(image) ?
+                                    {selectionMode && selectedAlbums.includes(getAlbumThumbnail(album)) ?
                                         <div className={"absolute z-100 top-1.5 left-1.5"}>
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
+                                                xmlns="http://www.w3.org/2000/svg">
                                                 <circle cx="10" cy="10" r="9.5" fill="#0500FF" stroke="#E6E0E0"/>
                                                 <rect x="4" y="9.71875" width="2" height="6.11681"
-                                                      transform="rotate(-45 4 9.71875)" fill="white"/>
+                                                    transform="rotate(-45 4 9.71875)" fill="white"/>
                                                 <path
                                                     d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
                                                     fill="white"/>
                                             </svg>
 
                                         </div> :
-                                        selectionMode && !selectedAlbums.includes(image) ?
+                                        selectionMode && !selectedAlbums.includes(getAlbumThumbnail(album)) ?
                                             <div>
                                                 <div
                                                     className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
@@ -206,7 +208,7 @@ function Albums({ selectionMode }) {
                                                 <div
                                                     className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
                                                     <svg width="20" height="20" viewBox="0 0 20 20"
-                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        xmlns="http://www.w3.org/2000/svg">
                                                         <circle cx="10" cy="10" r="9"/>
                                                     </svg>
                                                 </div>
@@ -215,7 +217,8 @@ function Albums({ selectionMode }) {
                                 </div>
 
                             </div>
-                    ))*/}
+                        ))  /*albums.map(album => ...*/ }
+                            
                     </div>
                 </div>
 

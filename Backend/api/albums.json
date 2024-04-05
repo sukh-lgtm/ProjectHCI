@@ -4,15 +4,15 @@
             "title": "cars",
             "images": [
                 {
-                    "name": "1712002449938-414434039",
-                    "path": "/library_images/1712002449938-414434039.jpeg",
+                    "fileName": "corvette2",
+                    "src": "/library_images/corvette2.jpg",
                     "location": "",
                     "date": "",
                     "tags": []
                 },
                 {
-                    "name": "1712002460021-248080241",
-                    "path": "/library_images/1712002460021-248080241.jpeg",
+                    "fileName": "corvette-main",
+                    "src": "/library_images/corvette-main.jpg",
                     "location": "",
                     "date": "",
                     "tags": []

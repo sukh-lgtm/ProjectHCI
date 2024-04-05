@@ -89,8 +89,15 @@ app.get('/fetch-albums', (req, res) => {
             res.status(500).json( {error: 'Error reading albums JSON'});
         }
         else {
-            const fileJSON = JSON.parse(file.toString())
-            res.json(fileJSON.albums);
+            const fileJSON = JSON.parse(file.toString());
+            const fixedSrc = fileJSON.albums;
+            for (album of fixedSrc) {
+                for (image of album.images) {
+                    image.src = "http://localhost:3000" + image.src;
+                }
+            }
+
+            res.json(fixedSrc);
         }
 
 
