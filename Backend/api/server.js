@@ -37,18 +37,21 @@ function generatePicturesJSON() {
         if (err) {
             console.error('Error reading images directory:', err);
         } else {
-            const pictures = files.map(file => {
-                const name = file.split('.')[0];
+            const pictures = {};
+            files.forEach(file => {
+                // const name = file.split('.')[0];
                 const extension = path.extname(file);
-                return {
-                    name: name,
-                    path: `/library_images/${file}`,
-                    location: '',
-                    date: '',
-                    tags: []
+                pictures[file] = {
+                    Path: `/library_images/${file}`,
+                    Name: '',
+                    Location: '',
+                    Date: '',
+                    Tags: []
                 };
             });
+
             const data = { pictures };
+
             fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
                 if (err) {
                     console.error('Error writing JSON file:', err);
@@ -65,6 +68,7 @@ generatePicturesJSON();
 // Endpoint to fetch images
 app.get('/fetch-images', (req, res) => {
     // Read the images directory and send the list of image filenames to the client
+    res.header("Access-Control-Allow-Origin", "*");
     fs.readdir(imagesDir, (err, files) => {
         if (err) {
             console.error('Error reading images directory:', err);
@@ -121,4 +125,79 @@ app.post('/upload', upload.array('files'), (req, res) => {
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
+});
+
+app.post('/currentImageTags', (req, res) => {
+    const {images} = req.body;
+    console.log("Received current images tags request")
+    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading taggedImages.json:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+
+        let jsonData;
+        try {
+            jsonData = JSON.parse(data);
+            const pictureData = jsonData.pictures
+            const pictures = {};
+            images.forEach(image => {
+                pictures[image] = {
+                    Path: pictureData[image].Path,
+                    Name: pictureData[image].Name,
+                    Location: pictureData[image].Location,
+                    Date: pictureData[image].Date,
+                    Tags: pictureData[image].Tags
+                };
+
+            })
+            console.log(pictures)
+            res.status(200).json(pictures)
+        } catch (parseErr) {
+            console.error('Error parsing JSON from taggedImages.json:', parseErr);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+    });
+})
+
+
+app.post('/commonTagImage', (req, res) => {
+    const { images, Name, Location, Date, Tags } = req.body;
+
+    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading taggedImages.json:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+
+        let jsonData;
+        try {
+            // Parsing existing data
+            jsonData = JSON.parse(data);
+        } catch (parseErr) {
+            console.error('Error parsing JSON from taggedImages.json:', parseErr);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+
+        const allPictures = jsonData.pictures
+        images.forEach(image => {
+            allPictures[image].Name = Name
+            allPictures[image].Location = Location
+            allPictures[image].Date = Date
+            allPictures[image].Tags = Tags
+        });
+
+        fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 2), err => {
+            if (err) {
+                console.error('Error writing to taggedImages.json:', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+            res.status(200).json('success');
+        });
+    });
 });

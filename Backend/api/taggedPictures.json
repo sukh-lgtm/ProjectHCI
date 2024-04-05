@@ -1,60 +1,58 @@
 {
-  "pictures": [
-    {
-      "name": "bird",
-      "path": "/library_images/bird.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+  "pictures": {
+    "1712002449938-414434039.jpeg": {
+      "Path": "/library_images/1712002449938-414434039.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     },
-    {
-      "name": "elephant",
-      "path": "/library_images/elephant.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712002460051-824958094.jpeg": {
+      "Path": "/library_images/1712002460051-824958094.jpeg",
+      "Name": null,
+      "Location": "Nairobi, Kenya",
+      "Date": "2024-04-04",
+      "Tags": [
+        "animals",
+        "favourite",
+        "cool"
+      ]
     },
-    {
-      "name": "giraffe",
-      "path": "/library_images/giraffe.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712002460065-430982376.jpeg": {
+      "Path": "/library_images/1712002460065-430982376.jpeg",
+      "Name": null,
+      "Location": "Nairobi, Kenya",
+      "Date": "2024-04-04",
+      "Tags": [
+        "animals",
+        "favourite",
+        "cool"
+      ]
     },
-    {
-      "name": "king_julien",
-      "path": "/library_images/king_julien.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712002460066-228970079.jpeg": {
+      "Path": "/library_images/1712002460066-228970079.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     },
-    {
-      "name": "monkey",
-      "path": "/library_images/monkey.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712002460074-12173217.jpeg": {
+      "Path": "/library_images/1712002460074-12173217.jpeg",
+      "Name": null,
+      "Location": "Nairobi, Kenya",
+      "Date": "2024-04-04",
+      "Tags": [
+        "animals",
+        "favourite",
+        "cool"
+      ]
     },
-    {
-      "name": "palmTree",
-      "path": "/library_images/palmTree.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "snake",
-      "path": "/library_images/snake.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "turtle",
-      "path": "/library_images/turtle.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712002460084-76802035.jpg": {
+      "Path": "/library_images/1712002460084-76802035.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     }
-  ]
+  }
 }

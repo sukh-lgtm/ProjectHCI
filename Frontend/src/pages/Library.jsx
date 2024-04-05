@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import Actionbar from "../components/Actionbar.jsx";
-import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
+import axios from "axios";
 
 function Library({ selectionMode }) {
 
@@ -24,10 +24,14 @@ function Library({ selectionMode }) {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         // Make a backend call to delete the selected images
         try {
-            const response = await Axios.post(
+            const response = await axios.post(
                 'http://localhost:3000/delete-images',
                 { imageFilenames: selectedImagePath }, // Data object
-                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+                { headers: { 'Content-Type': 'application/json' } },
+                {proxy: {
+                        host: 'localhost',
+                        port: 3000
+                    }}
             );
             console.log(response.data);
             // If successful, update the state to reflect the changes
@@ -55,7 +59,7 @@ function Library({ selectionMode }) {
 
 
         try {
-            const response = await Axios.post(
+            const response = axios.post(
                 'http://localhost:3000/upload',
                 formData// Data object
             );

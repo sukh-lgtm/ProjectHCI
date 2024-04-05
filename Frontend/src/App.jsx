@@ -32,7 +32,7 @@ function App() {
 
     return (
 
-        <div className= "w-screen h-[5000px] bg-gray-300 overflow-x-hidden" >
+        <div className= "max-w-screen h-[5000px] bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
                 {!selectionMode ? <Navbar/> : null}

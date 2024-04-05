@@ -38,7 +38,7 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
     return (
         <div>
-            <div className="fixed top-0 left-0 w-full z-10 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900">
+            <div className="fixed top-0 left-0 w-full z-10 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
                 <div className="flex flex-row items-center content-center justify-between">
                     <div>
                         <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
