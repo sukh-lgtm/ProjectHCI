@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Saleinfo from './Saleinfo';
-import data from '/Users/sukhn/git/ProjectHCI/Backend/explore_images/explorePictures.json';
+import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/explore_images/explorePictures.json';
 function Explore() {
     
     const [selectedItem, setSelectedItem] = useState(null);
@@ -24,6 +24,7 @@ function Explore() {
               <div className="flex items-end justify-center">
               <p className="px-5">{image.title}</p>
               <p className=" text-green-600">{image.price}</p>
+              
               </div>
               </div>
             </React.Fragment>

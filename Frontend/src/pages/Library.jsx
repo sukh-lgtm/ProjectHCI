@@ -9,6 +9,11 @@ function Library({ selectionMode }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [showSellPopup, setSellPopup] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [nextClicked, setNextClicked] = useState(false);
+    const [sellClicked, setSellClicked] = useState(false);
+    const [confirmSell, setConfirmSell] = useState(false);
 
     const { images, loading, fetchImages, setImages } = useLibrary();
 
@@ -16,9 +21,34 @@ function Library({ selectionMode }) {
         setShowPopup(!showPopup);
     };
 
+    const toggleSellMenuPopup = () => {
+        setSellPopup(!showSellPopup);
+    }
+
+    const sellSelectedImages = async () => {
+        toggleSellMenuPopup();
+    }
+
+    const toggleConfirmSell = () => {
+        setConfirmSell(!confirmSell);
+    }
+
     const deleteSelectedImages = async () => {
         togglePopup(); // Show the popup for confirmation
     };
+
+    const toggleNextImage = () => {
+        setNextClicked(true);
+        setCurrentImageIndex(currentIndex => (currentIndex + 1) % selectedImages.length)
+    }
+    const togglePreviousImage = () => {
+        setCurrentImageIndex(currentIndex => (currentIndex - 1 + selectedImages.length) % selectedImages.length)
+    }
+
+    const confirmSellPopup = () => {
+        toggleConfirmSell();
+    }
+
 
     const confirmDelete = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
@@ -39,7 +69,6 @@ function Library({ selectionMode }) {
             console.error('Error deleting images:', error);
         }
     };
-
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -242,6 +271,114 @@ function Library({ selectionMode }) {
                     </div>
                 </div>
             )}
+
+            {selectionMode ? <Actionbar onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
+            {showSellPopup && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                <div className="bg-white pt-4 rounded-lg popup-container">
+                    <div className="text-center">
+                        Sell - Picture {currentImageIndex + 1} of {selectedImages.length}
+                    </div>
+                    {selectedImages.length > 0 && (
+                        <img
+                        src = {getImageUrl(selectedImages[currentImageIndex].src)}
+                        className="mx-auto my-4 object-scale-down h-60 w-96"></img>
+                    )}
+                    <div className="w-full max-w-screen-lg">
+                        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                                    Picture Name *
+                                </label>
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Picture Title" />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
+                                    Author *
+                                </label>
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="author" type="text" placeholder="Picture Author" />
+                            </div>
+                            <div className="mb-6">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cost">
+                                    Cost *
+                                </label>
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cost" placeholder="10" />
+                            </div>
+                            <div className="mb-8">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tags">
+                                    Tags *
+                                </label>
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tags" placeholder="Use , to seperate" />
+                                <p class="text-red-500 text-xs italic my-5">* Required Field</p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={toggleSellMenuPopup}>
+                                    Cancel
+                                </button>
+                                {nextClicked && (currentImageIndex > 0) && (
+                                <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
+                                type="button"
+                                onClick={togglePreviousImage}
+                            >
+                                Back
+                                </button>
+                                )}
+                                {!(currentImageIndex === selectedImages.length - 1) && (
+                                <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
+                                type="button"
+                                onClick={toggleNextImage}
+                                >
+                                    Next
+                                </button>
+                                )}
+
+                                {currentImageIndex === selectedImages.length - 1 && (
+                                <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
+                                type="button"
+                                 onClick={confirmSellPopup}
+                                >
+                                    Sell
+                                </button>
+                                )}
+
+                                {confirmSell && (
+                                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                                <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+
+                                    {currentImageIndex === 0 && (
+                                        <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to sell {numberOfImagesSelected} picture?</p>
+                                    )}
+
+                                    {selectedImages.length > 1 && (
+                                        <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to sell {numberOfImagesSelected} pictures?</p>
+                                    )}
+
+                                    <hr className={"mt-4"}></hr>
+                                    <div className="w-full grid grid-cols-2 mb-0">
+                                        <button className="text-[1.2em] text-blue-800 px-2 py-3 border-r-2"
+                                                onClick={toggleConfirmSell}>
+                                            Cancel
+                                        </button>
+                                        <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
+                                                //onClick={}
+                                                >
+                                            Sell
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>                                    
+                                )}
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            )}
+            
 
         </>
 
