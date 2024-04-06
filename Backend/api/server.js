@@ -4,6 +4,9 @@ const path = require('path');
 const app = express();
 const cors = require("cors")
 const multer = require('multer');
+const taggedPictures = require("./taggedPictures.json");
+const {formToJSON} = require("axios");
+const taggedPicturesFile = './taggedPictures.json';
 
 app.use(express.json())
 app.use(cors())
@@ -14,7 +17,6 @@ const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
 
 
 app.get('/test', (req, res) => {
-    console.log("Successful")
     res.status(200).send("Test successful")
 })
 
@@ -24,46 +26,99 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // Append a timestamp to ensure unique filenames
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + '-' + file.originalname.split('.')[0];
         cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
 const upload = multer({ storage: storage });
 
+// function createTaggedPictures() {
+//     fs.readdir(imagesDir, (err, files) => {
+//         if (err) {
+//             console.error('Error reading images directory:', err);
+//         } else {
+//             const pictures = {};
+//             files.forEach(file => {
+//                 // const name = file.split('.')[0];
+//                 const extension = path.extname(file);
+//                 pictures[file] = {
+//                     Path: `/library_images/${file}`,
+//                     Name: '',
+//                     Location: '',
+//                     Date: '',
+//                     Tags: []
+//                 };
+//             });
+//
+//             const data = { pictures };
+//
+//             fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
+//                 if (err) {
+//                     console.error('Error writing JSON file:', err);
+//                 } else {
+//                     console.log('JSON file generated successfully.');
+//                 }
+//             });
+//         }
+//     });
+// }
+//
+// createTaggedPictures()
 
-function generatePicturesJSON() {
+function appendToTaggedPictures() {
     fs.readdir(imagesDir, (err, files) => {
         if (err) {
             console.error('Error reading images directory:', err);
         } else {
-            const pictures = {};
-            files.forEach(file => {
-                // const name = file.split('.')[0];
-                const extension = path.extname(file);
-                pictures[file] = {
-                    Path: `/library_images/${file}`,
-                    Name: '',
-                    Location: '',
-                    Date: '',
-                    Tags: []
-                };
-            });
-
-            const data = { pictures };
-
-            fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
+            fs.readFile(jsonFilePath, (err, data) => {
                 if (err) {
-                    console.error('Error writing JSON file:', err);
+                    console.error('Error reading tagged pictures file:', err);
                 } else {
-                    console.log('JSON file generated successfully.');
+                    const taggedPictures = JSON.parse(data);
+                    const pictures = {};
+
+                    files.forEach(file => {
+
+
+                        if (!taggedPictures.pictures.hasOwnProperty(file)) {
+                            const extension = path.extname(file);
+                            pictures[file] = {
+                                Path: `/library_images/${file}`,
+                                Name: '',
+                                Location: '',
+                                Date: '',
+                                Tags: []
+                            };
+                        } else {
+                            pictures[file] = {
+                                Path: taggedPictures.pictures[file].Path,
+                                Name: taggedPictures.pictures[file].Name,
+                                Location: taggedPictures.pictures[file].Location,
+                                Date: taggedPictures.pictures[file].Date,
+                                Tags: taggedPictures.pictures[file].Tags
+                            };
+                        }
+                    });
+
+                    const pictureData = {pictures};
+
+                    fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
+                        if (err) {
+                            console.error('Error writing JSON file:', err);
+                        } else {
+                            console.log('JSON file generated successfully.');
+                        }
+                    });
                 }
             });
         }
-    });
+    })
 }
 
-generatePicturesJSON();
+
+
+
 
 // Endpoint to fetch images
 app.get('/fetch-images', (req, res) => {
@@ -107,6 +162,7 @@ app.post('/delete-images', (req, res) => {
     res.status(200).send("Images moved successfully.");
 });
 
+
 app.post('/upload', upload.array('files'), (req, res) => {
     // Check if files are present in the request
     if (!req.files || req.files.length === 0) {
@@ -121,6 +177,8 @@ app.post('/upload', upload.array('files'), (req, res) => {
 
     // Respond with success message and list of uploaded files
     res.status(200).json({ message: 'Files uploaded successfully', uploadedFiles });
+
+    appendToTaggedPictures()
 });
 
 app.listen(3000, () => {
@@ -161,6 +219,63 @@ app.post('/currentImageTags', (req, res) => {
 
     });
 })
+
+app.post('/separateTagImage', (req, res) => {
+    console.log(req.body)
+    const separateImageTagJson = req.body
+    console.log("Json: ", separateImageTagJson)
+    let currImgTags;
+    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading taggedImages.json:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+
+
+        try {
+            // Parsing existing data
+            currImgTags = JSON.parse(data).pictures;
+            console.log(currImgTags)
+        } catch (parseErr) {
+            console.error('Error parsing JSON from taggedImages.json:', parseErr);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+
+        for(const imageFile in separateImageTagJson){
+            currImgTags[imageFile] = separateImageTagJson[imageFile]
+        }
+
+        const pictureData = {"pictures": currImgTags};
+
+        fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
+            if (err) {
+                console.error('Error writing JSON file:', err);
+            } else {
+                console.log('JSON file generated successfully.');
+            }
+        });
+
+        // const allPictures = jsonData.pictures
+        // images.forEach(image => {
+        //     allPictures[image].Name = Name
+        //     allPictures[image].Location = Location
+        //     allPictures[image].Date = Date
+        //     allPictures[image].Tags = Tags
+        // });
+        //
+        // fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 2), err => {
+        //     if (err) {
+        //         console.error('Error writing to taggedImages.json:', err);
+        //         res.status(500).json({ error: 'Internal Server Error' });
+        //         return;
+        //     }
+        //     res.status(200).json('success');
+        // });
+    });
+    res.status(200).json("done")
+});
 
 
 app.post('/commonTagImage', (req, res) => {
