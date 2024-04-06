@@ -7,7 +7,6 @@ import '../tags.css'
 
 
 function CommonTag({selectedImages}) {
-    const [commonImageName, setCommonImageName] = useState(null)
     const[imageLocation, setImageLocation] = useState(null)
     const[imageDate, setImageDate] = useState(null)
     const[imageTags, setImageTags] = useState([])
@@ -76,7 +75,7 @@ function CommonTag({selectedImages}) {
 
 
     function addImageTags() {
-        const obj = {"images" : selectedImagesFilenames, "Name": commonImageName, "Location": imageLocation, "Date": imageDate, "Tags": imageTags}
+        const obj = {"images" : selectedImagesFilenames, "Location": imageLocation, "Date": imageDate, "Tags": imageTags}
         axios.post('http://localhost:3000/commonTagImage', obj).then(r => console.log(r.data))
     }
 

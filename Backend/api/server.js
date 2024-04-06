@@ -279,7 +279,7 @@ app.post('/separateTagImage', (req, res) => {
 
 
 app.post('/commonTagImage', (req, res) => {
-    const { images, Name, Location, Date, Tags } = req.body;
+    const { images, Location, Date, Tags } = req.body;
 
     fs.readFile(jsonFilePath, 'utf8', (err, data) => {
         if (err) {
@@ -300,7 +300,6 @@ app.post('/commonTagImage', (req, res) => {
 
         const allPictures = jsonData.pictures
         images.forEach(image => {
-            allPictures[image].Name = Name
             allPictures[image].Location = Location
             allPictures[image].Date = Date
             allPictures[image].Tags = Tags
