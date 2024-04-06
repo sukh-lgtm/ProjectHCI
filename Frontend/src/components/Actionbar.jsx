@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-function Actionbar({onDelete, selectedImages}) {
+function Actionbar({onDelete, selectedImages, onSellClick}) {
     const onImageSelected = selectedImages.length > 0;
 
     return (
@@ -82,7 +82,8 @@ function Actionbar({onDelete, selectedImages}) {
                 </button>
 
                 <button type="button" disabled={!onImageSelected}
-                        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
+                        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}
+                        onClick={onSellClick}>
                     <svg width="35" height="35" viewBox="0 0 35 35" className="fill-inherit"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_255_2593)">
