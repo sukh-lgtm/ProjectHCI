@@ -126,11 +126,16 @@ function Library({ selectionMode }) {
 
 
     const toggleSelectImage = (image) => {
+        console.log("Selected image:", image); // Log the selected image
+        console.log("Previously selected images:", selectedImages); // Log the previously selected images array
+
         const isSelected = selectedImages.includes(image);
         if (isSelected) {
             setSelectedImages(selectedImages.filter((i) => i !== image));
+            console.log("Updated selected images after deselection:", selectedImages);
         } else {
             setSelectedImages([...selectedImages, image]);
+            console.log("Updated selected images after selection:", selectedImages);
         }
     };
 
