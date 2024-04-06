@@ -1,0 +1,162 @@
+[
+    {
+        "id": 0,
+        "title": "Image A",
+        "description": "Lorem ipsum dolor sit amet",
+        "author": "Alice",
+        "dateTaken": "4/5/2024",
+        "location": "Location where photo was taken",
+        "price" : "$10",
+        "url": "https://picsum.photos/seed/a/800"
+    },
+    {
+        "id": 1,
+        "title": "Image B",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "2/3/2024",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/b/800"
+    },
+    {
+        "id": 2,
+        "title": "Image C",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/c/800"
+    },
+    {
+        "id": 3,
+        "title": "Image D",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/d/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "id": 4,
+        "title": "Image E",
+        "description": "consectetur adipiscing elit",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "Location where photo was taken",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    }
+]
