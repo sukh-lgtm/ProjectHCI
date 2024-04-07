@@ -1,10 +1,10 @@
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
+const fs1 = require('fs');
 const path = require('path');
 const app = express();
 const cors = require("cors")
 const multer = require('multer');
-const taggedPictures = require("./taggedPictures.json");
 const {formToJSON} = require("axios");
 const taggedPicturesFile = './taggedPictures.json';
 
@@ -33,56 +33,112 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// function createTaggedPictures() {
-//     fs.readdir(imagesDir, (err, files) => {
+
+// function writeTaggedJson(pictureData) {
+//     fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
 //         if (err) {
-//             console.error('Error reading images directory:', err);
+//             console.error('Error writing JSON file:', err);
 //         } else {
-//             const pictures = {};
-//             files.forEach(file => {
-//                 // const name = file.split('.')[0];
-//                 const extension = path.extname(file);
-//                 pictures[file] = {
-//                     Path: `/library_images/${file}`,
-//                     Name: '',
-//                     Location: '',
-//                     Date: '',
-//                     Tags: []
-//                 };
-//             });
-//
-//             const data = { pictures };
-//
-//             fs.writeFile(jsonFilePath, JSON.stringify(data, null, 2), err => {
-//                 if (err) {
-//                     console.error('Error writing JSON file:', err);
-//                 } else {
-//                     console.log('JSON file generated successfully.');
-//                 }
-//             });
+//             console.log('JSON file generated successfully.');
 //         }
 //     });
 // }
 //
-// createTaggedPictures()
+// function readTaggedImages() {
+//     return new Promise((resolve, reject) => {
+//         fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+//             if (err) {
+//                 console.error('Error reading taggedImages.json:', err);
+//                 reject(err);
+//                 return;
+//             }
+//             resolve(data);
+//         });
+//     });
+// }
+
+let isReadingOrWriting = false;
+
+async function writeTaggedJson(pictureData) {
+    await waitForReadOrWrite();
+    isReadingOrWriting = true;
+    try {
+        await fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2));
+        console.log('JSON file generated successfully.');
+    } catch (err) {
+        console.error('Error writing JSON file:', err);
+    }
+    isReadingOrWriting = false;
+    console.log("Done writing");
+}
+
+async function readTaggedImages() {
+    await waitForReadOrWrite();
+    isReadingOrWriting = true;
+    try {
+        const data = await fs.readFile(jsonFilePath, 'utf8');
+        console.log('Data read successfully.');
+        return data;
+    } catch (err) {
+        console.error('Error reading taggedImages.json:', err);
+        return "";
+    } finally {
+        isReadingOrWriting = false;
+    }
+}
+
+function waitForReadOrWrite() {
+    return new Promise(resolve => {
+        const checkReadOrWrite = () => {
+            if (!isReadingOrWriting) {
+                resolve();
+            } else {
+                setTimeout(checkReadOrWrite, 100); // Check again after a short delay
+            }
+        };
+        checkReadOrWrite();
+    });
+}
+
 
 function appendToTaggedPictures() {
-    fs.readdir(imagesDir, (err, files) => {
+    fs1.readdir(imagesDir,  (err, files) => {
         if (err) {
             console.error('Error reading images directory:', err);
         } else {
-            fs.readFile(jsonFilePath, (err, data) => {
+            fs1.readFile(jsonFilePath, async (err, data) => {
                 if (err) {
                     console.error('Error reading tagged pictures file:', err);
                 } else {
-                    const taggedPictures = JSON.parse(data);
                     const pictures = {};
+                    if (data.length !== 0) {
+                        const taggedPictures = JSON.parse(data);
+                        files.forEach(file => {
+                            if (!taggedPictures.pictures.hasOwnProperty(file)) {
+                                const extension = path.extname(file);
+                                pictures[file] = {
+                                    Path: `/library_images/${file}`,
+                                    Name: '',
+                                    Location: '',
+                                    Date: '',
+                                    Tags: []
+                                };
+                            } else {
+                                pictures[file] = {
+                                    Path: taggedPictures.pictures[file].Path,
+                                    Name: taggedPictures.pictures[file].Name,
+                                    Location: taggedPictures.pictures[file].Location,
+                                    Date: taggedPictures.pictures[file].Date,
+                                    Tags: taggedPictures.pictures[file].Tags
+                                };
+                            }
+                        });
 
-                    files.forEach(file => {
+                        const pictureData = {pictures};
 
-
-                        if (!taggedPictures.pictures.hasOwnProperty(file)) {
-                            const extension = path.extname(file);
+                        await writeTaggedJson(pictureData)
+                    } else {
+                        files.forEach(file => {
                             pictures[file] = {
                                 Path: `/library_images/${file}`,
                                 Name: '',
@@ -90,26 +146,12 @@ function appendToTaggedPictures() {
                                 Date: '',
                                 Tags: []
                             };
-                        } else {
-                            pictures[file] = {
-                                Path: taggedPictures.pictures[file].Path,
-                                Name: taggedPictures.pictures[file].Name,
-                                Location: taggedPictures.pictures[file].Location,
-                                Date: taggedPictures.pictures[file].Date,
-                                Tags: taggedPictures.pictures[file].Tags
-                            };
-                        }
-                    });
+                        });
+                        const pictureData = {pictures};
 
-                    const pictureData = {pictures};
+                        await writeTaggedJson(pictureData)
+                    }
 
-                    fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
-                        if (err) {
-                            console.error('Error writing JSON file:', err);
-                        } else {
-                            console.log('JSON file generated successfully.');
-                        }
-                    });
                 }
             });
         }
@@ -124,7 +166,7 @@ function appendToTaggedPictures() {
 app.get('/fetch-images', (req, res) => {
     // Read the images directory and send the list of image filenames to the client
     res.header("Access-Control-Allow-Origin", "*");
-    fs.readdir(imagesDir, (err, files) => {
+    fs1.readdir(imagesDir, (err, files) => {
         if (err) {
             console.error('Error reading images directory:', err);
             res.status(500).json({ error: 'Error reading images directory' });
@@ -142,7 +184,6 @@ app.use(express.static('..'))
 // Endpoint to move images
 app.post('/delete-images', (req, res) => {
     // Assuming the client sends a list of image filenames to move
-    console.log(req.body.imageFilenames)
     const imageFilenames = req.body.imageFilenames;
 
     // Move each image to the 'delete_images' folder
@@ -185,133 +226,84 @@ app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
 
-app.post('/currentImageTags', (req, res) => {
+app.post('/currentImageTags', async (req, res) => {
     const {images} = req.body;
     console.log("Received current images tags request")
-    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading taggedImages.json:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
+    const data = await readTaggedImages()
+    let jsonData;
+    try {
+        jsonData = JSON.parse(data);
+        const pictureData = jsonData.pictures
+        const pictures = {};
+        images.forEach(image => {
+            pictures[image] = {
+                Path: pictureData[image].Path,
+                Name: pictureData[image].Name,
+                Location: pictureData[image].Location,
+                Date: pictureData[image].Date,
+                Tags: pictureData[image].Tags
+            };
 
-        let jsonData;
-        try {
-            jsonData = JSON.parse(data);
-            const pictureData = jsonData.pictures
-            const pictures = {};
-            images.forEach(image => {
-                pictures[image] = {
-                    Path: pictureData[image].Path,
-                    Name: pictureData[image].Name,
-                    Location: pictureData[image].Location,
-                    Date: pictureData[image].Date,
-                    Tags: pictureData[image].Tags
-                };
-
-            })
-            console.log(pictures)
-            res.status(200).json(pictures)
-        } catch (parseErr) {
-            console.error('Error parsing JSON from taggedImages.json:', parseErr);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-
-    });
+        })
+        res.status(200).json(pictures)
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
 })
 
-app.post('/separateTagImage', (req, res) => {
-    console.log(req.body)
+
+app.post('/updateSeparateTags', async (req, res) => {
     const separateImageTagJson = req.body
-    console.log("Json: ", separateImageTagJson)
     let currImgTags;
-    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading taggedImages.json:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
-
-
-        try {
-            // Parsing existing data
+    const data = await readTaggedImages()
+    try {
+        // Parsing existing data
+        if (data.length !== 0) {
             currImgTags = JSON.parse(data).pictures;
-            console.log(currImgTags)
-        } catch (parseErr) {
-            console.error('Error parsing JSON from taggedImages.json:', parseErr);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-
-
-        for(const imageFile in separateImageTagJson){
-            currImgTags[imageFile] = separateImageTagJson[imageFile]
-        }
-
-        const pictureData = {"pictures": currImgTags};
-
-        fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
-            if (err) {
-                console.error('Error writing JSON file:', err);
-            } else {
-                console.log('JSON file generated successfully.');
+            for (const imageFile in separateImageTagJson) {
+                currImgTags[imageFile] = separateImageTagJson[imageFile]
             }
-        });
 
-        // const allPictures = jsonData.pictures
-        // images.forEach(image => {
-        //     allPictures[image].Name = Name
-        //     allPictures[image].Location = Location
-        //     allPictures[image].Date = Date
-        //     allPictures[image].Tags = Tags
-        // });
-        //
-        // fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 2), err => {
-        //     if (err) {
-        //         console.error('Error writing to taggedImages.json:', err);
-        //         res.status(500).json({ error: 'Internal Server Error' });
-        //         return;
-        //     }
-        //     res.status(200).json('success');
-        // });
-    });
+            const pictureData = {"pictures": currImgTags};
+
+            await writeTaggedJson(pictureData)
+        }
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
     res.status(200).json("done")
 });
 
 
-app.post('/commonTagImage', (req, res) => {
-    const { images, Location, Date, Tags } = req.body;
+app.post('/updateCommonTags', async (req, res) => {
+    const {images, Location, Date, Tags} = req.body;
 
-    fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading taggedImages.json:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
+    const data = await readTaggedImages()
 
-        let jsonData;
-        try {
-            // Parsing existing data
-            jsonData = JSON.parse(data);
-        } catch (parseErr) {
-            console.error('Error parsing JSON from taggedImages.json:', parseErr);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
+    let jsonData;
+    try {
+        // Parsing existing data
+        jsonData = JSON.parse(data);
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+        return;
+    }
 
-        const allPictures = jsonData.pictures
-        images.forEach(image => {
-            allPictures[image].Location = Location
-            allPictures[image].Date = Date
-            allPictures[image].Tags = Tags
-        });
-
-        fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 2), err => {
-            if (err) {
-                console.error('Error writing to taggedImages.json:', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-                return;
-            }
-            res.status(200).json('success');
-        });
+    const allPictures = jsonData.pictures
+    images.forEach(image => {
+        allPictures[image].Location = Location
+        allPictures[image].Date = Date
+        allPictures[image].Tags = Tags
     });
+
+    const pictureData = {"pictures": allPictures}
+
+    await writeTaggedJson(pictureData)
+
+    res.status(200).json("done")
 });
+
+appendToTaggedPictures()

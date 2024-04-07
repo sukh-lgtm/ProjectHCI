@@ -4,35 +4,73 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { TagsInput } from "react-tag-input-component";
 import '../tags.css'
+import {TagProvider, useCommonTag} from "../context/TagPageContext.jsx";
+
+function arraysAreEqual(arr1, arr2) {
+    // Check if both arrays are empty
+    if (arr1.length === 0 && arr2.length === 0) {
+        return true;
+    }
+
+    // Check if arrays have different lengths
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    // Compare each element of the arrays
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    // If all elements are equal, return true
+    return true;
+}
 
 
 function CommonTag({selectedImages}) {
-    const[imageLocation, setImageLocation] = useState(null)
-    const[imageDate, setImageDate] = useState(null)
-    const[imageTags, setImageTags] = useState([])
-    let imageTagsString
 
-    useEffect( () => {
-        // Call the function to set image tag info when the component is mounted
-        setImageTagInfo();
+    const { imageLocation, setImageLocation, imageDate, setImageDate, imageTags, setImageTags } = useCommonTag();
+
+    const selectedImagesFilenames = selectedImages.map((image) => {
+        return image.fileName
+    })
+
+    useEffect(  () => {
+        console.log("Called here now")
+        setImageTagInfo().then();
     }, []);
+
+    const [dependencyChange, setDependencyChange] = useState(false);
+
+    useEffect(() => {
+        if(dependencyChange){
+            addImageTags();
+        }
+        setDependencyChange(false)
+    }, [dependencyChange]);
+
+    useEffect(() => {
+        setDependencyChange(true)
+    }, [imageTags, imageLocation, imageDate]);
+
 
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href;
     }
 
-    const selectedImagesFilenames = selectedImages.map((image, index) => {
-        return image.fileName
-    })
-
     async function setImageTagInfo() {
         const obj = {"images": selectedImagesFilenames}
+        console.log("Object here :", obj)
         const currImageTags = (await axios.post('http://localhost:3000/currentImageTags', obj)).data
-        let currTags = new Set();
+        console.log("Data from backend: " , currImageTags)
+        let currTags = [];
         let currLocation = "";
         let currDate = "";
+        console.log("Date: " , imageDate)
         for(const image in currImageTags){
-            if(currTags.size === 0){
+            if(currTags.length === 0){
                 currTags = currImageTags[image].Tags
             }
             currTags = findCommonElements(currTags, currImageTags[image].Tags)
@@ -51,18 +89,15 @@ function CommonTag({selectedImages}) {
                 currDate = null
             }
         }
-
-        await setImageTags(currTags)
-        console.log(currTags)
-
-        console.log(currLocation)
-        await setImageLocation(currLocation)
-        await setImageDate(currDate)
-        imageTagsString = currTags.join(",");
+        setImageTags(currTags)
+        setImageLocation(currLocation)
+        setImageDate(currDate)
     }
 
     function findCommonElements(arr1, arr2) {
         const commonElements = [];
+
+        console.log("arr2: ", arr2)
 
         arr1.forEach(element => {
             if (arr2.includes(element)) {
@@ -73,24 +108,27 @@ function CommonTag({selectedImages}) {
         return commonElements;
     }
 
-
     function addImageTags() {
         const obj = {"images" : selectedImagesFilenames, "Location": imageLocation, "Date": imageDate, "Tags": imageTags}
-        axios.post('http://localhost:3000/commonTagImage', obj).then(r => console.log(r.data))
+        console.log("Object: ", obj)
+        axios.post('http://localhost:3000/updateCommonTags', obj).then(r => console.log(r.data))
     }
 
     // Placeholder data for images
     const images = [...selectedImages]; // Replace [...] with your array of images
 
-    function setImageTagsArray(arr) {
-        setImageTags(arr.split(/\s*,\s*/))
+
+    function handleTagsChange(tags) {
+        console.log(tags)
+        setImageTags(tags)
+        console.log("")
     }
 
     return (
         <>
             {/* Display images */}
             <div className="flex flex-grow mx-auto justify-center items-center w-screen">
-                <div className="grid grid-cols-3 auto-cols-auto mx-2 my-2 gap-0.5">
+                <div className="grid grid-cols-3  mx-2 my-2 gap-0.5">
                     {images.map((image, index) => (
                         <div key={index}>
                             <div className={"relative overflow-hidden w-full h-full"}>
@@ -98,7 +136,7 @@ function CommonTag({selectedImages}) {
                                     thumbnail
                                     src={getImageUrl(image.src)}
                                     alt={image.fileName}
-                                    className={`aspect-square w-full h-full object-cover`}
+                                    className={`aspect-square w-full h-full object-cover rounded-xl`}
                                 />
                             </div>
                         </div>
@@ -121,7 +159,7 @@ function CommonTag({selectedImages}) {
                     <input
                         value={imageDate}
                         type="date"
-                        onChange={(e) => setImageDate(e.target.value)}
+                        onChange={(e) => {setImageDate(e.target.value)}}
                         className={"w-full rounded-md border border-slate-400 px-2"}
                     />
                 </div>
@@ -134,7 +172,7 @@ function CommonTag({selectedImages}) {
                 <div className={"w-full col-span-2 flex justify-center items-center"}>
                     <input
                         value={imageLocation}
-                        onChange={(e) => setImageLocation(e.target.value)}
+                        onChange={(e) => {setImageLocation(e.target.value);}}
                         className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}
                         placeholder={"Enter the Location"}/>
                 </div>
@@ -146,8 +184,9 @@ function CommonTag({selectedImages}) {
 
                 <div className={"w-full col-span-2 flex justify-center items-center"}>
                     <TagsInput
-                        value={imageTags}
-                        onChange={setImageTags}
+                        value={[...imageTags]}
+                        // onChange={(tags) => {setImageTags(tags)}}
+                        onChange={(tags) => {handleTagsChange(tags)}}
                         name="Enter image tags"
                         placeHolder="Hit enter to add tags"
                         classNames={{input: "custom-placeholder"}}
@@ -166,18 +205,22 @@ function CommonTag({selectedImages}) {
 }
 
 function SeparateTag({selectedImages}) {
+    const { imageInfo, setImageInfo } = useCommonTag();
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href;
     }
-    const [imageInfo, setImageInfo] = useState({});
     useEffect( () => {
         // Call the function to set image tag info when the component is mounted
-        setImageTagInfo();
-    }, []);
+        setImageTagInfo().then();
+    }, [selectedImages]);
+
+    useEffect(() => {
+        addImageTags()
+    }, [imageInfo]);
 
     function addImageTags() {
         console.log(imageInfo)
-        axios.post('http://localhost:3000/separateTagImage', imageInfo).then(r => console.log(r.data))
+        axios.post('http://localhost:3000/updateSeparateTags', imageInfo).then(r => console.log(r.data))
     }
 
     async function setImageTagInfo() {
@@ -199,18 +242,9 @@ function SeparateTag({selectedImages}) {
 
     const images = [...selectedImages];
 
-    const initialImageData = images.map((image) => ({
-        Name: '',
-        Date: '',
-        Location: '',
-        Tags: [],
-    }));
-
     const selectedImagesFilenames = selectedImages.map((image, index) => {
         return image.fileName
     })
-
-    const [imageData, setImageData] = useState(initialImageData);
 
     function handleNameChange(imageName, value) {
         setImageInfo(prevHashmap => {
@@ -237,6 +271,7 @@ function SeparateTag({selectedImages}) {
     }
 
     function handleTagsChange(imageName, value) {
+        console.log("Called")
         setImageInfo(prevHashmap => {
             const updatedHashmap = { ...prevHashmap }; // Create a copy of the previous hashmap
             updatedHashmap[imageName].Tags = value;
@@ -252,7 +287,7 @@ function SeparateTag({selectedImages}) {
             <div className={"flex gap-3 flex-col"}>
                 {images.map((image, index) => (
                     <div key={index}
-                         className={"mt-2 mx-2 border border-neutral-500 bg-slate-300 rounded-xl p-2 grid grid-cols-3 max-w-full justify-center items-center text-slate-800"}>
+                         className={"mt-2 border border-neutral-500 bg-slate-300 p-2 grid grid-cols-3 max-w-full justify-center items-center text-slate-800"}>
                         <div className={"w-full col-span-1"}>
                             <Image
                                 thumbnail
@@ -316,10 +351,12 @@ function SeparateTag({selectedImages}) {
                                 {imageInfo[image.fileName] ?
                                     <TagsInput
                                         value={imageInfo[image.fileName].Tags}
+                                        isEditOnRemove
                                         onChange={(tags) => handleTagsChange(image.fileName, tags)}
                                         name="Enter image tags"
                                         placeHolder="Hit enter to add tags"
                                         classNames={{input: "custom-placeholder"}}
+
                                     /> : <>Loading...</>}
                             </div>
                         </div>
@@ -408,32 +445,34 @@ function TagPage() {
     const [activePage, setActivePage] = useState("common");
 
 
-    function getImageUrl(path) {
-        return new URL(path, import.meta.url).href
-    }
+    const handleNavSelect = (selectedKey) => {
+        setActivePage(selectedKey)
+    };
+
 
     const location = useLocation()
     const images = location.state?.selectedImages
     return (
-        <div className={"mt-[7.5rem] flex flex-col"}>
+            <div className={"mt-[7.5rem] flex flex-col"}>
 
-            <Nav
-                className="justify-around flex mb-2"
-                activeKey={activePage}
-                onSelect={(selectedKey) => setActivePage(selectedKey)}
-            >
-                <Nav.Item>
-                    <Nav.Link eventKey="common" className={`text-black p-2 px-4 bg-gray-200 rounded-xl ${activePage === "common" ? 'outline outline-blue-500  text-blue-500' : ''}`}>Common Tag</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="separate" className={`text-black p-2 px-4 bg-gray-200 rounded-xl ${activePage === "separate" ? 'outline outline-blue-500 text-blue-500' : ''}`}>Separate Tags</Nav.Link>
-                </Nav.Item>
-            </Nav>
+                <Nav
+                    className="justify-around flex mb-2"
+                    activeKey={activePage}
+                    onSelect={handleNavSelect}
+                >
+                    <Nav.Item>
+                        <Nav.Link eventKey="common" className={`text-black p-2 px-4 bg-gray-200 rounded-xl ${activePage === "common" ? 'outline outline-blue-500  text-blue-500' : ''}`}>Common Tag</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey="separate" className={`text-black p-2 px-4 bg-gray-200 rounded-xl ${activePage === "separate" ? 'outline outline-blue-500 text-blue-500' : ''}`}>Separate Tags</Nav.Link>
+                    </Nav.Item>
+                </Nav>
 
-            <div>
-                {activePage === "common" ? <CommonTag selectedImages={images}/> : <SeparateTag selectedImages={images}/>}
+                <div>
+                    {activePage === "common" ? <CommonTag selectedImages={images}/> : <SeparateTag selectedImages={images}/>}
+                </div>
+
             </div>
-        </div>
     );
 }
 

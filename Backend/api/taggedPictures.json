@@ -1,63 +1,104 @@
 {
   "pictures": {
-    "1712375543413-57384426-bird.jpeg": {
-      "Path": "/library_images/1712375543413-57384426-bird.jpeg",
+    "1712422928627-80657589-bird.jpeg": {
+      "Path": "/library_images/1712422928627-80657589-bird.jpeg",
       "Name": "",
-      "Location": "",
-      "Date": "",
+      "Location": null,
+      "Date": null,
       "Tags": [
-        "Bird",
-        "Wildlife"
+        "Cool"
       ]
     },
-    "1712375565762-603425428-snow.jpeg": {
-      "Path": "/library_images/1712375565762-603425428-snow.jpeg",
+    "1712422928651-511530951-elephant.jpeg": {
+      "Path": "/library_images/1712422928651-511530951-elephant.jpeg",
       "Name": "",
-      "Location": "",
-      "Date": "",
+      "Location": "Amazon Rainforest",
+      "Date": "2024-04-01",
       "Tags": [
-        "Bird"
+        "Cool",
+        "Nice"
       ]
     },
-    "1712375656808-814170989-palmTree.jpeg": {
-      "Path": "/library_images/1712375656808-814170989-palmTree.jpeg",
-      "Location": "California, USA, Earth",
-      "Date": "2024-04-02",
+    "1712422928655-98023243-giraffe.jpeg": {
+      "Path": "/library_images/1712422928655-98023243-giraffe.jpeg",
+      "Name": "",
+      "Location": "Amazon Rainforest",
+      "Date": "2024-04-01",
       "Tags": [
-        "Summer",
-        "HD"
-      ],
-      "Name": "Palm"
+        "Cool",
+        "Nice"
+      ]
     },
-    "1712375656816-406081579-snake.jpeg": {
-      "Path": "/library_images/1712375656816-406081579-snake.jpeg",
+    "1712422928657-57263325-king_julien.jpeg": {
+      "Path": "/library_images/1712422928657-57263325-king_julien.jpeg",
+      "Name": "King Juli",
+      "Location": null,
+      "Date": null,
+      "Tags": [
+        "Cool"
+      ]
+    },
+    "1712422941458-436029879-bird.jpeg": {
+      "Path": "/library_images/1712422941458-436029879-bird.jpeg",
+      "Name": "",
+      "Location": "Amazon Rainforest",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Cool",
+        "Nice"
+      ]
+    },
+    "1712422941475-276453699-elephant.jpeg": {
+      "Path": "/library_images/1712422941475-276453699-elephant.jpeg",
       "Name": "",
       "Location": "",
       "Date": "",
       "Tags": []
     },
-    "1712375656819-289365290-snow.jpeg": {
-      "Path": "/library_images/1712375656819-289365290-snow.jpeg",
-      "Name": "snow",
-      "Location": "Calgary, Canada",
-      "Date": "2024-04-10",
-      "Tags": [
-        "Snow",
-        "Winter"
-      ]
+    "1712422941582-734345266-giraffe.jpeg": {
+      "Path": "/library_images/1712422941582-734345266-giraffe.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     },
-    "1712375656828-113618993-tiger.jpg": {
-      "Path": "/library_images/1712375656828-113618993-tiger.jpg",
-      "Location": "California, USA, Earth",
-      "Date": "2024-04-02",
-      "Tags": [
-        "Summer",
-        "HD"
-      ],
-      "Name": "Tiger"
+    "1712422941589-792910840-king_julien.jpeg": {
+      "Path": "/library_images/1712422941589-792910840-king_julien.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     },
-    "1712375656829-482214948-turtle.jpeg": {
-      "Path": "/library_images/1712375656829-482214948-turtle.jpeg",
+    "1712423054848-188333279-monkey.jpeg": {
+      "Path": "/library_images/1712423054848-188333279-monkey.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712423097026-37951811-giraffe.jpeg": {
+      "Path": "/library_images/1712423097026-37951811-giraffe.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712423123038-33045814-turtle.jpeg": {
+      "Path": "/library_images/1712423123038-33045814-turtle.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712423188586-157585066-snake.jpeg": {
+      "Path": "/library_images/1712423188586-157585066-snake.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712423254375-89472864-giraffe.jpeg": {
+      "Path": "/library_images/1712423254375-89472864-giraffe.jpeg",
       "Name": "",
       "Location": "",
       "Date": "",
