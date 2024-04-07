@@ -1,60 +1,14 @@
 {
-  "pictures": [
-    {
-      "name": "bird",
-      "path": "/library_images/bird.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "elephant",
-      "path": "/library_images/elephant.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "giraffe",
-      "path": "/library_images/giraffe.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "king_julien",
-      "path": "/library_images/king_julien.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "monkey",
-      "path": "/library_images/monkey.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "palmTree",
-      "path": "/library_images/palmTree.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "snake",
-      "path": "/library_images/snake.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
-    },
-    {
-      "name": "turtle",
-      "path": "/library_images/turtle.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+  "pictures": {
+    "1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg": {
+      "Path": "/library_images/1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg",
+      "Name": "",
+      "Location": "Gym",
+      "Date": "2024-04-03",
+      "Tags": [
+        "Gym",
+        "Workout"
+      ]
     }
-  ]
+  }
 }

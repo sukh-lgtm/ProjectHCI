@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useCallback, useEffect, useState, useRef} from 'react';
-import Axios from "axios";
+import axios from "axios";
 
 const LibraryContext = createContext();
 
@@ -48,7 +48,9 @@ export const LibraryProvider = ({ children }) => {
     const fetchImages = async () => {
         setLoading(true);
         try {
-            const response = await Axios.get('http://localhost:3000/fetch-images');
+            const response = await axios.get('http://localhost:3000/fetch-images', {
+
+            });
             const imageList = response.data.images.map((image, index) => ({
                 src: image.src,
                 fileName: image.id

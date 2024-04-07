@@ -8,7 +8,7 @@
     }
 
     .nav-bar-button{
-        @apply w-full text-neutral-800 bg-none px-2.5 py-1 fill-neutral-800  flex flex-col align-middle items-center justify-center
+        @apply w-full text-slate-800 bg-none px-2.5 py-1 fill-slate-800  flex flex-col align-middle items-center justify-center
     }
 
     .action-bar-button{
@@ -20,7 +20,7 @@
     }
 
     .active-nav-link{
-        @apply fill-blue-800 text-blue-800
+        @apply fill-blue-700 text-blue-700
     }
 
     .tag-section{
