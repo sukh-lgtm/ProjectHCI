@@ -91,6 +91,12 @@ function Library({ selectionMode }) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [showPopup]);
+    const [imagesLength, setImagesLength] = useState(images.length);
+
+    useEffect(() => {
+        // Update the imagesLength state whenever the images array changes
+        setImagesLength(images.length);
+    }, [images]);
 
 
     useEffect(() => {
@@ -118,7 +124,7 @@ function Library({ selectionMode }) {
     return (
         <>
 
-            {images.length === 0 ?
+            {imagesLength === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"

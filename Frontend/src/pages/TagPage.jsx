@@ -4,29 +4,6 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { TagsInput } from "react-tag-input-component";
 import '../tags.css'
-import {TagProvider, useCommonTag} from "../context/TagPageContext.jsx";
-
-// function arraysAreEqual(arr1, arr2) {
-//     // Check if both arrays are empty
-//     if (arr1.length === 0 && arr2.length === 0) {
-//         return true;
-//     }
-//
-//     // Check if arrays have different lengths
-//     if (arr1.length !== arr2.length) {
-//         return false;
-//     }
-//
-//     // Compare each element of the arrays
-//     for (let i = 0; i < arr1.length; i++) {
-//         if (arr1[i] !== arr2[i]) {
-//             return false;
-//         }
-//     }
-//
-//     return true;
-// }
-
 
 function CommonTag({selectedImages}) {
 
@@ -72,11 +49,12 @@ function CommonTag({selectedImages}) {
         let currDate = "";
 
         let locationUpdated = false;
+        let tagsUpdated = false;
         let dateUpdated = false;
-        console.log("Date: " , imageDate)
         for(const image in currImageTags){
-            if(currTags.length === 0){
+            if(!tagsUpdated){
                 currTags = currImageTags[image].Tags
+                tagsUpdated = true
             }
             currTags = findCommonElements(currTags, currImageTags[image].Tags)
 
@@ -176,11 +154,11 @@ function CommonTag({selectedImages}) {
                 </div>
 
 
-                <div className={"w-full flex items-center font-bold"}>
+                <div className={"w-full flex font-bold"}>
                     Location:
                 </div>
 
-                <div className={"w-full col-span-2 flex justify-center items-center"}>
+                <div className={"w-full col-span-2 flex justify-center"}>
                     <input
                         value={imageLocation}
                         onChange={(e) => {setImageLocation(e.target.value)}}
@@ -189,7 +167,7 @@ function CommonTag({selectedImages}) {
                 </div>
 
 
-                <div className={"w-full flex items-center font-bold"}>
+                <div className={"w-full flex font-bold"}>
                     Tags:
                 </div>
 
@@ -306,7 +284,7 @@ function SeparateTag({selectedImages}) {
             <div className={"flex gap-3 flex-col"}>
                 {images.map((image, index) => (
                     <div key={index}
-                         className={"mt-2 border border-neutral-500 bg-slate-300 p-2 grid grid-cols-3 max-w-full justify-center items-center text-slate-800"}>
+                         className={"mt-2 border border-neutral-500 bg-slate-200 p-2 rounded-lg mx-2 grid grid-cols-3 max-w-full justify-center items-center text-slate-800"}>
                         <div className={"w-full col-span-1"}>
                             <Image
                                 thumbnail
@@ -390,72 +368,6 @@ function SeparateTag({selectedImages}) {
                     Save
                 </button>
             </div>
-            {/* Display images */}
-            {/*    <div className="flex flex-grow mx-auto justify-center items-center w-screen">*/}
-            {/*        <div className="grid grid-cols-3 mx-2 my-2 gap-0.5">*/}
-            {/*            {images.map((image, index) => (*/}
-            {/*                <div key={index}>*/}
-            {/*                    <div className={"relative overflow-hidden w-full h-full"}>*/}
-            {/*                        <Image*/}
-            {/*                            thumbnail*/}
-            {/*                            src={getImageUrl(image.src)}*/}
-            {/*                            alt={image.fileName}*/}
-            {/*                            className={`aspect-square w-full h-full object-cover`}*/}
-            {/*                        />*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            ))}*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-
-            {/*    <div className={"ml-3 mt-6 text-slate-600 font-bold text-lg"}>*/}
-            {/*        Add/Edit Common Information:*/}
-            {/*    </div>*/}
-
-            {/*    <div*/}
-            {/*        className={"mt-2 mx-2 border border-black bg-slate-200 rounded-xl p-2 grid grid-cols-3 auto-rows-fr gap-2"}>*/}
-            {/*        <div className={"w-full flex items-center font-bold"}>*/}
-            {/*            Name:*/}
-            {/*        </div>*/}
-
-            {/*        <div className={"w-full col-span-2 text-slate-800"}>*/}
-            {/*            <input className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}*/}
-            {/*                   placeholder={"Enter the Name for all Images"}/>*/}
-            {/*        </div>*/}
-
-            {/*        <div className={"w-full flex items-center font-bold"}>*/}
-            {/*            Date:*/}
-            {/*        </div>*/}
-
-            {/*        <div className={"w-full col-span-2"}>*/}
-            {/*            <input*/}
-            {/*                type="date"*/}
-            {/*                onChange={(e) => setDate(e.target.value)}*/}
-            {/*                className={"w-full rounded-md border border-slate-400 px-2"}*/}
-            {/*            />*/}
-            {/*        </div>*/}
-
-
-            {/*        <div className={"w-full flex items-center font-bold"}>*/}
-            {/*            Location:*/}
-            {/*        </div>*/}
-
-            {/*        <div className={"w-full col-span-2 flex justify-center items-center"}>*/}
-            {/*            <input className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}*/}
-            {/*                   placeholder={"Enter the Location"}/>*/}
-            {/*        </div>*/}
-
-
-            {/*        <div className={"w-full flex items-center font-bold"}>*/}
-            {/*            Tags:*/}
-            {/*        </div>*/}
-
-            {/*        <div className={"w-full col-span-2 flex justify-center items-center"}>*/}
-            {/*            <input className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}*/}
-            {/*                   placeholder={"Add Tags separated by a comma"}/>*/}
-            {/*        </div>*/}
-
-            {/*    </div>*/}
         </div>
     );
 }

@@ -34,29 +34,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-// function writeTaggedJson(pictureData) {
-//     fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2), err => {
-//         if (err) {
-//             console.error('Error writing JSON file:', err);
-//         } else {
-//             console.log('JSON file generated successfully.');
-//         }
-//     });
-// }
-//
-// function readTaggedImages() {
-//     return new Promise((resolve, reject) => {
-//         fs.readFile(jsonFilePath, 'utf8', (err, data) => {
-//             if (err) {
-//                 console.error('Error reading taggedImages.json:', err);
-//                 reject(err);
-//                 return;
-//             }
-//             resolve(data);
-//         });
-//     });
-// }
-
 let isReadingOrWriting = false;
 
 async function writeTaggedJson(pictureData) {
@@ -294,8 +271,13 @@ app.post('/updateCommonTags', async (req, res) => {
 
     const allPictures = jsonData.pictures
     images.forEach(image => {
-        allPictures[image].Location = Location
-        allPictures[image].Date = Date
+        if(Location.length > 0){
+            allPictures[image].Location = Location
+        }
+
+        if(Date.length > 0){
+            allPictures[image].Date = Date
+        }
         if(jsonData.pictures[image].Tags.length !== 0){
             const mergedTags = [...Tags, ...jsonData.pictures[image].Tags];
             allPictures[image].Tags = Array.from(new Set(mergedTags));
