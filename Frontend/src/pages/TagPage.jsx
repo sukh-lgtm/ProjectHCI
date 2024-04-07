@@ -6,32 +6,34 @@ import { TagsInput } from "react-tag-input-component";
 import '../tags.css'
 import {TagProvider, useCommonTag} from "../context/TagPageContext.jsx";
 
-function arraysAreEqual(arr1, arr2) {
-    // Check if both arrays are empty
-    if (arr1.length === 0 && arr2.length === 0) {
-        return true;
-    }
-
-    // Check if arrays have different lengths
-    if (arr1.length !== arr2.length) {
-        return false;
-    }
-
-    // Compare each element of the arrays
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false;
-        }
-    }
-
-    // If all elements are equal, return true
-    return true;
-}
+// function arraysAreEqual(arr1, arr2) {
+//     // Check if both arrays are empty
+//     if (arr1.length === 0 && arr2.length === 0) {
+//         return true;
+//     }
+//
+//     // Check if arrays have different lengths
+//     if (arr1.length !== arr2.length) {
+//         return false;
+//     }
+//
+//     // Compare each element of the arrays
+//     for (let i = 0; i < arr1.length; i++) {
+//         if (arr1[i] !== arr2[i]) {
+//             return false;
+//         }
+//     }
+//
+//     return true;
+// }
 
 
 function CommonTag({selectedImages}) {
 
-    const { imageLocation, setImageLocation, imageDate, setImageDate, imageTags, setImageTags } = useCommonTag();
+    const [imageLocation, setImageLocation] = useState("");
+    const [imageDate, setImageDate] = useState("");
+    const [imageTags, setImageTags] = useState([]);
+
 
     const selectedImagesFilenames = selectedImages.map((image) => {
         return image.fileName
@@ -68,6 +70,9 @@ function CommonTag({selectedImages}) {
         let currTags = [];
         let currLocation = "";
         let currDate = "";
+
+        let locationUpdated = false;
+        let dateUpdated = false;
         console.log("Date: " , imageDate)
         for(const image in currImageTags){
             if(currTags.length === 0){
@@ -75,23 +80,25 @@ function CommonTag({selectedImages}) {
             }
             currTags = findCommonElements(currTags, currImageTags[image].Tags)
 
-            if(currLocation === ""){
+            if(!locationUpdated){
                 currLocation = currImageTags[image].Location
+                locationUpdated = true
             }
             else if(currLocation !== currImageTags[image].Location){
-                currLocation = null
+                currLocation = ""
             }
 
-            if(currDate === ""){
+            if(!dateUpdated){
                 currDate = currImageTags[image].Date
+                dateUpdated = true
             }
             else if(currDate !== currImageTags[image].Date){
-                currDate = null
+                currDate = ""
             }
         }
         setImageTags(currTags)
-        setImageLocation(currLocation)
         setImageDate(currDate)
+        setImageLocation(currLocation)
     }
 
     function findCommonElements(arr1, arr2) {
@@ -110,7 +117,6 @@ function CommonTag({selectedImages}) {
 
     function addImageTags() {
         const obj = {"images" : selectedImagesFilenames, "Location": imageLocation, "Date": imageDate, "Tags": imageTags}
-        console.log("Object: ", obj)
         axios.post('http://localhost:3000/updateCommonTags', obj).then(r => console.log(r.data))
     }
 
@@ -122,6 +128,11 @@ function CommonTag({selectedImages}) {
         console.log(tags)
         setImageTags(tags)
         console.log("")
+    }
+
+    function handleDeleteTag(tag) {
+        const obj = {"images" : selectedImagesFilenames, "tag": tag}
+        axios.post('http://localhost:3000/deleteTag', obj).then()
     }
 
     return (
@@ -172,7 +183,7 @@ function CommonTag({selectedImages}) {
                 <div className={"w-full col-span-2 flex justify-center items-center"}>
                     <input
                         value={imageLocation}
-                        onChange={(e) => {setImageLocation(e.target.value);}}
+                        onChange={(e) => {setImageLocation(e.target.value)}}
                         className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}
                         placeholder={"Enter the Location"}/>
                 </div>
@@ -185,7 +196,7 @@ function CommonTag({selectedImages}) {
                 <div className={"w-full col-span-2 flex justify-center items-center"}>
                     <TagsInput
                         value={[...imageTags]}
-                        // onChange={(tags) => {setImageTags(tags)}}
+                        onRemoved={(tag) => {handleDeleteTag(tag)}}
                         onChange={(tags) => {handleTagsChange(tags)}}
                         name="Enter image tags"
                         placeHolder="Hit enter to add tags"
@@ -205,7 +216,8 @@ function CommonTag({selectedImages}) {
 }
 
 function SeparateTag({selectedImages}) {
-    const { imageInfo, setImageInfo } = useCommonTag();
+    const [imageInfo, setImageInfo] = useState({});
+
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href;
     }
@@ -215,6 +227,7 @@ function SeparateTag({selectedImages}) {
     }, [selectedImages]);
 
     useEffect(() => {
+        console.log("Hello there")
         addImageTags()
     }, [imageInfo]);
 
@@ -277,6 +290,12 @@ function SeparateTag({selectedImages}) {
             updatedHashmap[imageName].Tags = value;
             return updatedHashmap; // Return the updated hashmap
         });
+    }
+
+    function handleDeleteTag(image, tag) {
+        const obj = {"images" : [image], "tag": tag}
+        console.log("Object hererererere", obj)
+        axios.post('http://localhost:3000/deleteTag', obj).then()
     }
 
     return (
@@ -350,6 +369,7 @@ function SeparateTag({selectedImages}) {
                             <div className={"w-full col-span-2 flex justify-center items-center"}>
                                 {imageInfo[image.fileName] ?
                                     <TagsInput
+                                        onRemoved={(tag) => handleDeleteTag(image.fileName, tag)}
                                         value={imageInfo[image.fileName].Tags}
                                         isEditOnRemove
                                         onChange={(tags) => handleTagsChange(image.fileName, tags)}

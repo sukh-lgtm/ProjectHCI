@@ -296,8 +296,46 @@ app.post('/updateCommonTags', async (req, res) => {
     images.forEach(image => {
         allPictures[image].Location = Location
         allPictures[image].Date = Date
-        allPictures[image].Tags = Tags
+        if(jsonData.pictures[image].Tags.length !== 0){
+            const mergedTags = [...Tags, ...jsonData.pictures[image].Tags];
+            allPictures[image].Tags = Array.from(new Set(mergedTags));
+        }
+        else{
+            allPictures[image].Tags = Tags
+        }
     });
+
+    const pictureData = {"pictures": allPictures}
+
+    await writeTaggedJson(pictureData)
+
+    res.status(200).json("done")
+});
+
+app.post('/deleteTag', async (req, res) => {
+    const {images, tag} = req.body;
+
+    const data = await readTaggedImages()
+
+    let jsonData;
+    try {
+        // Parsing existing data
+        jsonData = JSON.parse(data);
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+        return;
+    }
+
+    const allPictures = jsonData.pictures
+
+    images.forEach(image => {
+        const currTags = [...jsonData.pictures[image].Tags];
+        const currTagsSet = new Set(currTags)
+        currTagsSet.delete(tag)
+        allPictures[image].Tags = Array.from(new Set(currTagsSet));
+    })
+
 
     const pictureData = {"pictures": allPictures}
 
