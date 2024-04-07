@@ -1,86 +1,14 @@
 {
   "pictures": {
-    "1712460382267-443658658-bird.jpeg": {
-      "Path": "/library_images/1712460382267-443658658-bird.jpeg",
-      "Name": "Bird",
-      "Location": "Calgary, Canada",
-      "Date": "2024-04-02",
+    "1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg": {
+      "Path": "/library_images/1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg",
+      "Name": "",
+      "Location": "Gym",
+      "Date": "2024-04-03",
       "Tags": [
-        "Black",
-        "Calgary",
-        "Bird"
+        "Gym",
+        "Workout"
       ]
-    },
-    "1712460382299-37384986-elephant.jpeg": {
-      "Path": "/library_images/1712460382299-37384986-elephant.jpeg",
-      "Name": "Elephant",
-      "Location": "Calgary, Canada",
-      "Date": "2024-04-02",
-      "Tags": [
-        "Black",
-        "Calgary",
-        "Elephant"
-      ]
-    },
-    "1712460382303-644856437-giraffe.jpeg": {
-      "Path": "/library_images/1712460382303-644856437-giraffe.jpeg",
-      "Name": "Giraffe",
-      "Location": "Calgary, Canada",
-      "Date": "2024-04-02",
-      "Tags": [
-        "Black",
-        "Calgary",
-        "Giraffe"
-      ]
-    },
-    "1712460382305-759841374-king_julien.jpeg": {
-      "Path": "/library_images/1712460382305-759841374-king_julien.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382309-275374548-monkey.jpeg": {
-      "Path": "/library_images/1712460382309-275374548-monkey.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382313-637683649-palmTree.jpeg": {
-      "Path": "/library_images/1712460382313-637683649-palmTree.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382317-857776194-snake.jpeg": {
-      "Path": "/library_images/1712460382317-857776194-snake.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382320-931113552-snow.jpeg": {
-      "Path": "/library_images/1712460382320-931113552-snow.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382329-739842598-tiger.jpg": {
-      "Path": "/library_images/1712460382329-739842598-tiger.jpg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
-    },
-    "1712460382330-600756620-turtle.jpeg": {
-      "Path": "/library_images/1712460382330-600756620-turtle.jpeg",
-      "Name": "",
-      "Location": "",
-      "Date": "",
-      "Tags": []
     }
   }
 }

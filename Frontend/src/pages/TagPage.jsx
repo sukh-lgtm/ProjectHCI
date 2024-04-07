@@ -116,7 +116,7 @@ function CommonTag({selectedImages}) {
     return (
         <>
             {/* Display images */}
-            <div className="flex flex-grow mx-auto justify-center items-center w-screen">
+            <div className="flex flex-grow mx-auto justify-center items-center w-screen ">
                 <div className="grid grid-cols-3  mx-2 my-2 gap-0.5">
                     {images.map((image, index) => (
                         <div key={index}>
@@ -133,59 +133,74 @@ function CommonTag({selectedImages}) {
                 </div>
             </div>
 
-            <div className={"ml-3 mt-6 text-slate-600 font-bold text-lg"}>
-                Add/Edit Common Information:
+            <div className={"ml-3 mt-6 text-slate-700 font-bold text-lg"}>
+                Edit Common Information:
             </div>
 
             <div
-                className={"mt-2 mx-2 border border-black bg-slate-200 rounded-xl p-2 grid grid-cols-3 grid-auto-rows-auto gap-2"}>
+                className={"mt-2 mx-2 border border-black rounded-xl p-2 flex flex-col gap-4 text-slate-800 shadow-xl bg-slate-200"}>
 
-                <div className={"w-full flex items-center font-bold"}>
-                    Date:
-                </div>
+                <div className={"flex flex-col w-full"}>
+                    <div className={"w-full flex items-center font-bold"}>
+                        Date:
+                    </div>
 
-                <div className={"w-full col-span-2"}>
-                    <input
-                        value={imageDate}
-                        type="date"
-                        onChange={(e) => {setImageDate(e.target.value)}}
-                        className={"w-full rounded-md border border-slate-400 px-2"}
-                    />
-                </div>
-
-
-                <div className={"w-full flex font-bold"}>
-                    Location:
-                </div>
-
-                <div className={"w-full col-span-2 flex justify-center"}>
-                    <input
-                        value={imageLocation}
-                        onChange={(e) => {setImageLocation(e.target.value)}}
-                        className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}
-                        placeholder={"Enter the Location"}/>
+                    <div className={"w-full"}>
+                        <input
+                            value={imageDate}
+                            type="date"
+                            onChange={(e) => {
+                                setImageDate(e.target.value)
+                            }}
+                            className={"w-full rounded-md border border-slate-400 px-2 py-2 bg-slate-50"}
+                        />
+                    </div>
                 </div>
 
 
-                <div className={"w-full flex font-bold"}>
-                    Tags:
+                <div className={"flex flex-col w-full"}>
+                    <div className={"w-full flex font-bold"}>
+                        Location:
+                    </div>
+
+                    <div className={"w-full flex justify-center"}>
+                        <input
+                            value={imageLocation}
+                            onChange={(e) => {
+                                setImageLocation(e.target.value)
+                            }}
+                            className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-2 bg-slate-50"}
+                            placeholder={"Enter the Location"}/>
+                    </div>
                 </div>
 
-                <div className={"w-full col-span-2 flex justify-center items-center"}>
-                    <TagsInput
-                        value={[...imageTags]}
-                        onRemoved={(tag) => {handleDeleteTag(tag)}}
-                        onChange={(tags) => {handleTagsChange(tags)}}
-                        name="Enter image tags"
-                        placeHolder="Hit enter to add tags"
-                        classNames={{input: "custom-placeholder"}}
-                    />
+                <div className={"flex flex-col w-full"}>
+                    <div className={"w-full flex font-bold"}>
+                        Tags:
+                    </div>
+
+                    <div className={"w-full flex justify-center items-center"}>
+                        <TagsInput
+                            value={[...imageTags]}
+                            onRemoved={(tag) => {
+                                handleDeleteTag(tag)
+                            }}
+                            onChange={(tags) => {
+                                handleTagsChange(tags)
+                            }}
+                            name="Enter image tags"
+                            placeHolder="Hit enter to add tags"
+                            classNames={{input: "w-full placeholder:text-[0.85rem] bg-slate-50", tag: "bg-slate-300"}}
+                        />
+                    </div>
                 </div>
+
 
             </div>
 
             <div className={"flex w-full mt-3 justify-end p-3"}>
-                <button onClick={addImageTags} className={"px-5 py-2 border rounded-xl bg-blue-600 text-neutral-200 active:shadow-2xl active:bg-blue-200 active:text-neutral-900"}>
+                <button onClick={addImageTags}
+                        className={"px-5 py-2  rounded-xl bg-blue-600 text-neutral-100 active:shadow-2xl active:bg-blue-600 active:text-neutral-900"}>
                     Save
                 </button>
             </div>
@@ -199,7 +214,8 @@ function SeparateTag({selectedImages}) {
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href;
     }
-    useEffect( () => {
+
+    useEffect(() => {
         // Call the function to set image tag info when the component is mounted
         setImageTagInfo().then();
     }, [selectedImages]);
@@ -278,62 +294,69 @@ function SeparateTag({selectedImages}) {
 
     return (
         <div className={"w-full"}>
-            <div className={"ml-3 mt-6 text-slate-600 font-bold text-lg"}>
-                Add/Edit Separate Information:
+            <div className={"ml-3 mt-6 text-slate-700 font-bold text-lg"}>
+                Edit Separate Information:
             </div>
             <div className={"flex gap-3 flex-col"}>
                 {images.map((image, index) => (
                     <div key={index}
-                         className={"mt-2 border border-neutral-500 bg-slate-200 p-2 rounded-lg mx-2 grid grid-cols-3 max-w-full justify-center items-center text-slate-800"}>
-                        <div className={"w-full col-span-1"}>
+                         className={"mt-2 border border-neutral-500 bg-slate-200 p-2 rounded-lg mx-2 grid grid-cols-2 max-w-full justify-center items-center text-slate-800 shadow-xl"}>
+                        <div className={"w-full h-full col-span-1"}>
                             <Image
                                 thumbnail
                                 src={getImageUrl(image.src)}
                                 alt={image.fileName}
-                                className={`aspect-square w-full h-full object-cover border border-neutral-500 rounded-xl`}
+                                className={`aspect-square w-full h-full object-cover outline outline-neutral-500 rounded-xl`}
                             />
                         </div>
-                        <div className={"col-span-2"}>
+                        <div className={"col-span-1"}>
                             <div
-                                className={"mt-2 mx-2 mr-4 grid grid-cols-3 grid-auto-rows-auto gap-2"}>
+                                className={"mx-2 mr-4 flex flex-col gap-1"}>
 
-                                <div className={"w-full flex items-center font-bold"}>
-                                    Name:
+                                <div>
+                                    <div className={"w-full flex items-center font-bold"}>
+                                        Name:
+                                    </div>
+
+                                    <div className={"w-full col-span-2"}>
+                                        {imageInfo[image.fileName] ? <input
+                                            value={imageInfo[image.fileName].Name}
+                                            onChange={(e) => handleNameChange(image.fileName, e.target.value)}
+                                            className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50"}
+                                            placeholder={"Enter Image Name"}
+                                        /> : <>Loading...</>}
+                                    </div>
                                 </div>
 
-                                <div className={"w-full col-span-2"}>
-                                    {imageInfo[image.fileName] ? <input
-                                        value={imageInfo[image.fileName].Name}
-                                        onChange={(e) => handleNameChange(image.fileName, e.target.value)}
-                                        className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}
-                                        placeholder={"Enter Image Name"}
-                                    /> : <>Loading...</>}
-                                </div>
-                                <div className={"w-full flex items-center font-bold"}>
-                                    Date:
-                                </div>
+                                <div>
+                                    <div className={"w-full flex items-center font-bold"}>
+                                        Date:
+                                    </div>
 
-                                <div className={"w-full col-span-2"}>
-                                    {imageInfo[image.fileName] ? <input
-                                        value={imageInfo[image.fileName].Date}
-                                        type="date"
-                                        onChange={(e) => handleDateChange(image.fileName, e.target.value)}
-                                        className={"w-full rounded-md border border-slate-400 px-2"}
-                                    /> : <>Loading...</>}
+                                    <div className={"w-full col-span-2"}>
+                                        {imageInfo[image.fileName] ? <input
+                                            value={imageInfo[image.fileName].Date}
+                                            type="date"
+                                            onChange={(e) => handleDateChange(image.fileName, e.target.value)}
+                                            className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50"}
+                                        /> : <>Loading...</>}
+                                    </div>
                                 </div>
 
 
-                                <div className={"w-full flex items-center font-bold"}>
-                                    Location:
-                                </div>
+                                <div>
+                                    <div className={"w-full flex items-center font-bold"}>
+                                        Location:
+                                    </div>
 
-                                <div className={"w-full col-span-2 flex justify-center items-center"}>
-                                    {imageInfo[image.fileName] ? <input
-                                        value={imageInfo[image.fileName].Location}
-                                        onChange={(e) => handleLocationChange(image.fileName, e.target.value)}
-                                        className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm"}
-                                        placeholder={"Enter the Location"}
-                                    /> : <>Loading...</>}
+                                    <div className={"w-full col-span-2 flex justify-center items-center"}>
+                                        {imageInfo[image.fileName] ? <input
+                                            value={imageInfo[image.fileName].Location}
+                                            onChange={(e) => handleLocationChange(image.fileName, e.target.value)}
+                                            className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50"}
+                                            placeholder={"Enter the Location"}
+                                        /> : <>Loading...</>}
+                                    </div>
                                 </div>
 
 
@@ -353,7 +376,7 @@ function SeparateTag({selectedImages}) {
                                         onChange={(tags) => handleTagsChange(image.fileName, tags)}
                                         name="Enter image tags"
                                         placeHolder="Hit enter to add tags"
-                                        classNames={{input: "custom-placeholder"}}
+                                        classNames={{input: "w-full placeholder:text-[0.85rem] bg-slate-50", tag: "bg-slate-300"}}
 
                                     /> : <>Loading...</>}
                             </div>

@@ -11,7 +11,7 @@ function Navbar() {
 
     return (
         <div
-            className="px-1 bg-neutral-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full max-w-full z-10 flex flex-col text-black pt-0.5">
+            className="px-1 bg-slate-400 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full max-w-full z-10 flex flex-col pt-0.5">
             <div className="grid grid-cols-4 gap-6">
                 <Link className={`nav-bar-button ${isActiveLink('/library') ? 'active-nav-link' : ''}`} to="/library">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 24 24"
