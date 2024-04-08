@@ -5,7 +5,7 @@ import Actionbar from "../components/Actionbar.jsx";
 import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
-import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/api/PictureSale.json';
+// import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/api/PictureSale.json';
 
 function Library({ selectionMode }) {
 
@@ -106,6 +106,7 @@ function Library({ selectionMode }) {
             console.error('Error submitting picture for sale: ', error);
             if (error.response) {
                 console.log('Error details:', error.response);
+            }
             throw error;
         }
     };
