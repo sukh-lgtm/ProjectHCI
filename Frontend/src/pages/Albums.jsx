@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-import Actionbar from "../components/Actionbar.jsx";
+import AlbumsActionbar from '../components/AlbumsActionbar.jsx';
 import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useAlbums} from "../context/AlbumsProvider.jsx";
@@ -31,18 +31,18 @@ function Albums({ selectionMode, setSelectionMode }) {
     };
 
     const confirmDelete = async () => {
-        const selectedImagePath = selectedAlbums.map(image => (image.fileName));
+        const albumTitles = selectedAlbums.map(album => (album.title));
         // Make a backend call to delete the selected images
         try {
             const response = await Axios.post(
-                'http://localhost:3000/delete-images',
-                { imageFilenames: selectedImagePath }, // Data object
+                'http://localhost:3000/delete-albums',
+                { albumTitleList: albumTitles }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
             );
             console.log(response.data);
             // If successful, update the state to reflect the changes
-            const remainingImages = albums.filter((image) => !selectedAlbums.includes(image));
-            setAlbums(remainingImages);
+            const remainingAlbums = albums.filter((album) => !selectedAlbums.includes(album));
+            setAlbums(remainingAlbums);
             setSelectedAlbums([]);
             togglePopup(); // Hide the popup after deletion
         } catch (error) {
@@ -237,12 +237,12 @@ function Albums({ selectionMode, setSelectionMode }) {
                 </div>
 
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedAlbums} onAlbum={null} selectedImages={selectedAlbums}/> : null}
+            {selectionMode ? <AlbumsActionbar onDelete={deleteSelectedAlbums} selectedAlbums={selectedAlbums}/> : null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
-                    <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfAlbumsSelected} albums?</p>
-                        <p className="px-4 text-[0.8rem]"> it will be gone forever! The images will not be deleted.</p>
+                    <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfAlbumsSelected} albums forever?</p>
+                        <p className="px-4 text-[0.8rem]"> The images will not be deleted.</p>
 
                         <hr className={"mt-4"}></hr>
                         <div className="w-full grid grid-cols-2 mb-0">
@@ -251,7 +251,7 @@ function Albums({ selectionMode, setSelectionMode }) {
                                 Cancel
                             </button>
                             <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
-                                    onClick={ {/*confirmDelete*/} }>
+                                    onClick={confirmDelete}>
                                 Delete
                             </button>
                         </div>

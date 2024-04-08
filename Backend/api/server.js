@@ -252,6 +252,32 @@ app.post('/delete-images', (req, res) => {
     res.status(200).send("Images moved successfully.");
 });
 
+// Endpoint to delete albums
+app.post('/delete-albums', (req, res) => {
+    if(req.body.albumTitleList.length <= 0) {
+        return res.status(400).json({ error: "List of albums to delete is empty"})
+    }
+
+    // Assuming the client sends a list of album titles to move
+    const albumsToDelete = req.body.albumTitleList;
+
+    // from "albumsFile" to "albumsFileDeleted", only copy albums we are KEEPING,
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileDeleted = JSON.parse('{"albums": []}')
+
+    //only copy albums that we are KEEPING
+    for (album of albumsFile.albums) {
+        if (!albumsToDelete.includes(album.title)) {
+            albumsFileDeleted.albums.push(album)
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileDeleted, null, 2));
+
+    res.status(200).send("Album(s): " + albumsToDelete + " Deleted Successfully")
+
+});
+
 
 app.post('/upload', upload.array('files'), (req, res) => {
     // Check if files are present in the request

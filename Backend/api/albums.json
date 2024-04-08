@@ -18,44 +18,6 @@
           "tags": []
         }
       ]
-    },
-    {
-      "title": "Cars",
-      "images": [
-        {
-          "fileName": "corvette-main.jpg",
-          "src": "library_images/corvette-main.jpg",
-          "location": "",
-          "date": "",
-          "tags": []
-        },
-        {
-          "fileName": "74ovdx9yir281.webp",
-          "src": "library_images/74ovdx9yir281.webp",
-          "location": "",
-          "date": "",
-          "tags": []
-        },
-        {
-          "fileName": "corvette2.jpg",
-          "src": "library_images/corvette2.jpg",
-          "location": "",
-          "date": "",
-          "tags": []
-        }
-      ]
-    },
-    {
-      "title": "Test",
-      "images": [
-        {
-          "fileName": "74ovdx9yir281.webp",
-          "src": "library_images/74ovdx9yir281.webp",
-          "location": "",
-          "date": "",
-          "tags": []
-        }
-      ]
     }
   ]
 }
