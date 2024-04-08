@@ -1,23 +1,35 @@
 {
-    "albums": [
+  "albums": [
+    {
+      "title": "Cars",
+      "images": [
         {
-            "title": "cars",
-            "images": [
-                {
-                    "fileName": "corvette2",
-                    "src": "/library_images/corvette2.jpg",
-                    "location": "",
-                    "date": "",
-                    "tags": []
-                },
-                {
-                    "fileName": "corvette-main",
-                    "src": "/library_images/corvette-main.jpg",
-                    "location": "",
-                    "date": "",
-                    "tags": []
-                }
-            ]
+          "fileName": "corvette-main.jpg",
+          "src": "library_images/corvette-main.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "corvette2.jpg",
+          "src": "library_images/corvette2.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
         }
-    ]
+      ]
+    },
+    {
+      "title": "Big Boys",
+      "images": [
+        {
+          "fileName": "1712002460046-259863732.jpeg",
+          "src": "library_images/1712002460046-259863732.jpeg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    }
+  ]
 }

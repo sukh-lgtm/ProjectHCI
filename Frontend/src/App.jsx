@@ -41,7 +41,7 @@ function App() {
                     <div>
                         <Routes>
                             <Route path="/library" element={<Library selectionMode={selectionMode} />} />
-                            <Route path="/albums" element={<Albums />} />
+                            <Route path="/albums" element={<Albums selectionMode={selectionMode}/>} />
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />

@@ -1,6 +1,7 @@
 import {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
+import { useAlbums } from "../context/AlbumsProvider.jsx";
 import { Check, X } from 'lucide-react';
 
 function Header({ currentPage, selectionMode, toggleSelectionMode }) {

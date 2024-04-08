@@ -21,7 +21,7 @@ function Albums({ selectionMode }) {
     };
 
     const confirmDelete = async () => {
-        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        const selectedImagePath = selectedAlbums.map(image => (image.fileName));
         // Make a backend call to delete the selected images
         try {
             const response = await Axios.post(
@@ -48,12 +48,11 @@ function Albums({ selectionMode }) {
 
     }
 
-    async function uploadFiles(files) {
+    async function newAlbum(files) {
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
         }
-
 
         try {
             const response = await Axios.post(
@@ -67,7 +66,7 @@ function Albums({ selectionMode }) {
         fetchAlbums()
     }
 
-    const onUploadButtonClick = () => {
+    const onNewAlbumButtonClick = () => {
         // `current` points to the mounted file input element
         inputFile.current.click();
     };
@@ -122,7 +121,7 @@ function Albums({ selectionMode }) {
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_0_1)">
+                            <g clipPath="url(#clip0_0_1)">
                                 <path
                                     d="M50.0003 63.3307C57.3641 63.3307 63.3337 57.3612 63.3337 49.9974C63.3337 42.6336 57.3641 36.6641 50.0003 36.6641C42.6365 36.6641 36.667 42.6336 36.667 49.9974C36.667 57.3612 42.6365 63.3307 50.0003 63.3307Z"
                                     fill="#9C9A9A"/>
@@ -131,12 +130,12 @@ function Albums({ selectionMode }) {
                                     fill="#9C9A9A"/>
                             </g>
                             <line x1="2.13835" y1="14.2292" x2="94.1384" y2="85.2292" stroke="url(#paint0_linear_0_1)"
-                                  stroke-width="7"/>
+                                  strokeWidth="7"/>
                             <defs>
                                 <linearGradient id="paint0_linear_0_1" x1="49.737" y1="56.5441" x2="55.8809"
                                                 y2="49.1346" gradientUnits="userSpaceOnUse">
                                     <stop/>
-                                    <stop offset="1" stop-color="#D8D8D8"/>
+                                    <stop offset="1" stopColor="#D8D8D8"/>
                                 </linearGradient>
                                 <clipPath id="clip0_0_1">
                                     <rect width="100" height="100" fill="white"/>
@@ -146,14 +145,14 @@ function Albums({ selectionMode }) {
                     </div>
 
                     <div className={"mt-6 text-neutral-800"}>
-                        Tap <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
+                        Tap <input type="file" id="newAlbum" multiple={true} onChange={handleChange} ref={inputFile}
                                    className={"hidden"}/>
                         <button type="submit"
                                 className="border-black border rounded-full bg-gray-400  px-1.5 py-0.5 "
-                                onClick={onUploadButtonClick}
+                                onClick={onNewAlbumButtonClick}
                         >
-                            <i className="fa fa-upload mr-2"></i>Upload
-                        </button> to upload pictures
+                            <i className="fa fa-plus mr-2"></i>New Album
+                        </button> to create a new ablum
                     </div>
                 </div> :
 
@@ -179,15 +178,15 @@ function Albums({ selectionMode }) {
                         albums.map(album => (
                             <div key={album.title}>
                                 <div
-                                    onClick={() => selectionMode && toggleSelectedAlbum(getAlbumThumbnail(album))}
-                                    className={selectionMode && selectedAlbums.includes(getAlbumThumbnail(album)) ? "bg-neutral-800 relative overflow-hidden w-full h-full" : "relative overflow-hidden w-full h-full"}
+                                    onClick={() => selectionMode && toggleSelectedAlbum(album)}
+                                    className={selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative overflow-hidden w-full h-full" : "relative overflow-hidden w-full h-full"}
                                 >
                                     <Image
                                         thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
-                                        alt={getAlbumThumbnail(album).fileName}
-                                        className={'aspect-square rounded-lg w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${albums.includes(getAlbumThumbnail(album)) ? "opacity-70" : ""}'}
+                                        alt={album.title}
+                                        className={'aspect-square rounded-lg w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${albums.includes(album) ? "opacity-70" : ""}'}
                                     />
-                                    {selectionMode && selectedAlbums.includes(getAlbumThumbnail(album)) ?
+                                    {selectionMode && selectedAlbums.includes(album) ?
                                         <div className={"absolute z-100 top-1.5 left-1.5"}>
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +199,7 @@ function Albums({ selectionMode }) {
                                             </svg>
 
                                         </div> :
-                                        selectionMode && !selectedAlbums.includes(getAlbumThumbnail(album)) ?
+                                        selectionMode && !selectedAlbums.includes(album) ?
                                             <div>
                                                 <div
                                                     className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
@@ -223,7 +222,7 @@ function Albums({ selectionMode }) {
                 </div>
 
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedAlbums} selectedAlbums={selectedAlbums}/> : null}
+            {selectionMode ? <Actionbar onDelete={deleteSelectedAlbums} onAlbum={null} selectedImages={selectedAlbums}/> : null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">

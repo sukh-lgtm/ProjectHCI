@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-function Actionbar({onDelete, selectedImages}) {
+function Actionbar({onDelete, onAlbum, selectedImages}) {
     const onImageSelected = selectedImages.length > 0;
 
     return (
@@ -8,7 +8,8 @@ function Actionbar({onDelete, selectedImages}) {
             className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section">
             <div className="grid grid-cols-4 gap-6">
                 <button disabled={!onImageSelected} type="button"
-                        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
+                        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}
+                        onClick={onAlbum}>
                     <svg width="35" height="35" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_255_2541)">
                             <path

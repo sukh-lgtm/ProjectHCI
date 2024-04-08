@@ -9,6 +9,8 @@ function Library({ selectionMode }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
+    const [albumName, setAlbumName] = useState("")
 
     const { images, loading, fetchImages, setImages } = useLibrary();
 
@@ -16,9 +18,17 @@ function Library({ selectionMode }) {
         setShowPopup(!showPopup);
     };
 
+    const toggleAlbumNamePopup = () => {
+        setShowAlbumNamePopup(!showAlbumNamePopup);
+    }
+
     const deleteSelectedImages = async () => {
         togglePopup(); // Show the popup for confirmation
     };
+
+    const createAlbumFromSelectedImages = async () => {
+        toggleAlbumNamePopup(); // Show album creation popup for confirmation
+    }
 
     const confirmDelete = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
@@ -40,6 +50,25 @@ function Library({ selectionMode }) {
         }
     };
 
+    const createAlbum = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        //make backend call to create new album from selected images
+        try {
+            const response = await Axios.post(
+                'http://localhost:3000/create-album',
+                { imageFilenames: selectedImagePath, newAlbumName: albumName }, // Data object
+                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+            );
+            //if successful, return to non "select" mode
+            console.log(response.data)
+            setSelectedImages([])
+            toggleAlbumNamePopup();
+
+        } catch (error) {
+            console.error('Error creating album:', error);
+        }
+
+    }
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -52,7 +81,6 @@ function Library({ selectionMode }) {
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);
         }
-
 
         try {
             const response = await Axios.post(
@@ -117,7 +145,7 @@ function Library({ selectionMode }) {
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_0_1)">
+                            <g clipPath="url(#clip0_0_1)">
                                 <path
                                     d="M50.0003 63.3307C57.3641 63.3307 63.3337 57.3612 63.3337 49.9974C63.3337 42.6336 57.3641 36.6641 50.0003 36.6641C42.6365 36.6641 36.667 42.6336 36.667 49.9974C36.667 57.3612 42.6365 63.3307 50.0003 63.3307Z"
                                     fill="#9C9A9A"/>
@@ -126,12 +154,12 @@ function Library({ selectionMode }) {
                                     fill="#9C9A9A"/>
                             </g>
                             <line x1="2.13835" y1="14.2292" x2="94.1384" y2="85.2292" stroke="url(#paint0_linear_0_1)"
-                                  stroke-width="7"/>
+                                  strokeWidth="7"/>
                             <defs>
                                 <linearGradient id="paint0_linear_0_1" x1="49.737" y1="56.5441" x2="55.8809"
                                                 y2="49.1346" gradientUnits="userSpaceOnUse">
                                     <stop/>
-                                    <stop offset="1" stop-color="#D8D8D8"/>
+                                    <stop offset="1" stopColor="#D8D8D8"/>
                                 </linearGradient>
                                 <clipPath id="clip0_0_1">
                                     <rect width="100" height="100" fill="white"/>
@@ -219,9 +247,8 @@ function Library({ selectionMode }) {
                         ))}
                     </div>
                 </div>
-
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} selectedImages={selectedImages}/> : null}
+            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onAlbum={createAlbumFromSelectedImages} selectedImages={selectedImages}/> : null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
@@ -237,6 +264,36 @@ function Library({ selectionMode }) {
                             <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
                                     onClick={confirmDelete}>
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showAlbumNamePopup && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                        <p className="px-4 text-[1.0rem] flex justify-center">Create New Album</p>
+
+                        <div className="flex flex-row pt-2 text-neutral-300">
+                            <form className=" mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full flex flex-row px-2">
+                                    <input type="search" id="default-search"
+                                        className="self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                        placeholder="Enter Album Name"
+                                        onChange={(e) => setAlbumName(e.target.value)}/>
+                                </div>
+                            </form>
+                        </div>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-600 px-2 py-3 border-r-2"
+                                    onClick={toggleAlbumNamePopup}>
+                                Cancel
+                            </button>
+                            <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
+                                    onClick={createAlbum}>
+                                Create
                             </button>
                         </div>
                     </div>
