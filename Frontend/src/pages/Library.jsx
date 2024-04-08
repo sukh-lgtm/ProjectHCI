@@ -5,6 +5,7 @@ import Actionbar from "../components/Actionbar.jsx";
 import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
+import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/api/PictureSale.json';
 
 function Library({ selectionMode }) {
 
@@ -13,8 +14,12 @@ function Library({ selectionMode }) {
     const [showSellPopup, setSellPopup] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [nextClicked, setNextClicked] = useState(false);
-    const [sellClicked, setSellClicked] = useState(false);
     const [confirmSell, setConfirmSell] = useState(false);
+    const [saleInfoArray, setSaleInfoArray] = useState([]);
+    const nameInput = useRef();
+    const authorInput = useRef();
+    const costInput = useRef();
+    const tagsInput = useRef();
 
     const { images, loading, fetchImages, setImages } = useLibrary();
 
@@ -24,32 +29,89 @@ function Library({ selectionMode }) {
 
     const toggleSellMenuPopup = () => {
         setSellPopup(!showSellPopup);
-    }
+        setSaleInfoArray([]);
+    };
 
     const sellSelectedImages = async () => {
         toggleSellMenuPopup();
-    }
+    };
 
     const toggleConfirmSell = () => {
         setConfirmSell(!confirmSell);
-    }
+    };
 
     const deleteSelectedImages = async () => {
         togglePopup(); // Show the popup for confirmation
     };
 
     const toggleNextImage = () => {
+        storeSaleInfo();
         setNextClicked(true);
-        setCurrentImageIndex(currentIndex => (currentIndex + 1) % selectedImages.length)
-    }
+        setCurrentImageIndex(currentIndex => (currentIndex + 1) % selectedImages.length);
+    };
     const togglePreviousImage = () => {
-        setCurrentImageIndex(currentIndex => (currentIndex - 1 + selectedImages.length) % selectedImages.length)
-    }
+        setCurrentImageIndex(currentIndex => (currentIndex - 1 + selectedImages.length) % selectedImages.length);
+    };
 
     const confirmSellPopup = () => {
+        storeSaleInfo();
         toggleConfirmSell();
-    }
+    };
 
+    const storeSaleInfo = () => {
+        const name = nameInput.current.value;
+        const author = authorInput.current.value;
+        const cost = costInput.current.value;
+        const tags = tagsInput.current.value.split(',').map(tag => tag.trim());
+        const imageSrc = selectedImages[currentImageIndex].src;
+
+        const saleInfoFiller = {
+            name,
+            author,
+            cost,
+            tags,
+            imageSrc
+        };
+
+        setSaleInfoArray(prevArray => [...prevArray, saleInfoFiller]);
+
+        nameInput.current.value = '';
+        authorInput.current.value = '';
+        costInput.current.value = '';
+        tagsInput.current.value = '';
+
+    };
+
+    const submitPictureForSale = async () => {
+        debugger;
+        try {
+            const cleanedSaleInfoArray = saleInfoArray.map(info => ({ ...info }));
+            console.log('Cleaned Sale Info Array:', cleanedSaleInfoArray);
+
+            const jsonString = JSON.stringify(cleanedSaleInfoArray);
+            /*const returnResponse = await Axios.post('http://localhost:3000/submit-sale-info', jsonString, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });*/
+
+            const returnResponse = await Axios.post('http://localhost:3000/submit-sale-info', cleanedSaleInfoArray, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(returnResponse.data);
+        }
+        catch (error) {
+            console.error('Error submitting picture for sale: ', error);
+            if (error.response) {
+                console.log('Error details:', error.response);
+            } else {
+                console.log('No response details available.');
+            }
+            throw error;
+        }
+    };
 
     const confirmDelete = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
@@ -311,25 +373,25 @@ function Library({ selectionMode }) {
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                                     Picture Name *
                                 </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Picture Title" />
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nameInput" ref={nameInput} type="text" placeholder="Picture Title" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
                                     Author *
                                 </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="author" type="text" placeholder="Picture Author" />
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="authorInput" ref={authorInput} type="text" placeholder="Picture Author" />
                             </div>
                             <div className="mb-6">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cost">
                                     Cost *
                                 </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cost" placeholder="10" />
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="costInput" ref={costInput} placeholder="10" />
                             </div>
                             <div className="mb-8">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tags">
                                     Tags *
                                 </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tags" placeholder="Use , to seperate" />
+                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tagsInput" ref={tagsInput} placeholder="Use , to seperate" />
                                 <p class="text-red-500 text-xs italic my-5">* Required Field</p>
                             </div>
                             <div className="flex items-center justify-between">
@@ -384,7 +446,7 @@ function Library({ selectionMode }) {
                                             Cancel
                                         </button>
                                         <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
-                                                //onClick={}
+                                                onClick={submitPictureForSale}
                                                 >
                                             Sell
                                         </button>

@@ -14,6 +14,7 @@ app.use(cors())
 const imagesDir = path.join(__dirname, '../library_images');
 const deletedImagesDir = path.join(__dirname, '../deleted_images');
 const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
+const pictureSaleFilePath = path.join(__dirname, 'PictureSale.json');
 
 
 app.get('/test', (req, res) => {
@@ -198,6 +199,27 @@ app.post('/upload', upload.array('files'), (req, res) => {
 
     appendToTaggedPictures()
 });
+
+app.post('/submit-sale-info', async (req, res) => {
+    const pictureInfo = req.body;
+
+    try {
+        let currentData=[];
+        if (fs.existsSync(pictureSaleFilePath)) {
+            const existingData = await fs.promises.readFile(pictureSaleFilePath, 'utf-8');
+            currentData = JSON.parse(existingData);
+        }
+
+        currentData.push(...pictureInfo);
+
+        await fs.promises.writeFile(pictureSaleFilePath, JSON.stringify(currentData, null, 2));
+        res.status(200).json({ message: 'Picture posted for sale successfully.' });
+    }
+    catch (error) {
+        console.error("Failed to submit picture for sale.");
+        res.status(500).json({error: "An error occured while submitting picture for sale."});
+    }
+}); 
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
