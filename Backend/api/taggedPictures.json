@@ -9,6 +9,27 @@
         "Gym",
         "Workout"
       ]
+    },
+    "elephant.jpeg": {
+      "Path": "/library_images/elephant.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "king_julien.jpeg": {
+      "Path": "/library_images/king_julien.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "q50.jpg": {
+      "Path": "/library_images/q50.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     }
   }
 }

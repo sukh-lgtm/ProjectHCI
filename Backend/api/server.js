@@ -161,22 +161,21 @@ app.get('/fetch-images', (req, res) => {
 // Endpoint to fetch albums
 app.get('/fetch-albums', (req, res) => {
     // Read the albums json and send the list of albums to the client
-    fs.readFile(albumsJSON, (err, file) => {
-        if (err) {
-            console.error('Error reading albums JSON: ', err);
-            res.status(500).json( {error: 'Error reading albums JSON'});
+
+    const fileJSON = JSON.parse(fs1.readFileSync(albumsJSON))
+    const fileWithLocalhostPathJSON = fileJSON.albums;
+    for (album of fileWithLocalhostPathJSON) {
+        for (image of album.images) {
+            image.src = "http://localhost:3000/" + image.src;
         }
-        else {
-            const fileJSON = JSON.parse(file.toString());
-            const fileWithLocalhostPathJSON = fileJSON.albums;
-            for (album of fileWithLocalhostPathJSON) {
-                for (image of album.images) {
-                    image.src = "http://localhost:3000/" + image.src;
-                }
-            }
-            res.json(fileWithLocalhostPathJSON);
-        }
-    });
+    }
+    if(!fileWithLocalhostPathJSON) {
+        res.status(500).json({ error: 'Error reading albums json' });
+    }
+    else {
+        res.json(fileWithLocalhostPathJSON)
+    }
+
 });
 
 app.use(express.static('..'))
@@ -200,7 +199,7 @@ app.post('/delete-images', (req, res) => {
         });
 
         //for each image to be deleted, remove it from any albums it is in
-        let albumsFile = JSON.parse(fs.readFileSync(albumsJSON))
+        let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
         let albumsFileNew = JSON.parse('{"albums": []}')
 
         //copying albumsFile into albumsFileNew, but only if we are NOT deleting the image
@@ -215,8 +214,23 @@ app.post('/delete-images', (req, res) => {
                 }
             }
         }
-        fs.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+        fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
     });
+
+    //go through albums, if there are any albums that are "empty", make sure to delete the album itself (i.e., don't copy it)
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileNew = JSON.parse('{"albums": []}')
+    for (let i = 0; i < albumsFile.albums.length; i++) { 
+        if(albumsFile.albums[i].images.length > 0) {
+            albumsFileNew.albums.push({
+                title: albumsFile.albums[i].title,
+                images: []
+            });
+            for (let j = 0; j < albumsFile.albums[i].images.length; j++)
+                    albumsFileNew.albums[i].images.push(albumsFile.albums[i].images[j]);
+        }
+    }
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
 
     res.status(200).send("Images moved successfully.");
 });
@@ -249,57 +263,36 @@ app.post('/create-album', (req, res) => {
         return res.status(400).json({ error: 'Invalid album name.' });
     }
 
-    //first, open the file in read only mode, to extract information about current albums
-    const promiseReadAlbum = new Promise((resolve, reject) => {
-        fs.readFile(albumsJSON, (err, file) => {
-                if (err) {
-                    console.error('Error reading albums JSON: ', err);
-                    res.status(500).json( {error: 'Error reading albums JSON'});
-                    reject();
-                }
-                else {
-                    fileJSON = JSON.parse(file.toString());
-                    //check for duplicate album title before creating new album
-                    for (album of fileJSON.albums) {
-                        if(album.title == req.body.newAlbumName) {
-                            res.status(400).json( {error: "Album name already exists."})
-                            reject();
-                        }
-                    }
-                    let newAlbum = {
-                        title: req.body.newAlbumName,
-                        images: req.body.imageFilenames.map(imageName => ({
-                            fileName: imageName, //construct image name
-                            src: `library_images/${imageName}`, // Construct the URL for each image
-                            location: "",
-                            date: "",
-                            tags: []
-                            })),
-                    };
-                    fileJSON.albums.push(newAlbum);
-                    resolve(fileJSON);
-                }
-            });
-        });
+    try {
+        //first, open the file in read only mode, to extract information about current albums
+        fileJSON = JSON.parse(fs1.readFileSync(albumsJSON));
 
-    //now, truncate the file, and write the new JSON, which includes the newly created album
-    promiseReadAlbum.then((val) => {
-        fs.open(albumsJSON, "w", (err, file) => {
-            if(err) {
-                console.error('Error when adding new album to albums JSON: ', err)
-                res.status(500).json( {error: 'Error writing to albums JSON'});
+        for (album of fileJSON.albums) {
+            if (album.title == req.body.newAlbumName) {
+                return res.status(400).json({ error: "Album name already exists." })
             }
-            else {
-                fs.write(file, JSON.stringify(val, null, 2), (err, bytes) => {
-                    if(err) 
-                        console.error(err);
-                });
+        }
+        let newAlbum = {
+            title: req.body.newAlbumName,
+            images: req.body.imageFilenames.map(imageName => ({
+                fileName: imageName, //construct image name
+                src: `library_images/${imageName}`, // Construct the URL for each image
+                location: "",
+                date: "",
+                tags: []
+            })),
+        };
+        fileJSON.albums.push(newAlbum);
 
-                // Respond with success message and list of uploaded files
-                res.status(200).json({ message: 'Album created successfully' });
-            }
-        });
-    });
+        //now, truncate the file, and write the new JSON, which includes the newly created album
+        fs1.writeFileSync(albumsJSON, JSON.stringify(fileJSON, null, 2))
+
+        // Respond with success message and list of uploaded files
+        return res.status(200).json({ message: 'Album created successfully' });
+    } catch (err) {
+        fs1.writeFileSync(albumsJSON, '{ "albums": [] }')
+        return res.status(400).json({ error: `error creating album: ` + err });
+    }
 
 });
 

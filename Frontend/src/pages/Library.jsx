@@ -59,7 +59,7 @@ function Library({ selectionMode }) {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         //make backend call to create new album from selected images
         try {
-            const response = await Axios.post(
+            const response = await axios.post(
                 'http://localhost:3000/create-album',
                 { imageFilenames: selectedImagePath, newAlbumName: albumName }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON

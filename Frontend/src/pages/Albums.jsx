@@ -42,8 +42,7 @@ function Albums({ selectionMode }) {
 
     async function handleChange(event) {
         if (event.target.files) {
-            {""}
-            //await uploadFiles(event.target.files);
+            await newAlbum(event.target.files);
         }
 
     }
