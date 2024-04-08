@@ -87,7 +87,7 @@ app.post('/delete-images', (req, res) => {
     console.log(req.body.imageFilenames)
     const imageFilenames = req.body.imageFilenames;
 
-    // Move each image to the 'delete_images' folder
+    // Move each image to the 'delete_images' folder8
     imageFilenames.forEach(filename => {
         const sourcePath = path.join(imagesDir, filename);
         const destPath = path.join(deletedImagesDir, filename);
