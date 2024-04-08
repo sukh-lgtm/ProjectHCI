@@ -4,8 +4,9 @@ import Actionbar from "../components/Actionbar.jsx";
 import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useAlbums} from "../context/AlbumsProvider.jsx";
+import {Plus} from 'lucide-react'
 
-function Albums({ selectionMode }) {
+function Albums({ selectionMode, toggleSelectionMode }) {
 
     const [selectedAlbums, setSelectedAlbums] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
@@ -67,9 +68,8 @@ function Albums({ selectionMode }) {
 
     const onNewAlbumButtonClick = () => {
         // `current` points to the mounted file input element
-        inputFile.current.click();
+        console.log("New Album!")
     };
-    const inputFile = useRef(null)
 
     const numberOfAlbumsSelected = selectedAlbums.length
     useEffect(() => {
@@ -144,13 +144,15 @@ function Albums({ selectionMode }) {
                     </div>
 
                     <div className={"mt-6 text-neutral-800"}>
-                        Tap <input type="file" id="newAlbum" multiple={true} onChange={handleChange} ref={inputFile}
+                        Tap <input type="file" id="newAlbum" multiple={true} onChange={handleChange}
                                    className={"hidden"}/>
                         <button type="submit"
                                 className="border-black border rounded-full bg-gray-400  px-1.5 py-0.5 "
                                 onClick={onNewAlbumButtonClick}
                         >
-                            <i className="fa fa-plus mr-2"></i>New Album
+                        <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                            width={20} height={20}/> New Album
+                        </div>
                         </button> to create a new ablum
                     </div>
                 </div> :
@@ -172,51 +174,56 @@ function Albums({ selectionMode }) {
                 </div> :
 
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
-                    <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
+                    <div className="grid grid-cols-3 mx-2 my-2 gap-x-[10px] gap-y-[56px] mb-52">
                         {
-                        albums.map(album => (
-                            <div key={album.title}>
-                                <div
-                                    onClick={() => selectionMode && toggleSelectedAlbum(album)}
-                                    className={selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative overflow-hidden w-full h-full" : "relative overflow-hidden w-full h-full"}
-                                >
-                                    <Image
-                                        thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
-                                        alt={album.title}
-                                        className={'aspect-square rounded-lg w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${albums.includes(album) ? "opacity-70" : ""}'}
-                                    />
-                                    {selectionMode && selectedAlbums.includes(album) ?
-                                        <div className={"absolute z-100 top-1.5 left-1.5"}>
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="10" cy="10" r="9.5" fill="#0500FF" stroke="#E6E0E0"/>
-                                                <rect x="4" y="9.71875" width="2" height="6.11681"
-                                                    transform="rotate(-45 4 9.71875)" fill="white"/>
-                                                <path
-                                                    d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
-                                                    fill="white"/>
-                                            </svg>
+                            albums.map(album => (
+                                <div key={album.title}>
+                                    <div
+                                        onClick={() => selectionMode && toggleSelectedAlbum(album)}
+                                        className={`${selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative w-full h-full rounded-lg" : "relative col-span-6 w-full h-full rounded-lg"}`}
+                                    >
+                                        <Image
+                                            thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
+                                            alt={album.title}
+                                            className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
+                                        />
+                                        <div className={"text-slate-700 text-lg col-span-1 font-bold"}>
+                                            {album.title}
+                                        </div>
+                                        <div className={"relative bottom-[0.4rem] text-slate-500 text-lg font-light col-span-1"}>
+                                            {album.images.length}
+                                        </div>
+                                        {selectionMode && selectedAlbums.includes(album) ?
+                                            <div className={"absolute z-100 top-1.5 left-1.5"}>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="9.5" fill="#0500FF" stroke="#E6E0E0" />
+                                                    <rect x="4" y="9.71875" width="2" height="6.11681"
+                                                        transform="rotate(-45 4 9.71875)" fill="white" />
+                                                    <path
+                                                        d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
+                                                        fill="white" />
+                                                </svg>
 
-                                        </div> :
-                                        selectionMode && !selectedAlbums.includes(album) ?
-                                            <div>
-                                                <div
-                                                    className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
-                                                </div>
-                                                <div
-                                                    className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
-                                                    <svg width="20" height="20" viewBox="0 0 20 20"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <circle cx="10" cy="10" r="9"/>
-                                                    </svg>
-                                                </div>
-                                            </div>: <div></div>}
+                                            </div> :
+                                            selectionMode && !selectedAlbums.includes(album) ?
+                                                <div>
+                                                    <div
+                                                        className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
+                                                    </div>
+                                                    <div
+                                                        className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
+                                                        <svg width="20" height="20" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="10" cy="10" r="9" />
+                                                        </svg>
+                                                    </div>
+                                                </div> : <div></div>}
+
+                                    </div>
 
                                 </div>
-
-                            </div>
                         ))  /*albums.map(album => ...*/ }
-                            
                     </div>
                 </div>
 

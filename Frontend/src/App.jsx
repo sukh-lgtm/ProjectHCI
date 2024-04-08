@@ -53,8 +53,8 @@ function App() {
                     {!selectionMode ? <Navbar /> : null}
                     <div>
                         <Routes>
-                            <Route path="/library" element={<Library selectionMode={selectionMode} />} />
-                            <Route path="/albums" element={<Albums selectionMode={selectionMode}/>} />
+                            <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
+                            <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />

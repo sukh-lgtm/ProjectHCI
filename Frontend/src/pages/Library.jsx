@@ -6,7 +6,7 @@ import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode }) {
+function Library({ selectionMode, toggleSelectionMode }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
@@ -68,6 +68,7 @@ function Library({ selectionMode }) {
             console.log(response.data)
             setSelectedImages([])
             toggleAlbumNamePopup();
+            toggleSelectionMode();
 
         } catch (error) {
             console.error('Error creating album:', error);

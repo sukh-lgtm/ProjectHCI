@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
-import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal} from 'lucide-react';
+import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus} from 'lucide-react';
 import {Link} from "react-router-dom";
 
 
@@ -39,10 +39,11 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
     };
     const inputFile = useRef(null)
 
-    function renderPageHeaderLeft(currentPage) {
-        function backToHomePage(){
+    const onNewAlbumButtonClick= () => {
+        console.log("New Album!");
+    }
 
-        }
+    function renderPageHeaderLeft(currentPage) {
         switch (currentPage){
             case 'Tag':
                 return (<div>
@@ -67,10 +68,24 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </button>
                     </Link>
                 </div>)
+            
+            case 'Albums':
+                return (<div>
+                    <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
+                           className={"hidden"}/>
+                    <button type="submit"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={onNewAlbumButtonClick}
+                    >
+                        <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                            width={20} height={20}/> New Album
+                        </div>
+                    </button>
+                </div>)
 
             default:
                 return (<div>
-                    <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
+                    <input type="file" id="newAlbumInput" multiple={true} onChange={handleChange} ref={inputFile}
                            className={"hidden"}/>
                     <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
@@ -125,6 +140,49 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
     }
 
+    function renderSearchBar(currentPage) {
+        switch(currentPage) {
+
+            case 'Albums':
+                return (<div>
+                    <div className="flex flex-row pt-2 text-neutral-300">
+                        <form className=" mx-auto w-full">
+                        <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                            <div className="relative w-full flex flex-row">
+                                <input type="search" id="default-search"
+                                    className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                    placeholder="Search album names"/>
+                                <button type="submit"
+                                        className="text-neutral-900 absolute start-3 bottom-3 ml-1">
+                                    <i className="fa fa-search mr-2 text-neutral-900"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>)
+
+            default:
+                return (<div>
+                    <div className="flex flex-row pt-2 text-neutral-300">
+                        <form className=" mx-auto w-full">
+                        <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                            <div className="relative w-full flex flex-row">
+                                <input type="search" id="default-search"
+                                    className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                    placeholder="Search photo tags"/>
+                                <button type="submit"
+                                        className="text-neutral-900 absolute start-3 bottom-3 ml-1">
+                                    <i className="fa fa-search mr-2 text-neutral-900"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>)
+
+
+        }
+    }
+
     return (
         <div>
             <div
@@ -142,20 +200,8 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
                 </div>
 
-
-                <div className="flex flex-row pt-2 text-neutral-300">
-                    <form className=" mx-auto w-full">
-                    <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                        <div className="relative w-full flex flex-row">
-                            <input type="search" id="default-search"
-                                   className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                                   placeholder="Search photo tags"/>
-                            <button type="submit"
-                                    className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                                <i className="fa fa-search mr-2 text-neutral-900"></i>
-                            </button>
-                        </div>
-                    </form>
+                <div>
+                    {renderSearchBar(currentPage)}
                 </div>
 
             </div>
