@@ -106,9 +106,6 @@ function Library({ selectionMode }) {
             console.error('Error submitting picture for sale: ', error);
             if (error.response) {
                 console.log('Error details:', error.response);
-            } else {
-                console.log('No response details available.');
-            }
             throw error;
         }
     };

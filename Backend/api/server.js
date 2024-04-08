@@ -216,7 +216,7 @@ app.post('/submit-sale-info', async (req, res) => {
         res.status(200).json({ message: 'Picture posted for sale successfully.' });
     }
     catch (error) {
-        console.error("Failed to submit picture for sale.");
+        console.error("Failed to submit picture for sale.", error);
         res.status(500).json({error: "An error occured while submitting picture for sale."});
     }
 }); 
