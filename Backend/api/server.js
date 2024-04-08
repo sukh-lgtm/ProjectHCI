@@ -158,6 +158,24 @@ app.get('/fetch-images', (req, res) => {
     });
 });
 
+// Endpoint to fetch deleted images
+app.get('/fetch-deleted-images', (req, res) => {
+    // Read the images directory and send the list of image filenames to the client
+    res.header("Access-Control-Allow-Origin", "*");
+    fs1.readdir(deletedImagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading deleted images directory:', err);
+            res.status(500).json({ error: 'Error reading deleted images directory' });
+        } else {
+            const images = files.map(file => ({
+                id: file, // You can use a unique identifier for each image, such as the filename
+                src: `http://localhost:3000/deleted_images/${file}` // Construct the URL for each image
+            }));
+            res.json({ images });
+        }
+    });
+});
+
 // Endpoint to fetch albums
 app.get('/fetch-albums', (req, res) => {
     // Read the albums json and send the list of albums to the client
@@ -221,13 +239,12 @@ app.post('/delete-images', (req, res) => {
     let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
     let albumsFileNew = JSON.parse('{"albums": []}')
     for (let i = 0; i < albumsFile.albums.length; i++) { 
+        console.log("album: " + albumsFile.albums[i].title + " size: " + albumsFile.albums[i].images.length)
         if(albumsFile.albums[i].images.length > 0) {
             albumsFileNew.albums.push({
                 title: albumsFile.albums[i].title,
-                images: []
+                images: albumsFile.albums[i].images
             });
-            for (let j = 0; j < albumsFile.albums[i].images.length; j++)
-                    albumsFileNew.albums[i].images.push(albumsFile.albums[i].images[j]);
         }
     }
     fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));

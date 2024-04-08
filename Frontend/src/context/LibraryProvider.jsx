@@ -13,6 +13,7 @@ export const useLibrary = () => {
 
 export const LibraryProvider = ({ children }) => {
     const [images, setImages] = useState([]);
+    const [deletedImages, setDeletedImages] = useState([])
     const [loading, setLoading] = useState(true);
 
     async function handleChange(event) {
@@ -63,12 +64,32 @@ export const LibraryProvider = ({ children }) => {
         }
     };
 
+    const fetchDeletedImages = async () => {
+        setLoading(true)
+        try {
+            const response = await axios.get('http://localhost:3000/fetch-deleted-images', {
+
+            });
+            const imageList = response.data.images.map((image, index) => ({
+                src: image.src,
+                fileName: image.id
+            }));
+
+            setDeletedImages(imageList)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching recently deleted images:', error);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchImages();
+        fetchDeletedImages();
     }, []);
 
     return (
-        <LibraryContext.Provider value={{ images, loading, fetchImages, setImages}}>
+        <LibraryContext.Provider value={{ images, deletedImages, loading, fetchImages, fetchDeletedImages, setDeletedImages, setImages}}>
             {children}
         </LibraryContext.Provider>
     );

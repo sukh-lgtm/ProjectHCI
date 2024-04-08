@@ -19,8 +19,8 @@ export const AlbumsProvider = ({ children }) => {
         if (event.target.files) {
             await uploadFiles(event.target.files);
         }
-
     }
+
     const onUploadButtonClick = () => {
         // `current` points to the mounted file input element
         inputFile.current.click();

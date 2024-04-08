@@ -8,6 +8,7 @@ import Explore from "./pages/Explore.jsx";
 import Account from "./pages/Account.jsx";
 import Navbar from "./components/Navbar.jsx";
 import TagPage from "./pages/TagPage.jsx";
+import RecentlyDeleted from './pages/RecentlyDeleted.jsx';
 import { LibraryProvider } from './context/LibraryProvider.jsx';
 import { AlbumsProvider } from './context/AlbumsProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
@@ -19,7 +20,8 @@ function App() {
     const location = useLocation();
 
     useEffect(() => {
-        setSelectionMode(false);
+        if(currentPage !== 'RecentlyDeleted')
+            setSelectionMode(false);
     }, [location]);
 
     const toggleSelectionMode = () => {
@@ -58,6 +60,7 @@ function App() {
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />
+                            <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
                         </Routes>
                     </div>
                 </AlbumsProvider>

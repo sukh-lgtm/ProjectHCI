@@ -82,6 +82,9 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </div>
                     </button>
                 </div>)
+            
+            case 'RecentlyDeleted':
+                return (<div></div>)
 
             default:
                 return (<div>
@@ -124,6 +127,19 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </button>
                     </Link>
                 )
+
+            case 'RecentlyDeleted':
+                return (
+                    <Link to="/albums">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> <div>Done</div>
+                            </div>
+                        </button>
+                    </Link>
+                )
+
             default:
                 return (<div>
                     <button type="button"
@@ -160,6 +176,9 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </form>
                     </div>
                 </div>)
+            
+            case 'RecentlyDeleted':
+                return (<div></div>)
 
             default:
                 return (<div>
@@ -183,6 +202,15 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
         }
     }
 
+    function renderPageTitle(currentPage) {
+        switch(currentPage) {
+            case "RecentlyDeleted":
+                return (<div className = "relative translate-x-10">Recently Deleted</div>)
+            default:
+                return (<div>{currentPage}</div>)
+        }
+    }
+
     return (
         <div>
             <div
@@ -190,9 +218,8 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                 <div className="flex flex-row items-center content-center justify-between">
                     {renderPageHeaderLeft(currentPage)}
 
-
                     <div className={"text-slate-700 text-xl font-bold"}>
-                        {currentPage}
+                        {renderPageTitle(currentPage)}
                     </div>
 
                     {renderPageHeaderRight(currentPage)}

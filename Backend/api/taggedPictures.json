@@ -1,17 +1,35 @@
 {
   "pictures": {
-    "1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg": {
-      "Path": "/library_images/1712512659741-395179616-1712510454769-930677008-360_F_329679742_4vrHnqpRSsqiTrLWEsmpLwvwHc3aNc4I.jpg",
+    "74ovdx9yir281.webp": {
+      "Path": "/library_images/74ovdx9yir281.webp",
       "Name": "",
-      "Location": "Gym",
-      "Date": "2024-04-03",
-      "Tags": [
-        "Gym",
-        "Workout"
-      ]
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "corvette-main.jpg": {
+      "Path": "/library_images/corvette-main.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "corvette2.jpg": {
+      "Path": "/library_images/corvette2.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     },
     "elephant.jpeg": {
       "Path": "/library_images/elephant.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "giraffe.jpeg": {
+      "Path": "/library_images/giraffe.jpeg",
       "Name": "",
       "Location": "",
       "Date": "",
@@ -24,8 +42,43 @@
       "Date": "",
       "Tags": []
     },
+    "monkey.jpeg": {
+      "Path": "/library_images/monkey.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "palmTree.jpeg": {
+      "Path": "/library_images/palmTree.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
     "q50.jpg": {
       "Path": "/library_images/q50.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "snake.jpeg": {
+      "Path": "/library_images/snake.jpeg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "tiger.jpg": {
+      "Path": "/library_images/tiger.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "turtle.jpeg": {
+      "Path": "/library_images/turtle.jpeg",
       "Name": "",
       "Location": "",
       "Date": "",

@@ -4,17 +4,26 @@ import Actionbar from "../components/Actionbar.jsx";
 import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useAlbums} from "../context/AlbumsProvider.jsx";
-import {Plus} from 'lucide-react'
+import {Plus, Trash2} from 'lucide-react'
+import { useLibrary } from '../context/LibraryProvider.jsx';
+import { Link, useLocation } from 'react-router-dom';
 
-function Albums({ selectionMode, toggleSelectionMode }) {
+function Albums({ selectionMode, setSelectionMode }) {
+    const location = useLocation
 
     const [selectedAlbums, setSelectedAlbums] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
 
     const { albums, loading, fetchAlbums, setAlbums } = useAlbums();
+    const { fetchDeletedImages, setDeletedImages } = useLibrary
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
+    };
+
+    // Function to check if a link is active
+    const isActiveLink = (path) => {
+        return location.pathname === path;
     };
 
     const deleteSelectedAlbums = async () => {
@@ -233,7 +242,7 @@ function Albums({ selectionMode, toggleSelectionMode }) {
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
                     <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfAlbumsSelected} albums?</p>
-                        <p className="px-4 text-[0.8rem]"> The albums (not the images) will be gone forever!</p>
+                        <p className="px-4 text-[0.8rem]"> it will be gone forever! The images will not be deleted.</p>
 
                         <hr className={"mt-4"}></hr>
                         <div className="w-full grid grid-cols-2 mb-0">
@@ -249,6 +258,23 @@ function Albums({ selectionMode, toggleSelectionMode }) {
                     </div>
                 </div>
             )}
+
+            {!selectionMode ?
+                <div className="sticky grid grid-cols-3">
+                    <Link className={`col-start-2 ${isActiveLink('/recentlyDeleted') ? 'active-nav-link' : ''}`} to="/recentlyDeleted">
+                        <button type="button"
+                            className="ml-auto rounded-[36px] place-self-center backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            {
+                                <div className={"flex flex-row justify-center items-center content-center gap-1"}><Trash2
+                                    width={40} height={40} /> Recently Deleted
+                                </div>
+                            }
+                        </button>
+                    </Link>
+                </div>
+
+                : null
+            }
 
         </>
     )
