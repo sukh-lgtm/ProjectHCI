@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 
+import {Upload} from 'lucide-react'
 import Actionbar from "../components/Actionbar.jsx";
-import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
+import axios from "axios";
 
 function Library({ selectionMode }) {
 
@@ -34,10 +35,14 @@ function Library({ selectionMode }) {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         // Make a backend call to delete the selected images
         try {
-            const response = await Axios.post(
+            const response = await axios.post(
                 'http://localhost:3000/delete-images',
                 { imageFilenames: selectedImagePath }, // Data object
-                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+                { headers: { 'Content-Type': 'application/json' } },
+                {proxy: {
+                        host: 'localhost',
+                        port: 3000
+                    }}
             );
             console.log(response.data);
             // If successful, update the state to reflect the changes
@@ -78,12 +83,14 @@ function Library({ selectionMode }) {
     }
     async function uploadFiles(files) {
         const formData = new FormData();
+
         for (let i = 0; i < files.length; i++) {
+            console.log(files[i])
             formData.append('files', files[i]);
         }
 
         try {
-            const response = await Axios.post(
+            const response = axios.post(
                 'http://localhost:3000/upload',
                 formData// Data object
             );
@@ -113,6 +120,12 @@ function Library({ selectionMode }) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [showPopup]);
+    const [imagesLength, setImagesLength] = useState(images.length);
+
+    useEffect(() => {
+        // Update the imagesLength state whenever the images array changes
+        setImagesLength(images.length);
+    }, [images]);
 
 
     useEffect(() => {
@@ -140,7 +153,7 @@ function Library({ selectionMode }) {
     return (
         <>
 
-            {images.length === 0 ?
+            {imagesLength === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
@@ -172,15 +185,18 @@ function Library({ selectionMode }) {
                         No Pictures Found!
                     </div>
 
-                    <div className={"mt-6 text-neutral-800"}>
+                    <div className={"mt-6 text-neutral-800 flex justify-center content-center items-center"}>
                         Tap <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
                                    className={"hidden"}/>
                         <button type="submit"
-                                className="border-black border rounded-full bg-gray-400  px-1.5 py-0.5 "
+                                className="mx-2 rounded-[36px] backdrop-blur-[5rem] bg-slate-500 bg-opacity-40 px-2.5 py-1"
                                 onClick={onUploadButtonClick}
                         >
-                            <i className="fa fa-upload mr-2"></i>Upload
-                        </button> to upload pictures
+                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Upload
+                                width={20} height={20}/> Upload
+                            </div>
+                        </button>
+                        to upload pictures
                     </div>
                 </div> :
 
@@ -233,7 +249,7 @@ function Library({ selectionMode }) {
                                                     className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
                                                 </div>
                                                 <div
-                                                    className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
+                                                    className={"absolute top-0 left-0 z-20 stroke-white stroke-2 fill-none ml-2 mt-2"}>
                                                     <svg width="20" height="20" viewBox="0 0 20 20"
                                                          xmlns="http://www.w3.org/2000/svg">
                                                         <circle cx="10" cy="10" r="9"/>
@@ -250,7 +266,7 @@ function Library({ selectionMode }) {
             }
             {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onAlbum={createAlbumFromSelectedImages} selectedImages={selectedImages}/> : null}
             {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
                     <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
                         <p className="px-4 text-[0.8rem]">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>

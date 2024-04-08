@@ -1,0 +1,14 @@
+.custom-placeholder::placeholder {
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+.custom-placeholder{
+    width: 100%;
+}
+
+.rti--container{
+    width: 100%;
+    border-color: rgb(148 163 184);
+    background-color: rgb(248 250 252);
+}
