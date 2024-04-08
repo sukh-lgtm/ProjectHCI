@@ -76,7 +76,7 @@ function Explore() {
       </div>
     );
   };
-
+// Toggle button is temporary 
 
   return (
     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52 mt-28">
@@ -91,7 +91,7 @@ function Explore() {
                 className="rounded-lg"
               />
               <div className="flex items-end justify-center">
-                <p className="px-5">{image.title}</p>
+                <p className="mr-4">{image.title}</p>
                 <p className=" text-green-600">{image.price}</p>
               </div>
             </div>
