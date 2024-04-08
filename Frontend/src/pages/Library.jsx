@@ -99,6 +99,7 @@ function Library({ selectionMode }) {
                     'Content-Type': 'application/json'
                 }
             });
+
             console.log(returnResponse.data);
         }
         catch (error) {
@@ -336,7 +337,7 @@ function Library({ selectionMode }) {
                     </div>
                 </div>
             )}
-
+            
             {selectionMode ? <Actionbar onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
             {showSellPopup && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
