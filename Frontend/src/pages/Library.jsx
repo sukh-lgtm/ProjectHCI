@@ -88,7 +88,7 @@ function Library({ selectionMode }) {
             const cleanedSaleInfoArray = saleInfoArray.map(info => ({ ...info }));
             console.log('Cleaned Sale Info Array:', cleanedSaleInfoArray);
 
-            const jsonString = JSON.stringify(cleanedSaleInfoArray);
+            //const jsonString = JSON.stringify(cleanedSaleInfoArray);
             /*const returnResponse = await Axios.post('http://localhost:3000/submit-sale-info', jsonString, {
                 headers: {
                     'Content-Type': 'application/json'
