@@ -6,12 +6,14 @@ import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode, searchTags }) {
+function Library({ selectionMode, toggleSelectionMode, searchTags }) {
 
     console.log(selectionMode)
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
+    const [albumName, setAlbumName] = useState("")
     const [showSellPopup, setSellPopup] = useState(false);
     const [fullPageImage, setFullPageImage] = useState(false)
 
@@ -20,6 +22,10 @@ function Library({ selectionMode, searchTags }) {
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
+
+    const toggleAlbumNamePopup = () => {
+        setShowAlbumNamePopup(!showAlbumNamePopup);
+    }
 
     const toggleSellMenuPopup = () => {
         setSellPopup(!showSellPopup);
@@ -33,12 +39,16 @@ function Library({ selectionMode, searchTags }) {
         togglePopup(); // Show the popup for confirmation
     };
 
+    const createAlbumFromSelectedImages = async () => {
+        toggleAlbumNamePopup(); // Show album creation popup for confirmation
+    }
+
     const confirmDelete = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         // Make a backend call to delete the selected images
         try {
             const response = await axios.post(
-                'https://project-hci-eosin.vercel.app/delete-images',
+                'http://localhost:3000/delete-images',
                 { imageFilenames: selectedImagePath }, // Data object
                 { headers: { 'Content-Type': 'application/json' } },
                 {proxy: {
@@ -52,10 +62,32 @@ function Library({ selectionMode, searchTags }) {
             setImages(remainingImages);
             setSelectedImages([]);
             togglePopup(); // Hide the popup after deletion
+            toggleSelectionMode();
         } catch (error) {
             console.error('Error deleting images:', error);
         }
     };
+
+    const createAlbum = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        //make backend call to create new album from selected images
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/create-album',
+                { imageFilenames: selectedImagePath, newAlbumName: albumName }, // Data object
+                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+            );
+            //if successful, return to non "select" mode
+            console.log(response.data)
+            setSelectedImages([])
+            toggleAlbumNamePopup();
+            toggleSelectionMode();
+
+        } catch (error) {
+            console.error('Error creating album:', error);
+        }
+
+    }
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -71,10 +103,9 @@ function Library({ selectionMode, searchTags }) {
             formData.append('files', files[i]);
         }
 
-
         try {
             const response = axios.post(
-                'https://project-hci-eosin.vercel.app/upload',
+                'http://localhost:3000/upload',
                 formData// Data object
             );
         } catch (error) {
@@ -117,7 +148,7 @@ function Library({ selectionMode, searchTags }) {
 
     function fetchSearchImages(searchTags) {
         let newImageList
-        axios.post('https://project-hci-eosin.vercel.app/getImagesByTags', searchTags).then(r => {
+        axios.post('http://localhost:3000/getImagesByTags', searchTags).then(r => {
             newImageList = r.data.map((image, index) => ({
                 src: image.src,
                 fileName: image.id
@@ -303,9 +334,8 @@ function Library({ selectionMode, searchTags }) {
                         ))}
                     </div>
                 </div>
-
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
+            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onAlbum={createAlbumFromSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
             {fullPageImage ? <Actionbar onDelete={deleteSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4 min-w-screen">

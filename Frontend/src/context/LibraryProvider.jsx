@@ -13,6 +13,7 @@ export const useLibrary = () => {
 
 export const LibraryProvider = ({ children }) => {
     const [images, setImages] = useState([]);
+    const [deletedImages, setDeletedImages] = useState([])
     const [loading, setLoading] = useState(true);
 
     async function handleChange(event) {
@@ -30,7 +31,7 @@ export const LibraryProvider = ({ children }) => {
 
         try {
             const response = await Axios.post(
-                'https://project-hci-eosin.vercel.app/upload',
+                'http://localhost:3000/upload',
                 formData// Data object
             );
         } catch (error) {
@@ -48,7 +49,7 @@ export const LibraryProvider = ({ children }) => {
     const fetchImages = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://project-hci-eosin.vercel.app/fetch-images', {
+            const response = await axios.get('http://localhost:3000/fetch-images', {
 
             });
             const imageList = response.data.images.map((image, index) => ({
@@ -63,12 +64,32 @@ export const LibraryProvider = ({ children }) => {
         }
     };
 
+    const fetchDeletedImages = async () => {
+        setLoading(true)
+        try {
+            const response = await axios.get('http://localhost:3000/fetch-deleted-images', {
+
+            });
+            const imageList = response.data.images.map((image, index) => ({
+                src: image.src,
+                fileName: image.id
+            }));
+
+            setDeletedImages(imageList)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching recently deleted images:', error);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchImages();
+        fetchDeletedImages();
     }, []);
 
     return (
-        <LibraryContext.Provider value={{ images, loading, fetchImages, setImages}}>
+        <LibraryContext.Provider value={{ images, deletedImages, loading, fetchImages, fetchDeletedImages, setDeletedImages, setImages, setLoading}}>
             {children}
         </LibraryContext.Provider>
     );
