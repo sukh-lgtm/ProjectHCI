@@ -2,38 +2,11 @@
   "pictures": {
     "1712643426662-682296746-image-2.jpg": {
       "Path": "/library_images/1712643426662-682296746-image-2.jpg",
-      "Name": "Float",
-      "Location": "Calgary",
-      "Date": "2024-04-01",
-      "Tags": [
-        "Stock",
-        "Test",
-        "Pictures"
-      ],
-      "Price": 0,
-      "Sales": 0
-    },
-    "1712643426663-617591182-image-3.jpg": {
-      "Path": "/library_images/1712643426663-617591182-image-3.jpg",
       "Name": "",
-      "Location": "Calgary",
-      "Date": "2024-04-01",
+      "Location": "Sea",
+      "Date": "2024-04-02",
       "Tags": [
-        "Test",
-        "Pictures"
-      ],
-      "Price": 0,
-      "Sales": 0
-    },
-    "1712643426664-900965194-image-4.jpg": {
-      "Path": "/library_images/1712643426664-900965194-image-4.jpg",
-      "Name": "",
-      "Location": "Calgary",
-      "Date": "2024-04-01",
-      "Tags": [
-        "Stock",
-        "Test",
-        "Pictures"
+        "Aesthetic"
       ],
       "Price": 0,
       "Sales": 0
@@ -62,25 +35,26 @@
       "Price": 0,
       "Sales": 0
     },
-    "1712643426665-654549583-image-5.jpg": {
-      "Path": "/library_images/1712643426665-654549583-image-5.jpg",
+    "1712643426663-617591182-image-3.jpg": {
+      "Path": "/library_images/1712643426663-617591182-image-3.jpg",
       "Name": "",
       "Location": "Calgary",
       "Date": "2024-04-01",
       "Tags": [
-        "Stock",
+        "Test",
         "Pictures"
       ],
       "Price": 0,
       "Sales": 0
     },
-    "1712643426672-66017601-image-12.jpg": {
-      "Path": "/library_images/1712643426672-66017601-image-12.jpg",
+    "1712643426664-900965194-image-4.jpg": {
+      "Path": "/library_images/1712643426664-900965194-image-4.jpg",
       "Name": "",
       "Location": "Calgary",
       "Date": "2024-04-01",
       "Tags": [
         "Stock",
+        "Test",
         "Pictures"
       ],
       "Price": 0,

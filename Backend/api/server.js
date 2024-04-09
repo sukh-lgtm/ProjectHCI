@@ -523,5 +523,3 @@ app.post('/deleteListing', async (req, res) => {
 
     res.status(200).json("done")
 });
-
-appendToTaggedPictures()
