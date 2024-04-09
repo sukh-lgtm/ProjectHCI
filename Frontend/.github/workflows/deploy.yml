@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - Sukhnaaz_branch-2
 
 jobs:
   build:
