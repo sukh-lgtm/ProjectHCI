@@ -296,6 +296,7 @@ app.post('/upload', upload.array('files'), (req, res) => {
     appendToTaggedPictures()
 });
 
+// Endpoint to create albums
 app.post('/create-album', (req, res) => {
     // Check if files are present in the request
     if (!req.body.imageFilenames || req.body.imageFilenames.length === 0) {
@@ -338,6 +339,7 @@ app.post('/create-album', (req, res) => {
 
 });
 
+// Endpoint to restore images from recently deleted
 app.post('/restore-images', (req, res) => {
     // Check if files are present in the request
     if (!req.body.imageFileNames || req.body.imageFileNames.length === 0) {
@@ -363,6 +365,28 @@ app.post('/restore-images', (req, res) => {
 
 });
 
+// Endpoint to destroy images forever and ever from recently deleted
+app.post('/destroy-images', (req, res) => {
+    // Check if files are present in the request
+    if (!req.body.imageFileNames || req.body.imageFileNames.length === 0) {
+        return res.status(400).json({ error: 'No images were selected.' });
+    }
+
+    const imageFileNames = req.body.imageFileNames;
+
+    try {
+        // delete each image, forever...
+        imageFileNames.forEach(filename => {
+            fs1.rmSync(deletedImagesDir + "/" + filename)
+        });
+
+        return res.status(200).send("Successfully destroyed: " + imageFileNames);
+
+    } catch (error) {
+        return res.status(500).json({ error: "Error destroying images: " + error});
+    }
+
+});
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
