@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick }) {
     const { fetchImages } = useLibrary();
 
     async function handleChange(event) {
@@ -41,11 +41,6 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
     const onNewAlbumButtonClick= () => {
         console.log("New Album!");
-    }
-
-    const onAddToAlbumClick = () => {
-        console.log("Add To Existing Album!")
-
     }
 
     const renameAlbum = () => {
@@ -101,7 +96,8 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     selectionMode ?
                         <div>
                             <Link to={`/libInAlbum?=${insideAlbumTitle}`}>
-                                <button type="button"
+                                <button type="submit"
+                                    onClick={onAddToAlbumClick}
                                     className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
                                     <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
                                         width={20} height={20} /> Add
@@ -125,7 +121,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             case 'LibInAlbum':
                 return (
                     <div>
-                        <button type="button"
+                        <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
                             onClick={onAddToAlbumClick}>
                             
@@ -276,8 +272,6 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                         </form>
                     </div>
                 </div>)
-
-
         }
     }
 

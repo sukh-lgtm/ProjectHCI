@@ -13,7 +13,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
 
     const [albumImages, setAlbumImages] = useState([]);
     const [images, setImages] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const [imagesNotInAlbum, setImagesNotInAlbum] = useState([])
     const [isNewAlbum, setIsNewAlbum] = useState(false)
@@ -22,8 +22,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         setShowPopup(!showPopup);
     };
 
-    const fetchImages = async () => {
-        setLoading(true)
+    const fetchImagesAndAlbum = async () => {
         try {
             const response = await axios.get('http://localhost:3000/fetch-images', {
 
@@ -32,11 +31,35 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
                 src: image.src,
                 fileName: image.id
             }));
+
             setImages(imageList);
+
+            fetchInsideAlbumTitle()
+            //make backend call to create new album from selected images
+            const albumResponse = await axios.post(
+                'http://localhost:3000/fetch-album',
+                { albumName: albumTitle }, // Data object
+                { headers: { 'Content-Type': 'application/json' } },
+                {
+                    proxy: {
+                        host: 'localhost',
+                        port: 3000
+                    }
+                }
+            );
+
+            const albumImageList = albumResponse.data.images.map(image => ({
+                src: image.src,
+                fileName: image.fileName
+            }));
+
+            setAlbumImages(albumImageList)
+
+            setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
+
         } catch (error) {
-            console.error('Error fetching images:', error);
+            console.error('Error fetching images and album:', error);
         }
-        setLoading(false)
     };
 
     const confirmAddToAlbum = async () => {
@@ -55,39 +78,6 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
 
         } catch (error) {
             console.error('Error creating album:', error);
-        }
-
-    }
-
-    const fetchAlbum = async () => {
-
-        if(isNewAlbum)
-            return;
-
-        fetchInsideAlbumTitle()
-        //make backend call to create new album from selected images
-        try {
-            const response = await axios.post(
-                'http://localhost:3000/fetch-album',
-                { albumName: albumTitle }, // Data object
-                { headers: { 'Content-Type': 'application/json' } },
-                {proxy: {
-                        host: 'localhost',
-                        port: 3000
-                    }}
-            );
-
-            const imageList = response.data.images.map(image => ({
-                src: image.src,
-                fileName: image.fileName
-            }));
-
-            setAlbumImages(imageList)
-
-            setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
-
-        } catch (error) {
-            console.error('Error fetching album: ', error);
         }
     }
 
@@ -114,10 +104,19 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
     }, [albumImages.length, albumTitle]);
 
     useEffect(() => {
-        fetchImages();
-        fetchAlbum();
-        setSelectionMode(true)
+
+        setLoading(true);
+        fetchImagesAndAlbum().then(() => {
+            setSelectionMode(true);
+            setLoading(false)
+        });
+
     }, []);
+
+    useEffect(() => {
+        setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
+
+    }, [images, albumImages]);
 
     const toggleSelectImage = (image) => {
         const isSelected = selectedImages.includes(image);

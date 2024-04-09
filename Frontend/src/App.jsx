@@ -35,7 +35,7 @@ function App() {
         setSelectionMode(!selectionMode);
     };
 
-    function fetchInsideAlbumTitle() {
+    const fetchInsideAlbumTitle = async () => {
         setInsideAlbumTitle(location.search.split("=")[1])
     }
 

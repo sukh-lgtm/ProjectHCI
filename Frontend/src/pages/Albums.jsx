@@ -174,7 +174,9 @@ function Albums({ selectionMode, setSelectionMode }) {
                                                 />
                                             
                                             :
-                                                <Link className={`col-start-2 ${isActiveLink('/insideAlbum') ? 'active-nav-link' : 'disabled'}`} to={`/insideAlbum?title=${album.title}`}>
+                                                <Link 
+                                                    className={`col-start-2 ${isActiveLink('/insideAlbum') ? 'active-nav-link' : 'disabled'}`}
+                                                    to={`/insideAlbum?title=${album.title}`}>
                                                     <Image
                                                         thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
                                                         alt={album.title}

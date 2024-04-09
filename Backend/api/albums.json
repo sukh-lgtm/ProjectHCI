@@ -1,11 +1,77 @@
 {
   "albums": [
     {
-      "title": "Ahhh",
+      "title": "Cars",
       "images": [
         {
           "fileName": "corvette-main.jpg",
           "src": "library_images/corvette-main.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "74ovdx9yir281.webp",
+          "src": "library_images/74ovdx9yir281.webp",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "corvette2.jpg",
+          "src": "library_images/corvette2.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "q50.jpg",
+          "src": "library_images/q50.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    },
+    {
+      "title": "Wildlife",
+      "images": [
+        {
+          "fileName": "elephant.jpeg",
+          "src": "library_images/elephant.jpeg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "monkey.jpeg",
+          "src": "library_images/monkey.jpeg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "giraffe.jpeg",
+          "src": "library_images/giraffe.jpeg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "king_julien.jpeg",
+          "src": "library_images/king_julien.jpeg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    },
+    {
+      "title": "Tree",
+      "images": [
+        {
+          "fileName": "palmTree.jpeg",
+          "src": "library_images/palmTree.jpeg",
           "location": "",
           "date": "",
           "tags": []
