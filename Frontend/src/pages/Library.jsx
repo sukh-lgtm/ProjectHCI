@@ -13,14 +13,7 @@ function Library({ selectionMode }) {
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showSellPopup, setSellPopup] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [nextClicked, setNextClicked] = useState(false);
-    const [confirmSell, setConfirmSell] = useState(false);
-    const [saleInfoArray, setSaleInfoArray] = useState([]);
-    const nameInput = useRef();
-    const authorInput = useRef();
-    const costInput = useRef();
-    const tagsInput = useRef();
+    const [fullPageImage, setFullPageImage] = useState(false)
 
     const { images, loading, fetchImages, setImages } = useLibrary();
 
@@ -30,86 +23,14 @@ function Library({ selectionMode }) {
 
     const toggleSellMenuPopup = () => {
         setSellPopup(!showSellPopup);
-        setSaleInfoArray([]);
     };
 
     const sellSelectedImages = async () => {
         toggleSellMenuPopup();
     };
 
-    const toggleConfirmSell = () => {
-        setConfirmSell(!confirmSell);
-    };
-
     const deleteSelectedImages = async () => {
         togglePopup(); // Show the popup for confirmation
-    };
-
-    const toggleNextImage = () => {
-        storeSaleInfo();
-        setNextClicked(true);
-        setCurrentImageIndex(currentIndex => (currentIndex + 1) % selectedImages.length);
-    };
-    const togglePreviousImage = () => {
-        setCurrentImageIndex(currentIndex => (currentIndex - 1 + selectedImages.length) % selectedImages.length);
-    };
-
-    const confirmSellPopup = () => {
-        storeSaleInfo();
-        toggleConfirmSell();
-    };
-
-    const storeSaleInfo = () => {
-        const name = nameInput.current.value;
-        const author = authorInput.current.value;
-        const cost = costInput.current.value;
-        const tags = tagsInput.current.value.split(',').map(tag => tag.trim());
-        const imageSrc = selectedImages[currentImageIndex].src;
-
-        const saleInfoFiller = {
-            name,
-            author,
-            cost,
-            tags,
-            imageSrc
-        };
-
-        setSaleInfoArray(prevArray => [...prevArray, saleInfoFiller]);
-
-        nameInput.current.value = '';
-        authorInput.current.value = '';
-        costInput.current.value = '';
-        tagsInput.current.value = '';
-
-    };
-
-    const submitPictureForSale = async () => {
-        try {
-            const cleanedSaleInfoArray = saleInfoArray.map(info => ({ ...info }));
-            console.log('Cleaned Sale Info Array:', cleanedSaleInfoArray);
-
-            //const jsonString = JSON.stringify(cleanedSaleInfoArray);
-            /*const returnResponse = await Axios.post('http://localhost:3000/submit-sale-info', jsonString, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });*/
-
-            const returnResponse = await Axios.post('http://localhost:3000/submit-sale-info', cleanedSaleInfoArray, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(returnResponse.data);
-        }
-        catch (error) {
-            console.error('Error submitting picture for sale: ', error);
-            if (error.response) {
-                console.log('Error details:', error.response);
-            }
-            throw error;
-        }
     };
 
     const confirmDelete = async () => {
@@ -217,9 +138,19 @@ function Library({ selectionMode }) {
         return new URL(path, import.meta.url).href
     }
 
+    function closeImage() {
+        setFullPageImage(false)
+        setSelectedImages([])
+    }
+
+    function openImage(image) {
+        setFullPageImage(true)
+        setSelectedImages([image])
+        console.log(image)
+    }
+
     return (
         <>
-
             {imagesLength === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
@@ -283,6 +214,19 @@ function Library({ selectionMode }) {
                     </svg>
                     <span className="font-bold ml-4 text-neutral-700">Loading Images</span>
                 </div> :
+                    fullPageImage &&  selectedImages.length>0 ?
+                        <div>
+                            <button className={"absolute top-28 flex self-start"} onClick={closeImage}>
+                                Back
+                            </button>
+                            <div className="flex mx-auto justify-center items-center w-screen h-screen content-center">
+                                <Image
+                                    thumbnail src={getImageUrl(selectedImages[0].src)}
+                                    alt={selectedImages[0].fileName}
+                                    className={`aspect-square object-contain`}
+                                />
+                            </div>
+                        </div> :
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-1 mb-52">
                         {images.map((image, index) => (
@@ -295,6 +239,7 @@ function Library({ selectionMode }) {
                                     <Image
                                         thumbnail src={getImageUrl(image.src)}
                                         alt={image.fileName}
+                                        onClick={() => openImage(image)}
                                         className={`aspect-square w-full h-full object-cover ${selectionMode ? "cursor-pointer" : "cursor-default"} ${selectedImages.includes(image) ? "opacity-70" : ""}`}
                                     />
                                     {selectionMode && selectedImages.includes(image) ?
@@ -333,8 +278,9 @@ function Library({ selectionMode }) {
 
             }
             {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
+            {fullPageImage ? <Actionbar onDelete={deleteSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
             {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4 min-w-screen">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
                     <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
                         <p className="px-4 text-[0.8rem]">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>
@@ -353,119 +299,6 @@ function Library({ selectionMode }) {
                     </div>
                 </div>
             )}
-
-            {showSellPopup && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
-                <div className="bg-slate-200 pt-4 rounded-lg popup-container">
-                    <div className="text-center">
-                        Sell - Picture {currentImageIndex + 1} of {selectedImages.length}
-                    </div>
-                    {selectedImages.length > 0 && (
-                        // <img
-                        // src = {getImageUrl(selectedImages[currentImageIndex].src)}
-                        // className="mx-auto my-4 object-scale-down h-60 w-96"></img>
-                        <Image
-                            thumbnail
-                            src={getImageUrl(selectedImages[currentImageIndex].src)}
-                            alt={selectedImages[currentImageIndex].fileName}
-                            className={` my-4 object-scale-down h-60 w-96 border border-neutral-300 mx-2`}
-                        />
-                    )}
-                    <div className="w-full max-w-screen-lg">
-                        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                        <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                                    Picture Name *
-                                </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nameInput" ref={nameInput} type="text" placeholder="Picture Title" />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
-                                    Author *
-                                </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="authorInput" ref={authorInput} type="text" placeholder="Picture Author" />
-                            </div>
-                            <div className="mb-6">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cost">
-                                    Cost *
-                                </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="costInput" ref={costInput} placeholder="10" />
-                            </div>
-                            <div className="mb-8">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tags">
-                                    Tags *
-                                </label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tagsInput" ref={tagsInput} placeholder="Use , to seperate" />
-                                <p class="text-red-500 text-xs italic my-5">* Required Field</p>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={toggleSellMenuPopup}>
-                                    Cancel
-                                </button>
-                                {nextClicked && (currentImageIndex > 0) && (
-                                <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
-                                type="button"
-                                onClick={togglePreviousImage}
-                            >
-                                Back
-                                </button>
-                                )}
-                                {!(currentImageIndex === selectedImages.length - 1) && (
-                                <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
-                                type="button"
-                                onClick={toggleNextImage}
-                                >
-                                    Next
-                                </button>
-                                )}
-
-                                {currentImageIndex === selectedImages.length - 1 && (
-                                <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline"
-                                type="button"
-                                 onClick={confirmSellPopup}
-                                >
-                                    Sell
-                                </button>
-                                )}
-
-                                {confirmSell && (
-                                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
-                                <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
-
-                                    {currentImageIndex === 0 && (
-                                        <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to sell {numberOfImagesSelected} picture?</p>
-                                    )}
-
-                                    {selectedImages.length > 1 && (
-                                        <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to sell {numberOfImagesSelected} pictures?</p>
-                                    )}
-
-                                    <hr className={"mt-4"}></hr>
-                                    <div className="w-full grid grid-cols-2 mb-0">
-                                        <button className="text-[1.2em] text-blue-800 px-2 py-3 border-r-2"
-                                                onClick={toggleConfirmSell}>
-                                            Cancel
-                                        </button>
-                                        <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
-                                                onClick={submitPictureForSale}
-                                                >
-                                            Sell
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                                )}
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            )}
-            
 
         </>
 

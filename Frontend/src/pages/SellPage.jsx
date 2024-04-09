@@ -137,7 +137,7 @@ function SellPage() {
                                                 required={true}
                                                 value={imageInfo[image.fileName].Name}
                                                 onChange={(e) => handleNameChange(image.fileName, e.target.value)}
-                                                className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50"}
+                                                className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50 invalid:border-red-500"}
                                                 placeholder={"Enter Image Name"}
                                             /> : <>Loading...</>}
                                         </div>
@@ -179,7 +179,7 @@ function SellPage() {
                                                 required={true}
                                                 type="number"
                                                 onChange={(e) => handlePriceChange(image.fileName, e.target.value)}
-                                                className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50 pl-10"}
+                                                className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50 pl-10 invalid:border-red-500"}
                                                 placeholder={"Enter Image Price"}
                                             />
                                         </div>
@@ -202,23 +202,19 @@ function SellPage() {
                                             name="Enter image tags"
                                             placeHolder="Hit enter to add tags"
                                             classNames={{
-                                                input: "flex placeholder:text-[0.85rem] bg-slate-50",
+                                                input: "flex bg-slate-50 w-full",
                                                 tag: "bg-slate-300"
                                             }}
 
                                         /> : <>Loading...</>}
                                 </div>
                             </div>
+
+                            <p className="text-red-500 mt-2 text-xs italic self-start">* Required Fields</p>
                         </div>
                     ))}
                 </div>
 
-                <div className={"flex w-full mt-3 justify-end p-3"}>
-                    <button onClick={addImageSellInfo}
-                            className={"px-5 py-2 border rounded-xl bg-blue-600 text-neutral-200 active:shadow-2xl active:bg-blue-200 active:text-neutral-900"}>
-                        Save
-                    </button>
-                </div>
             </div>
         </div>
     );

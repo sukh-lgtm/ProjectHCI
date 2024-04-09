@@ -35,24 +35,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-let isReadingOrWriting = false;
+let isReadingOrWritingTagFile = false;
+let isReadingOrWritingSellFile = false
 
 async function writeTaggedJson(pictureData) {
-    await waitForReadOrWrite();
-    isReadingOrWriting = true;
+    await waitForReadOrWriteToTag();
+    isReadingOrWritingTagFile = true;
     try {
         await fs.writeFile(jsonFilePath, JSON.stringify(pictureData, null, 2));
         console.log('JSON file generated successfully.');
     } catch (err) {
         console.error('Error writing JSON file:', err);
     }
-    isReadingOrWriting = false;
+    isReadingOrWritingTagFile = false;
     console.log("Done writing");
 }
 
 async function readTaggedImages() {
-    await waitForReadOrWrite();
-    isReadingOrWriting = true;
+    await waitForReadOrWriteToTag();
+    isReadingOrWritingTagFile = true;
     try {
         const data = await fs.readFile(jsonFilePath, 'utf8');
         console.log('Data read successfully.');
@@ -61,14 +62,56 @@ async function readTaggedImages() {
         console.error('Error reading taggedImages.json:', err);
         return "";
     } finally {
-        isReadingOrWriting = false;
+        isReadingOrWritingTagFile = false;
     }
 }
 
-function waitForReadOrWrite() {
+function waitForReadOrWriteToSell() {
     return new Promise(resolve => {
         const checkReadOrWrite = () => {
-            if (!isReadingOrWriting) {
+            if (!isReadingOrWritingSellFile) {
+                resolve();
+            } else {
+                setTimeout(checkReadOrWrite, 100); // Check again after a short delay
+            }
+        };
+        checkReadOrWrite();
+    });
+}
+
+async function writeSellJson(pictureData) {
+    await waitForReadOrWriteToSell();
+    isReadingOrWritingSellFile = true;
+    try {
+        await fs.writeFile(pictureSaleFilePath, JSON.stringify(pictureData, null, 2));
+        console.log('JSON file generated successfully.');
+    } catch (err) {
+        console.error('Error writing JSON file:', err);
+    }
+    isReadingOrWritingSellFile = false;
+    console.log("Here: " , pictureData)
+    console.log("Done writing");
+}
+
+async function readSellImages() {
+    await waitForReadOrWriteToSell();
+    isReadingOrWritingSellFile = true;
+    try {
+        const data = await fs.readFile(pictureSaleFilePath, 'utf8');
+        console.log('Data read successfully.');
+        return data;
+    } catch (err) {
+        console.error('Error reading taggedImages.json:', err);
+        return "";
+    } finally {
+        isReadingOrWritingSellFile = false;
+    }
+}
+
+function waitForReadOrWriteToTag() {
+    return new Promise(resolve => {
+        const checkReadOrWrite = () => {
+            if (!isReadingOrWritingTagFile) {
                 resolve();
             } else {
                 setTimeout(checkReadOrWrite, 100); // Check again after a short delay
@@ -137,7 +180,27 @@ function appendToTaggedPictures() {
 }
 
 
-
+app.post('/getImageUrls', (req, res) => {
+    // Read the images directory and send the list of image filenames to the client
+    const {imageList} = req.body
+    console.log(imageList)
+    res.header("Access-Control-Allow-Origin", "*");
+    fs1.readdir(imagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading images directory:', err);
+            res.status(500).json({ error: 'Error reading images directory' });
+        } else {
+            const imageUrls = files
+                .filter(file => imageList.includes(file))
+                .map(file => ({
+                    id: file, // You can use a unique identifier for each image, such as the filename
+                    src: `http://localhost:3000/library_images/${file}` // Construct the URL for each image
+                }));
+            console.log(imageUrls)
+            return res.status(200).json(imageUrls);
+        }
+    });
+});
 
 
 // Endpoint to fetch images
@@ -200,26 +263,26 @@ app.post('/upload', upload.array('files'), (req, res) => {
     appendToTaggedPictures()
 });
 
-app.post('/submit-sale-info', async (req, res) => {
-    const pictureInfo = req.body;
-
-    try {
-        let currentData=[];
-        if (fs.existsSync(pictureSaleFilePath)) {
-            const existingData = await fs.promises.readFile(pictureSaleFilePath, 'utf-8');
-            currentData = JSON.parse(existingData);
-        }
-
-        currentData.push(...pictureInfo);
-
-        await fs.promises.writeFile(pictureSaleFilePath, JSON.stringify(currentData, null, 2));
-        res.status(200).json({ message: 'Picture posted for sale successfully.' });
-    }
-    catch (error) {
-        console.error("Failed to submit picture for sale.", error);
-        res.status(500).json({error: "An error occured while submitting picture for sale."});
-    }
-}); 
+// app.post('/submit-sale-info', async (req, res) => {
+//     const pictureInfo = req.body;
+//
+//     try {
+//         let currentData=[];
+//         if (fs.existsSync(pictureSaleFilePath)) {
+//             const existingData = await fs.promises.readFile(pictureSaleFilePath, 'utf-8');
+//             currentData = JSON.parse(existingData);
+//         }
+//
+//         currentData.push(...pictureInfo);
+//
+//         await fs.promises.writeFile(pictureSaleFilePath, JSON.stringify(currentData, null, 2));
+//         res.status(200).json({ message: 'Picture posted for sale successfully.' });
+//     }
+//     catch (error) {
+//         console.error("Failed to submit picture for sale.", error);
+//         res.status(500).json({error: "An error occured while submitting picture for sale."});
+//     }
+// });
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
@@ -250,6 +313,52 @@ app.post('/currentImageTags', async (req, res) => {
         res.status(500).json({error: 'Internal Server Error'});
     }
 })
+
+app.post('/updateSellInfo', async (req, res) => {
+    const imageSellJson = req.body
+    let currImgTags;
+    const data = await readSellImages()
+    try {
+        // Parsing existing data
+        if (data.length !== 0) {
+            currImgTags = JSON.parse(data).pictures;
+            for (const imageFile in imageSellJson) {
+                currImgTags[imageFile] = imageSellJson[imageFile]
+            }
+
+            const pictureData = {"pictures": currImgTags};
+
+            await writeSellJson(pictureData)
+        }
+        else{
+            const pictureData = {"pictures": imageSellJson};
+
+            await writeSellJson(pictureData)
+        }
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+    res.status(200).json("updated sell info")
+});
+
+app.get('/getListings', async (req, res) => {
+    let currImgListings;
+    const data = await readSellImages()
+    try {
+        // Parsing existing data
+        if (data.length !== 0) {
+            currImgListings = JSON.parse(data).pictures;
+
+            console.log(currImgListings)
+            return res.status(200).json(currImgListings)
+        }
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+    return res.status(200).json("done")
+});
 
 
 app.post('/updateSeparateTags', async (req, res) => {
@@ -344,6 +453,36 @@ app.post('/deleteTag', async (req, res) => {
     const pictureData = {"pictures": allPictures}
 
     await writeTaggedJson(pictureData)
+
+    res.status(200).json("done")
+});
+
+app.post('/deleteListing', async (req, res) => {
+    const {image} = req.body;
+
+    const data = await readSellImages()
+
+    let jsonData;
+    try {
+        // Parsing existing data
+        jsonData = JSON.parse(data);
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        res.status(500).json({error: 'Internal Server Error'});
+        return;
+    }
+
+    const allPictures = jsonData.pictures
+
+    console.log("All picts: " , allPictures)
+
+    delete allPictures[image];
+
+    console.log("All picts: asdtert " , allPictures)
+
+    const pictureData = {"pictures": allPictures}
+
+    await writeSellJson(pictureData)
 
     res.status(200).json("done")
 });

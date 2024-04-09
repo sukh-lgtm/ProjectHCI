@@ -1,74 +1,259 @@
 {
-  "pictures": [
-    {
-      "name": "1712002449938-414434039",
-      "path": "/library_images/1712002449938-414434039.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+  "pictures": {
+    "1712643426658-388341326-image-1.jpg": {
+      "Path": "/library_images/1712643426658-388341326-image-1.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460021-248080241",
-      "path": "/library_images/1712002460021-248080241.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426662-682296746-image-2.jpg": {
+      "Path": "/library_images/1712643426662-682296746-image-2.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460046-259863732",
-      "path": "/library_images/1712002460046-259863732.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426663-617591182-image-3.jpg": {
+      "Path": "/library_images/1712643426663-617591182-image-3.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460051-824958094",
-      "path": "/library_images/1712002460051-824958094.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426664-900965194-image-4.jpg": {
+      "Path": "/library_images/1712643426664-900965194-image-4.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460054-206920105",
-      "path": "/library_images/1712002460054-206920105.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426665-654549583-image-5.jpg": {
+      "Path": "/library_images/1712643426665-654549583-image-5.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460061-434414689",
-      "path": "/library_images/1712002460061-434414689.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426667-349433909-image-7.jpg": {
+      "Path": "/library_images/1712643426667-349433909-image-7.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460065-430982376",
-      "path": "/library_images/1712002460065-430982376.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426667-914430936-image-6.jpg": {
+      "Path": "/library_images/1712643426667-914430936-image-6.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460066-228970079",
-      "path": "/library_images/1712002460066-228970079.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426668-789725956-image-8.jpg": {
+      "Path": "/library_images/1712643426668-789725956-image-8.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460074-12173217",
-      "path": "/library_images/1712002460074-12173217.jpeg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426669-323990316-image-9.jpg": {
+      "Path": "/library_images/1712643426669-323990316-image-9.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
     },
-    {
-      "name": "1712002460084-76802035",
-      "path": "/library_images/1712002460084-76802035.jpg",
-      "location": "",
-      "date": "",
-      "tags": []
+    "1712643426671-118089739-image-10.jpg": {
+      "Path": "/library_images/1712643426671-118089739-image-10.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426671-782333078-image-11.jpg": {
+      "Path": "/library_images/1712643426671-782333078-image-11.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426672-66017601-image-12.jpg": {
+      "Path": "/library_images/1712643426672-66017601-image-12.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426673-103592330-image-14.jpg": {
+      "Path": "/library_images/1712643426673-103592330-image-14.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426673-482917385-image-13.jpg": {
+      "Path": "/library_images/1712643426673-482917385-image-13.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426674-650372002-image-15.jpg": {
+      "Path": "/library_images/1712643426674-650372002-image-15.jpg",
+      "Name": "",
+      "Location": "Calgary",
+      "Date": "2024-04-01",
+      "Tags": [
+        "Stock",
+        "Pictures"
+      ]
+    },
+    "1712643426675-881611629-image-16.jpg": {
+      "Path": "/library_images/1712643426675-881611629-image-16.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426676-80450097-image-17.jpg": {
+      "Path": "/library_images/1712643426676-80450097-image-17.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426681-906572475-image-18.jpg": {
+      "Path": "/library_images/1712643426681-906572475-image-18.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426683-859281320-image-19.jpg": {
+      "Path": "/library_images/1712643426683-859281320-image-19.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426685-633447953-image-20.jpg": {
+      "Path": "/library_images/1712643426685-633447953-image-20.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426686-347346798-image-21.jpg": {
+      "Path": "/library_images/1712643426686-347346798-image-21.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426687-91685167-image-22.jpg": {
+      "Path": "/library_images/1712643426687-91685167-image-22.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426688-4726566-image-23.jpg": {
+      "Path": "/library_images/1712643426688-4726566-image-23.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426688-585330548-image-24.jpg": {
+      "Path": "/library_images/1712643426688-585330548-image-24.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426689-112446235-image-27.jpg": {
+      "Path": "/library_images/1712643426689-112446235-image-27.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426689-443246235-image-26.jpg": {
+      "Path": "/library_images/1712643426689-443246235-image-26.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426689-57608199-image-25.jpg": {
+      "Path": "/library_images/1712643426689-57608199-image-25.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426690-187285743-image-29.jpg": {
+      "Path": "/library_images/1712643426690-187285743-image-29.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426690-609870189-image-28.jpg": {
+      "Path": "/library_images/1712643426690-609870189-image-28.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
+    },
+    "1712643426691-539854077-image-30.jpg": {
+      "Path": "/library_images/1712643426691-539854077-image-30.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": []
     }
-  ]
+  }
 }

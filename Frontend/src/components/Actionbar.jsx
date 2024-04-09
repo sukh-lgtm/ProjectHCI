@@ -5,7 +5,7 @@ function Actionbar({onDelete, selectedImages, onSellClick}) {
 
     return (
         <div
-            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
+            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-50 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
             <div className="grid grid-cols-4 gap-6">
                 <button disabled={!onImageSelected} type="button"
                         className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>

@@ -37,10 +37,7 @@ function App() {
         switch (currentPage) {
             case 'Tag':
                 setVisible(false);
-                break;
-            case 'Listings':
-                setVisible(false);
-                break;
+                break;z
             case 'Sell':
                 setVisible(false);
                 break;
@@ -53,7 +50,7 @@ function App() {
 
     return (
 
-        <div className= "max-w-screen h-[5000px] bg-gray-300 overflow-x-hidden overflow-hidden" >
+        <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
                 {visible ? <Navbar/> : null}
