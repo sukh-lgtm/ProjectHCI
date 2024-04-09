@@ -34,7 +34,7 @@ function MyListings() {
         // Make a backend call to delete the selected images
         try {
             const response = await axios.post(
-                'http://localhost:3000/delete-images',
+                'https://project-hci-eosin.vercel.app/delete-images',
                 { imageFilenames: selectedImagePath }, // Data object
                 { headers: { 'Content-Type': 'application/json' } },
                 {proxy: {
@@ -55,13 +55,13 @@ function MyListings() {
 
 
     async function setImageListing() {
-        const currImageListings = (await axios.get('http://localhost:3000/getListings')).data
+        const currImageListings = (await axios.get('https://project-hci-eosin.vercel.app/getListings')).data
         const imageList = []
         for (const image in currImageListings) {
             imageList.push(image)
         }
         console.log(imageList)
-        const imagesSourceUrls = (await axios.post('http://localhost:3000/getImageUrls', {imageList})).data
+        const imagesSourceUrls = (await axios.post('https://project-hci-eosin.vercel.app/getImageUrls', {imageList})).data
 
         console.log("Urls: ", imagesSourceUrls)
 
@@ -93,7 +93,7 @@ function MyListings() {
 
     function addImageSellInfo() {
         console.log(imageInfo)
-        axios.post('http://localhost:3000/updateSellInfo', imageInfo).then(r => console.log(r.data))
+        axios.post('https://project-hci-eosin.vercel.app/updateSellInfo', imageInfo).then(r => console.log(r.data))
     }
 
     function handleNameChange(imageName, value) {
@@ -133,7 +133,7 @@ function MyListings() {
 
     function handleDeleteTag(image, tag) {
         const obj = {"images" : [image], "tag": tag}
-        axios.post('http://localhost:3000/deleteTag', obj).then()
+        axios.post('https://project-hci-eosin.vercel.app/deleteTag', obj).then()
     }
 
     function handleEditListing(index) {
@@ -153,7 +153,7 @@ function MyListings() {
         delete updatedImageInfo[deleteFileName];
         setImageInfo(updatedImageInfo);
 
-        axios.post('http://localhost:3000/deleteListing', obj).then(() => {
+        axios.post('https://project-hci-eosin.vercel.app/deleteListing', obj).then(() => {
             setImageListing().then()
         })
         setDeleteFileName("")
