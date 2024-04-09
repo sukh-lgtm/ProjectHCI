@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-import AlbumsActionbar from '../components/AlbumsActionbar.jsx';
+import AlbumsActionbar from '../components/AlbumsActionBar.jsx';
 import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useAlbums} from "../context/AlbumsProvider.jsx";

@@ -330,6 +330,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
 
                                 </div>
 
+
                             </div>
                         ))}
                     </div>
@@ -352,6 +353,36 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
                             <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
                                     onClick={confirmDelete}>
                                 Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showAlbumNamePopup && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                        <p className="px-4 text-[1.0rem] flex justify-center">Create New Album</p>
+
+                        <div className="flex flex-row pt-2 text-neutral-300">
+                            <form className=" mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full flex flex-row px-2">
+                                    <input type="search" id="default-search"
+                                        className="self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                        placeholder="Enter Album Name"
+                                        onChange={(e) => setAlbumName(e.target.value)}/>
+                                </div>
+                            </form>
+                        </div>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-600 px-2 py-3 border-r-2"
+                                    onClick={toggleAlbumNamePopup}>
+                                Cancel
+                            </button>
+                            <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
+                                    onClick={createAlbum}>
+                                Create
                             </button>
                         </div>
                     </div>

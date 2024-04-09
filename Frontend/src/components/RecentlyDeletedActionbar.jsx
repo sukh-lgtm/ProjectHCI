@@ -5,7 +5,7 @@ function RecentlyDeletedActionbar({onDelete, onRestore, selectedImages}) {
 
     return (
         <div
-            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
+            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-50 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
             <div className="flex flex-cols-2 gap-6">
                 <button type="button" disabled={!onImageSelected}
                     className={`m-auto col-start-1 fill-inherit rounded-[36px] place-self-center backdrop-blur-[5rem]bg-slate-400 bg-opacity-40 px-2.5 py-1 ${onImageSelected ? "active-action-link" : "action-bar-button"}`}
