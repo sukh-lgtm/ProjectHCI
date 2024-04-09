@@ -101,7 +101,7 @@ function SellPage() {
     }
 
     return (
-        <div className={"mt-[7.5rem] flex flex-col"}>
+        <div className={"mt-[7.5rem] flex flex-col min-h-screen mb-12"}>
             <div className={"ml-3 text-slate-700 font-bold text-lg"}>
                 Selling {images.length} {images.length > 1 ? "Pictures" : "Picture"}
             </div>

@@ -2,7 +2,7 @@
   "pictures": {
     "1712643426662-682296746-image-2.jpg": {
       "Path": "/library_images/1712643426662-682296746-image-2.jpg",
-      "Name": "",
+      "Name": "Float",
       "Location": "Calgary",
       "Date": "2024-04-01",
       "Tags": [
@@ -108,7 +108,6 @@
       "Location": "Calgary",
       "Date": "2024-04-01",
       "Tags": [
-        "Stock",
         "Pictures"
       ]
     },
