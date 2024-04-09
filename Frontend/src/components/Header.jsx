@@ -167,6 +167,9 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     </div>
                 )
 
+            case 'Account':
+                return(<div></div>)
+
             default:
                 return (<div>
                     <input type="file" id="newAlbumInput" multiple={true} onChange={handleChange} ref={inputFile}
@@ -256,6 +259,9 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                                 width={20} height={20}/> Edit </div>}
                     </button>
                 </div>)
+                
+            case 'Account':
+                return(<div></div>)
             
             case 'LibInAlbum':
                 return (<div>
@@ -312,6 +318,9 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             case 'InsideAlbum':
             case 'LibInAlbum':
                 return (<div></div>)
+                
+            case 'Account':
+                return(<div></div>)
 
             default:
                 return (
@@ -373,7 +382,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
 
                 </div>
-
+                
                 <div>
                     {renderSearchBar(currentPage)}
                 </div>

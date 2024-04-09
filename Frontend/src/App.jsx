@@ -76,7 +76,7 @@ function App() {
                             <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags}/>} />
                             <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
                             <Route path="/explore" element={<Explore />} />
-                            <Route path="/account" element={<Account />} />
+                            <Route path="/account" element={<Account selectionMode={selectionMode} />}/>
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/sell" element={<SellPage />} />
                             <Route path="/listings" element={<MyListings />} />
