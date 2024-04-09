@@ -89,7 +89,7 @@ export const LibraryProvider = ({ children }) => {
     }, []);
 
     return (
-        <LibraryContext.Provider value={{ images, deletedImages, loading, fetchImages, fetchDeletedImages, setDeletedImages, setImages}}>
+        <LibraryContext.Provider value={{ images, deletedImages, loading, fetchImages, fetchDeletedImages, setDeletedImages, setImages, setLoading}}>
             {children}
         </LibraryContext.Provider>
     );

@@ -1,12 +1,12 @@
 import {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
-import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus} from 'lucide-react';
+import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus, PencilLine} from 'lucide-react';
 import {Link} from "react-router-dom";
 
 
 
-function Header({ currentPage, selectionMode, toggleSelectionMode }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode }) {
     const { fetchImages } = useLibrary();
 
     async function handleChange(event) {
@@ -43,6 +43,15 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
         console.log("New Album!");
     }
 
+    const onAddToAlbumClick = () => {
+        console.log("Add To Existing Album!")
+
+    }
+
+    const renameAlbum = () => {
+        console.log("Rename Album!")
+    }
+
     function renderPageHeaderLeft(currentPage) {
         switch (currentPage){
             case 'Tag':
@@ -70,21 +79,48 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                 </div>)
             
             case 'Albums':
-                return (<div>
-                    <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
-                           className={"hidden"}/>
-                    <button type="submit"
+                return (
+                    selectionMode ? <div></div>
+
+                    : <div>
+                        <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
                             onClick={onNewAlbumButtonClick}
-                    >
-                        <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
-                            width={20} height={20}/> New Album
-                        </div>
-                    </button>
+                        >
+                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                width={20} height={20} /> New Album
+                            </div>
+                        </button>
                 </div>)
             
             case 'RecentlyDeleted':
                 return (<div></div>)
+
+            case 'InsideAlbum':
+                return (
+                    selectionMode ?
+                        <div>
+                            <button type="submit"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                onClick={onAddToAlbumClick}
+                            >
+                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                    width={20} height={20} /> Add
+                                </div>
+                            </button>
+                        </div>
+                        : <div>
+
+                            <Link to="/albums">
+                                <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                                    <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                        width={20} height={20} /> Back
+                                    </div>
+                                </button>
+                            </Link>
+                        </div>
+                )
 
             default:
                 return (<div>
@@ -140,6 +176,19 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 )
 
+            case 'InsideAlbum':
+                return (<div>
+                    <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={toggleSelectionMode}>
+                        {selectionMode ?
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Done </div> :
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><PencilLine
+                                width={20} height={20}/> Edit </div>}
+                    </button>
+                </div>)
+
             default:
                 return (<div>
                     <button type="button"
@@ -177,7 +226,9 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </div>
                 </div>)
             
+            //intentional fallthrough
             case 'RecentlyDeleted':
+            case 'InsideAlbum':
                 return (<div></div>)
 
             default:
@@ -205,7 +256,9 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
     function renderPageTitle(currentPage) {
         switch(currentPage) {
             case "RecentlyDeleted":
-                return (<div className="relative translate-x-10">Recently Deleted</div>)
+                return (<div className="text-center text-xl text-nowrap">Recently Deleted</div>)
+            case "InsideAlbum":
+                return (<div>{insideAlbumTitle}</div>)
             default:
                 return (<div>{currentPage}</div>)
         }
@@ -215,14 +268,18 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
         <div>
             <div
                 className="fixed top-0 left-0 w-full z-50 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
-                <div className="flex flex-row items-center content-center justify-between">
-                    {renderPageHeaderLeft(currentPage)}
+                <div className="grid grid-cols-3 items-center content-center">
+                    <div className="flex col-start-1 justify-self-start">
+                        {renderPageHeaderLeft(currentPage)}
+                    </div>
 
-                    <div className={"text-slate-700 text-xl font-bold"}>
+                    <div className={"text-slate-700 text-xl font-bold col-start-2 justify-self-center"}>
                         {renderPageTitle(currentPage)}
                     </div>
 
-                    {renderPageHeaderRight(currentPage)}
+                    <div className="flex col-start-3 justify-self-end">
+                        {renderPageHeaderRight(currentPage)}
+                    </div>
 
 
                 </div>

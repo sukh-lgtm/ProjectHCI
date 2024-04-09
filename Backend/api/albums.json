@@ -1,18 +1,11 @@
 {
   "albums": [
     {
-      "title": "Wildlife",
+      "title": "Cars",
       "images": [
         {
-          "fileName": "king_julien.jpeg",
-          "src": "library_images/king_julien.jpeg",
-          "location": "",
-          "date": "",
-          "tags": []
-        },
-        {
-          "fileName": "elephant.jpeg",
-          "src": "library_images/elephant.jpeg",
+          "fileName": "q50.jpg",
+          "src": "library_images/q50.jpg",
           "location": "",
           "date": "",
           "tags": []

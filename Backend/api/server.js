@@ -136,6 +136,27 @@ function appendToTaggedPictures() {
     })
 }
 
+// Endpoint to fetch single album
+app.post('/fetch-album', (req, res) => {
+    //read the albums json
+    const fileJSON = JSON.parse(fs1.readFileSync(albumsJSON))
+
+    //get the specified album from the albums json
+    for (album of fileJSON.albums) {
+        if(album.title === req.body.albumName) {
+            for (image of album.images) {
+                image.src = "http://localhost:3000/" + image.src;
+                image.fileName = image.fileName
+            }
+
+            return res.json(album)
+        }
+    }
+
+    //if we did not find the album something went wrong
+    return res.status(500).json({ error: 'Error fetching album: ' + req.body.albumName });
+});
+
 
 
 
@@ -249,6 +270,52 @@ app.post('/delete-images', (req, res) => {
     fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
 
     res.status(200).send("Images moved successfully.");
+});
+
+// Endpoint to move images
+app.post('/remove-album-images', (req, res) => {
+    // Assuming the client sends a list of image filenames to move
+    const imageFilenames = req.body.imageFileNames;
+    const albumName = req.body.albumName;
+
+    //for each image to be deleted, remove it from any albums it is in
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileNew = JSON.parse('{"albums": []}')
+
+    //find the album we are removing images from, and then remove the necessary images
+    for (album of albumsFile.albums) { 
+        if (album.title !== albumName) {
+            albumsFileNew.albums.push(album)
+            continue;
+        }
+
+        albumsFileNew.albums.push({
+            title: album.title,
+            images: []
+        });
+
+        for (image of album.images) {
+            if(!imageFilenames.includes(image.fileName))
+                albumsFileNew.albums[albumsFileNew.albums.length - 1].images.push(image)
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    //go through albums, if there are any albums that are "empty", make sure to delete the album itself (i.e., don't copy it)
+    albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    albumsFileNew = JSON.parse('{"albums": []}')
+    for (let i = 0; i < albumsFile.albums.length; i++) { 
+        if(albumsFile.albums[i].images.length > 0) {
+            albumsFileNew.albums.push({
+                title: albumsFile.albums[i].title,
+                images: albumsFile.albums[i].images
+            });
+        }
+    }
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    res.status(200).send("Images removed from album successfully.");
 });
 
 // Endpoint to delete albums

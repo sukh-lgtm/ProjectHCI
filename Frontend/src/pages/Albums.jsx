@@ -76,7 +76,6 @@ function Albums({ selectionMode, setSelectionMode }) {
     }
 
     const onNewAlbumButtonClick = () => {
-        // `current` points to the mounted file input element
         console.log("New Album!")
     };
 
@@ -125,7 +124,7 @@ function Albums({ selectionMode, setSelectionMode }) {
     return (
         <>
             {albums.length === 0 ?
-                <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
+                <div className={"flex justify-center place-self-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -153,8 +152,7 @@ function Albums({ selectionMode, setSelectionMode }) {
                     </div>
 
                     <div className={"mt-6 text-neutral-800"}>
-                        Tap <input type="file" id="newAlbum" multiple={true} onChange={handleChange}
-                                   className={"hidden"}/>
+                        Tap
                         <button type="submit"
                                 className="border-black border rounded-full bg-gray-400  px-1.5 py-0.5 "
                                 onClick={onNewAlbumButtonClick}
@@ -191,11 +189,23 @@ function Albums({ selectionMode, setSelectionMode }) {
                                         onClick={() => selectionMode && toggleSelectedAlbum(album)}
                                         className={`${selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative w-full h-full rounded-lg" : "relative col-span-6 w-full h-full rounded-lg"}`}
                                     >
-                                        <Image
-                                            thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
-                                            alt={album.title}
-                                            className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
-                                        />
+                                        {
+                                            selectionMode ?
+                                                <Image
+                                                    thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
+                                                    alt={album.title}
+                                                    className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
+                                                />
+                                            
+                                            :
+                                                <Link className={`col-start-2 ${isActiveLink('/insideAlbum') ? 'active-nav-link' : 'disabled'}`} to={`/insideAlbum?title=${album.title}`}>
+                                                    <Image
+                                                        thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
+                                                        alt={album.title}
+                                                        className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
+                                                    />
+                                                </Link>
+                                        }
                                         <div className={"text-slate-700 text-lg col-span-1 font-bold"}>
                                             {album.title}
                                         </div>
@@ -235,9 +245,9 @@ function Albums({ selectionMode, setSelectionMode }) {
                         ))  /*albums.map(album => ...*/ }
                     </div>
                 </div>
-
             }
-            {selectionMode ? <AlbumsActionbar onDelete={deleteSelectedAlbums} selectedAlbums={selectedAlbums}/> : null}
+
+            {selectionMode ? <AlbumsActionbar onDelete={deleteSelectedAlbums} selectedAlbums={selectedAlbums} /> : null}
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
@@ -264,7 +274,7 @@ function Albums({ selectionMode, setSelectionMode }) {
             )}
 
             {!selectionMode ?
-                <div className="sticky grid grid-cols-3">
+                <div className="absolute inset-x-0 bottom-[70px] h-16 grid grid-cols-3">
                     <Link className={`col-start-2 ${isActiveLink('/recentlyDeleted') ? 'active-nav-link' : ''}`} to="/recentlyDeleted">
                         <button type="button"
                             className="ml-auto rounded-[36px] place-self-center backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">

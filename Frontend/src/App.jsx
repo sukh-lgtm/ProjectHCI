@@ -12,21 +12,31 @@ import RecentlyDeleted from './pages/RecentlyDeleted.jsx';
 import { LibraryProvider } from './context/LibraryProvider.jsx';
 import { AlbumsProvider } from './context/AlbumsProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
+import InsideAlbum from './pages/InsideAlbum.jsx';
 
 function App() {
     const [count, setCount] = useState(0)
     const [selectionMode, setSelectionMode] = useState(false);
+    const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
 
     const location = useLocation();
 
     useEffect(() => {
-        if(currentPage !== 'RecentlyDeleted')
+        if((currentPage !== 'RecentlyDeleted') && (currentPage !== 'InsideAlbum'))
             setSelectionMode(false);
+
+        if(currentPage === 'InsideAlbum')
+            fetchInsideAlbumTitle();
+
     }, [location]);
 
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
     };
+
+    function fetchInsideAlbumTitle() {
+        setInsideAlbumTitle(location.search.split("=")[1])
+    }
 
     const locationPath = location.pathname.substring(1)
     const currentPage = locationPath.charAt(0).toUpperCase() + locationPath.slice(1);
@@ -51,7 +61,7 @@ function App() {
         <div className= "max-w-screen h-[5000px] bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
-                    <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} />
+                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} />
                     {!selectionMode ? <Navbar /> : null}
                     <div>
                         <Routes>
@@ -61,6 +71,7 @@ function App() {
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
+                            <Route path="/insideAlbum" element={<InsideAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
                         </Routes>
                     </div>
                 </AlbumsProvider>
