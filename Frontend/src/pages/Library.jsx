@@ -5,9 +5,10 @@ import Actionbar from "../components/Actionbar.jsx";
 import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
-// import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/api/PictureSale.json';
 
 function Library({ selectionMode }) {
+
+    console.log(selectionMode)
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
@@ -83,7 +84,6 @@ function Library({ selectionMode }) {
     };
 
     const submitPictureForSale = async () => {
-        debugger;
         try {
             const cleanedSaleInfoArray = saleInfoArray.map(info => ({ ...info }));
             console.log('Cleaned Sale Info Array:', cleanedSaleInfoArray);
@@ -225,7 +225,7 @@ function Library({ selectionMode }) {
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_0_1)">
+                            <g clipPath="url(#clip0_0_1)">
                                 <path
                                     d="M50.0003 63.3307C57.3641 63.3307 63.3337 57.3612 63.3337 49.9974C63.3337 42.6336 57.3641 36.6641 50.0003 36.6641C42.6365 36.6641 36.667 42.6336 36.667 49.9974C36.667 57.3612 42.6365 63.3307 50.0003 63.3307Z"
                                     fill="#9C9A9A"/>
@@ -234,12 +234,12 @@ function Library({ selectionMode }) {
                                     fill="#9C9A9A"/>
                             </g>
                             <line x1="2.13835" y1="14.2292" x2="94.1384" y2="85.2292" stroke="url(#paint0_linear_0_1)"
-                                  stroke-width="7"/>
+                                  strokeWidth="7"/>
                             <defs>
                                 <linearGradient id="paint0_linear_0_1" x1="49.737" y1="56.5441" x2="55.8809"
                                                 y2="49.1346" gradientUnits="userSpaceOnUse">
                                     <stop/>
-                                    <stop offset="1" stop-color="#D8D8D8"/>
+                                    <stop offset="1" stopColor="#D8D8D8"/>
                                 </linearGradient>
                                 <clipPath id="clip0_0_1">
                                     <rect width="100" height="100" fill="white"/>
@@ -284,7 +284,7 @@ function Library({ selectionMode }) {
                     <span className="font-bold ml-4 text-neutral-700">Loading Images</span>
                 </div> :
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
-                    <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
+                    <div className="grid grid-cols-3 mx-2 my-2 gap-1 mb-52">
                         {images.map((image, index) => (
 
                             <div key={index}>
@@ -332,9 +332,9 @@ function Library({ selectionMode }) {
                 </div>
 
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} selectedImages={selectedImages}/> : null}
+            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
             {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
                     <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
                         <p className="px-4 text-[0.8rem]">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>
@@ -353,18 +353,23 @@ function Library({ selectionMode }) {
                     </div>
                 </div>
             )}
-            
-            {selectionMode ? <Actionbar onSellClick={sellSelectedImages} selectedImages={selectedImages}/> : null}
+
             {showSellPopup && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
-                <div className="bg-white pt-4 rounded-lg popup-container">
+                <div className="bg-slate-200 pt-4 rounded-lg popup-container">
                     <div className="text-center">
                         Sell - Picture {currentImageIndex + 1} of {selectedImages.length}
                     </div>
                     {selectedImages.length > 0 && (
-                        <img
-                        src = {getImageUrl(selectedImages[currentImageIndex].src)}
-                        className="mx-auto my-4 object-scale-down h-60 w-96"></img>
+                        // <img
+                        // src = {getImageUrl(selectedImages[currentImageIndex].src)}
+                        // className="mx-auto my-4 object-scale-down h-60 w-96"></img>
+                        <Image
+                            thumbnail
+                            src={getImageUrl(selectedImages[currentImageIndex].src)}
+                            alt={selectedImages[currentImageIndex].fileName}
+                            className={` my-4 object-scale-down h-60 w-96 border border-neutral-300 mx-2`}
+                        />
                     )}
                     <div className="w-full max-w-screen-lg">
                         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -451,7 +456,7 @@ function Library({ selectionMode }) {
                                         </button>
                                     </div>
                                 </div>
-                            </div>                                    
+                            </div>
                                 )}
 
                             </div>

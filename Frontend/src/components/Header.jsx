@@ -56,6 +56,30 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 </div>)
 
+            case 'Listings':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
+            case 'Sell':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
             case 'Explore':
                 return (<div>
                     <Link to="/library">
@@ -98,9 +122,32 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 )
 
-            case 'Explore':
+            case 'Listings':
                 return (
                     <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Done
+                            </div>
+                        </button>
+                    </Link>
+                )
+
+            case 'Sell':
+                return (
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Post
+                            </div>
+                        </button>
+                    </Link>
+                )
+            case 'Explore':
+                return (
+                    <Link to="/listings">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><List
@@ -128,7 +175,7 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
     return (
         <div>
             <div
-                className="fixed top-0 left-0 w-full z-50 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
+                className="fixed top-0 left-0 w-full z-30 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
                 <div className="flex flex-row items-center content-center justify-between">
                     {renderPageHeaderLeft(currentPage)}
 

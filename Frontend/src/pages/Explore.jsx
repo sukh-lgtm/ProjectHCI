@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Saleinfo from './Saleinfo';
-import data from '/Users/Shaheryar Syed/Desktop/University/Winter 2024/CPSC 481/Assignment3_Github/ProjectHCI/Backend/explore_images/explorePictures.json';
+import data from '../../../Backend/explore_images/explorePictures.json';
 function Explore() {
     
     const [selectedItem, setSelectedItem] = useState(null);

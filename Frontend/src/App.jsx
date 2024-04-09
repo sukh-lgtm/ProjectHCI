@@ -10,6 +10,8 @@ import Navbar from "./components/Navbar.jsx";
 import TagPage from "./pages/TagPage.jsx";
 import { LibraryProvider } from './context/LibraryProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
+import SellPage from "./pages/SellPage.jsx";
+import MyListings from "./pages/MyListings.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -36,6 +38,12 @@ function App() {
             case 'Tag':
                 setVisible(false);
                 break;
+            case 'Listings':
+                setVisible(false);
+                break;
+            case 'Sell':
+                setVisible(false);
+                break;
             default:
                 setVisible(!selectionMode);
                 break;
@@ -56,6 +64,8 @@ function App() {
                         <Route path="/explore" element={<Explore/>}/>
                         <Route path="/account" element={<Account/>}/>
                         <Route path="/tag" element={<TagPage/>}/>
+                        <Route path="/sell" element={<SellPage/>}/>
+                        <Route path="/listings" element={<MyListings/>}/>
                     </Routes>
                 </div>
             </LibraryProvider>
