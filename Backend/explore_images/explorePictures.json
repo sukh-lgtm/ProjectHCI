@@ -1,11 +1,11 @@
 [
     {
         "id": 0,
-        "title": "Image A",
+        "title": "Chile",
         "description": "As I raised my camera to capture this fleeting moment, I couldn't help but feel humbled by the sheer magnificence before me.",
         "author": "Alice",
         "dateTaken": "4/5/2024",
-        "location": "Location where photo was taken",
+        "location": "The Southern Andes",
         "price" : "$10",
         "url": "https://picsum.photos/seed/a/800"
     },

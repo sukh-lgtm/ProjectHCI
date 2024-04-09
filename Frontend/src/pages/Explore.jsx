@@ -108,6 +108,7 @@ function Explore() {
           preview={selectedItem.url}
           author={selectedItem.author}
           date={selectedItem.dateTaken}
+          location={selectedItem.location}
         />
       ) : null}
       <Filters />

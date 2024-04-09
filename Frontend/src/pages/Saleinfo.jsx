@@ -1,7 +1,7 @@
 import React from 'react';
 import { Check, X } from 'lucide-react';
 
-function SaleInfo({ show, onClose, title, description, price, preview, author, date}) {
+function SaleInfo({ show, onClose, title, description, price, preview, author, date, location}) {
   if (!show) {
     return null;
   }
@@ -22,8 +22,8 @@ function SaleInfo({ show, onClose, title, description, price, preview, author, d
                 </h3>
                 <div className="mt-2">
                 <img src={preview} alt="" />
-                  <p className="text-sm text-gray-800">Picture by {author}</p>
-                  <p className="text-sm text-gray-800">Taken on {date}</p>
+                  <p className="text-sm text-gray-800">Picture by {author} on {date} </p>
+                  <p className="text-sm text-gray-800">{location}</p>
                   <p className="text-sm text-gray-500">{description}</p>
                 </div>
                 <button onClick={onClose} className="backdrop-blur-[5rem]bg-opacity-40 mt-4 px-5 py-1 rounded-3xl outline outline-slate-700 bg-green-400">{price} PURCHASE</button>
