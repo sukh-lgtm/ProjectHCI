@@ -68,6 +68,9 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 </div>)
 
+            case 'Account':
+                return(<div></div>)
+
             default:
                 return (<div>
                     <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
@@ -109,6 +112,10 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </button>
                     </Link>
                 )
+
+            case 'Account':
+                return(<div></div>)
+
             default:
                 return (<div>
                     <button type="button"
@@ -123,6 +130,29 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                 </div>)
         }
 
+    }
+
+    function renderPageHeaderBottom(currentPage) {
+        switch(currentPage) {
+            case 'Account':
+                return(<div></div>)
+
+            default:
+                return(<div className="flex flex-row pt-2 text-neutral-300">
+                <form className=" mx-auto w-full">
+                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                    <div className="relative w-full flex flex-row">
+                        <input type="search" id="default-search"
+                               className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                               placeholder="Search photo tags"/>
+                        <button type="submit"
+                                className="text-neutral-900 absolute start-3 bottom-3 ml-1">
+                            <i className="fa fa-search mr-2 text-neutral-900"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>)
+        }
     }
 
     return (
@@ -142,21 +172,7 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
                 </div>
 
-
-                <div className="flex flex-row pt-2 text-neutral-300">
-                    <form className=" mx-auto w-full">
-                    <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                        <div className="relative w-full flex flex-row">
-                            <input type="search" id="default-search"
-                                   className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                                   placeholder="Search photo tags"/>
-                            <button type="submit"
-                                    className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                                <i className="fa fa-search mr-2 text-neutral-900"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                {renderPageHeaderBottom(currentPage)}
 
             </div>
         </div>

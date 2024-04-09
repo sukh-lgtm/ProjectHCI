@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 
 import Actionbar from '../components/Actionbar';
-import Axios from "axios";
+import axios from "axios";
 import {Image} from "react-bootstrap";
+import {useLibrary} from "../context/LibraryProvider.jsx";
 
 function Account({ selectionMode }) {
 
     const [loggedIn, setLoggedIn] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
+
+    const { images, loading, fetchImages, setImages } = useLibrary();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -31,21 +34,25 @@ function Account({ selectionMode }) {
         }
     }
 
+    function getImageUrl(path) {
+        return new URL(path, import.meta.url).href
+    }
+
     return (
         <>
         {
             loggedIn ?
-            <div class="flex items-center justify-center max-h-screen bg-gray-800">
+            <div class="flex items-center justify-center max-h-screen bg-gray-300">
                 <form action="">
-                    <div className="flex pt-14 mx-auto justify-center self-center items-center">
-                        <img src="images/Default_pfp.png" alt="Blank Profile Picture" class="w-48 h-48 object-cover border-2 border-gray-700 rounded-full mx-auto"/>
+                    <div className="flex pt-20 mx-auto justify-center self-center items-center">
+                        <img class="w-36 h-36 object-cover border-2 border-gray-700 bg-gray-700 rounded-full mx-auto" src="/Default_pfp.png" alt="Blank Profile Picture"/>
                     </div>
-                    <div className="w-full max-w-full h-25 pt-8 flex flex-col justify-center self-center items-center">
+                    <div className="w-full max-w-full h-25 pt-6 flex flex-col justify-center self-center items-center">
                         <button type="button" className="text-black focus:text-red-500 bg-gray-400 rounded-[25px] text-base px-5 py-2.5">
                             Edit Profile
                         </button>
                     </div>
-                    <div className="flex flex-row px-4 w-screen pt-8 justify-center align-middle items-center overflow-x-hidden">
+                    <div className="flex flex-row px-4 w-screen pt-6 justify-center align-middle items-center overflow-x-hidden">
                         <div className="grid grid-flow-row-dense grid-rows-5 border-4 border-gray-700 bg-gray-400 rounded-2xl">
                             <h2 className="font-bold text-2xl place-self-center">User Info</h2>
                             <div className="ml-5 my-1">
@@ -74,7 +81,7 @@ function Account({ selectionMode }) {
                             </div>
                         </div>
                     </div>
-                    <div className="static w-full max-w-full pt-8 flex justify-center align-middle self-center items-center">
+                    <div className="static w-full max-w-full pt-6 flex justify-center align-middle self-center items-center">
                         <button type="button" className="text-black focus:text-red-600 bg-gray-400 rounded-[36px] text-base px-5 py-2.5"
                                 onClick={toggleLogin}>
                             <i className="fa fa-sign-out text-black"></i>Log Out
@@ -82,20 +89,20 @@ function Account({ selectionMode }) {
                     </div>
                 </form>
             </div> :
-            <body class="flex items-center justify-center min-h-screen bg-gray-200">
-                <div class="main bg-white rounded-lg p-10 w-screen text-center">
+            <body class="flex items-center justify-center min-h-screen bg-gray-300">
+                <div class="main bg-slate-400 rounded-lg p-10 w-screen text-center">
                     <h3 class="text-lg">
                         Login or Sign Up
                     </h3>
                     <form action="">
-                        <label for="first" class="block mt-4 mb-2 text-left text-gray-700 font-bold">Username:</label>
+                        <label for="first" class="block mt-4 mb-2 text-left text-gray-800 font-bold">Username:</label>
                         <input type="text" id="first" name="first"
                             placeholder="Enter your Username"
                             class="block w-full mb-6 px-4 py-2 border 
                             border-gray-300 rounded-md focus:outline-none" required>
                         </input>        
                                 
-                        <label for="password" class="block mb-2 text-left text-gray-700 font-bold">Password:</label>
+                        <label for="password" class="block mb-2 text-left text-gray-800 font-bold">Password:</label>
                         <input type="password" id="password" name="password"
                             placeholder="Enter your Password"
                             class="block w-full mb-6 px-4 py-2 border 
