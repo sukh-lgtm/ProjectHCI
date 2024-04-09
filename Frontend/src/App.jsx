@@ -47,16 +47,18 @@ function App() {
         }
     }, [currentPage, selectionMode]);
 
+    const [searchTags, setSearchTags] = useState([])
+
 
     return (
 
         <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
-                <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
+                <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags}/>
                 {visible ? <Navbar/> : null}
                 <div>
                     <Routes>
-                        <Route path="/library" element={<Library selectionMode={selectionMode} />}/>
+                        <Route path="/library" element={<Library selectionMode={selectionMode} searchTags={searchTags}/>}/>
                         <Route path="/albums" element={<Albums/>}/>
                         <Route path="/explore" element={<Explore/>}/>
                         <Route path="/account" element={<Account/>}/>

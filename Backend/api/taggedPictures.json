@@ -1,15 +1,5 @@
 {
   "pictures": {
-    "1712643426658-388341326-image-1.jpg": {
-      "Path": "/library_images/1712643426658-388341326-image-1.jpg",
-      "Name": "",
-      "Location": "Calgary",
-      "Date": "2024-04-01",
-      "Tags": [
-        "Stock",
-        "Pictures"
-      ]
-    },
     "1712643426662-682296746-image-2.jpg": {
       "Path": "/library_images/1712643426662-682296746-image-2.jpg",
       "Name": "",
@@ -17,6 +7,7 @@
       "Date": "2024-04-01",
       "Tags": [
         "Stock",
+        "Test",
         "Pictures"
       ]
     },
@@ -26,7 +17,7 @@
       "Location": "Calgary",
       "Date": "2024-04-01",
       "Tags": [
-        "Stock",
+        "Test",
         "Pictures"
       ]
     },
@@ -37,6 +28,7 @@
       "Date": "2024-04-01",
       "Tags": [
         "Stock",
+        "Test",
         "Pictures"
       ]
     },

@@ -6,7 +6,7 @@ import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode }) {
+function Library({ selectionMode, searchTags }) {
 
     console.log(selectionMode)
 
@@ -115,6 +115,21 @@ function Library({ selectionMode }) {
         setSelectedImages([]);
     }, [selectionMode]);
 
+    function fetchSearchImages(searchTags) {
+        let newImageList
+        axios.post('http://localhost:3000/getImagesByTags', searchTags).then(r => {
+            newImageList = r.data.map((image, index) => ({
+                src: image.src,
+                fileName: image.id
+            }));
+            setImages(newImageList)
+        })
+    }
+
+    useEffect(() => {
+        fetchSearchImages(searchTags);
+    }, [searchTags]);
+
     useEffect(() => {
         fetchImages();
     }, []);
@@ -150,7 +165,7 @@ function Library({ selectionMode }) {
     }
 
     return (
-        <>
+        <div className={"h-screen"}>
             {imagesLength === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
@@ -300,7 +315,7 @@ function Library({ selectionMode }) {
                 </div>
             )}
 
-        </>
+        </div>
 
     )
 

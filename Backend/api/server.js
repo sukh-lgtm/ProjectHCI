@@ -384,6 +384,43 @@ app.post('/updateSeparateTags', async (req, res) => {
     res.status(200).json("done")
 });
 
+app.post('/getImagesByTags', async (req, res) => {
+    const searchTags = req.body
+    const data = await readTaggedImages()
+
+    let jsonData;
+    try {
+        // Parsing existing data
+        jsonData = JSON.parse(data);
+    } catch (parseErr) {
+        console.error('Error parsing JSON from taggedImages.json:', parseErr);
+        return res.status(500).json({error: 'Internal Server Error'});
+    }
+
+    const imageKeys = Object.keys(jsonData.pictures);
+    const matchingImages = imageKeys.filter(key => {
+        const image = jsonData.pictures[key];
+        return searchTags.every(tag => image.Tags.includes(tag));
+    });
+    console.log(matchingImages);
+
+    fs1.readdir(imagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading images directory:', err);
+            return res.status(500).json({ error: 'Error reading images directory' });
+        } else {
+            const imageUrls = files
+                .filter(file => matchingImages.includes(file))
+                .map(file => ({
+                    id: file, // You can use a unique identifier for each image, such as the filename
+                    src: `http://localhost:3000/library_images/${file}` // Construct the URL for each image
+                }));
+            console.log(imageUrls)
+            return res.status(200).json(imageUrls);
+        }
+    });
+});
+
 
 app.post('/updateCommonTags', async (req, res) => {
     const {images, Location, Date, Tags} = req.body;

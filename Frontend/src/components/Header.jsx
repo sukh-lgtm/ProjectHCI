@@ -7,8 +7,18 @@ import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, selectionMode, toggleSelectionMode }) {
+function Header({ currentPage, selectionMode, toggleSelectionMode, setSearchTags }) {
     const { fetchImages } = useLibrary();
+
+    function handleSearchInput(tags){
+        setSearchTags(tags)
+    }
+
+    function handleSearchTagRemove(tag){
+        setSearchTags(prevItems => {
+            return prevItems.filter(item => item !== tag);
+        });
+    }
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -197,6 +207,8 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         <div className="relative w-full">
                             <TagsInput
                                 isEditOnRemove
+                                onChange={(tags) => handleSearchInput(tags)}
+                                onRemoved={(tag) => handleSearchTagRemove(tag)}
                                 name="Enter image tags"
                                 placeHolder="Search by tags"
                                 classNames={{
