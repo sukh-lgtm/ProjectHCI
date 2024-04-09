@@ -31,7 +31,7 @@ export const LibraryProvider = ({ children }) => {
 
         try {
             const response = await Axios.post(
-                'https://localhost:3000/upload',
+                'http://localhost:3000/upload',
                 formData// Data object
             );
         } catch (error) {
@@ -49,7 +49,7 @@ export const LibraryProvider = ({ children }) => {
     const fetchImages = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://localhost:3000/fetch-images', {
+            const response = await axios.get('http://localhost:3000/fetch-images', {
 
             });
             const imageList = response.data.images.map((image, index) => ({

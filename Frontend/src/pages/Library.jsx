@@ -48,7 +48,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         // Make a backend call to delete the selected images
         try {
             const response = await axios.post(
-                'https://localhost:3000/delete-images',
+                'http://localhost:3000/delete-images',
                 { imageFilenames: selectedImagePath }, // Data object
                 { headers: { 'Content-Type': 'application/json' } },
                 {proxy: {
@@ -105,7 +105,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
 
         try {
             const response = axios.post(
-                'https://localhost:3000/upload',
+                'http://localhost:3000/upload',
                 formData// Data object
             );
         } catch (error) {
@@ -148,7 +148,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
 
     function fetchSearchImages(searchTags) {
         let newImageList
-        axios.post('https://localhost:3000/getImagesByTags', searchTags).then(r => {
+        axios.post('http://localhost:3000/getImagesByTags', searchTags).then(r => {
             newImageList = r.data.map((image, index) => ({
                 src: image.src,
                 fileName: image.id

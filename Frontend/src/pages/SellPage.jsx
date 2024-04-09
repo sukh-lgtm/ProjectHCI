@@ -27,12 +27,12 @@ function SellPage() {
 
     function addImageSellInfo() {
         console.log(imageInfo)
-        axios.post('https://localhost:3000/updateSellInfo', imageInfo).then(r => console.log(r.data))
+        axios.post('http://localhost:3000/updateSellInfo', imageInfo).then(r => console.log(r.data))
     }
 
     async function setImageSellInfo() {
         const obj = {"images": selectedImagesFilenames}
-        const currImageTags = (await axios.post('https://localhost:3000/currentImageTags', obj)).data
+        const currImageTags = (await axios.post('http://localhost:3000/currentImageTags', obj)).data
 
         console.log("tags: ", currImageTags)
 
@@ -97,7 +97,7 @@ function SellPage() {
 
     function handleDeleteTag(image, tag) {
         const obj = {"images" : [image], "tag": tag}
-        axios.post('https://localhost:3000/deleteTag', obj).then()
+        axios.post('http://localhost:3000/deleteTag', obj).then()
     }
 
     return (

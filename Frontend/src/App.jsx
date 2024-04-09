@@ -69,11 +69,11 @@ function App() {
         <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
-                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} />
+                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags}/>
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
-                            <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
+                            <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags}/>} />
                             <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
