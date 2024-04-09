@@ -2,3 +2,4 @@
 .vscode
 node_modules/**
 src/output.css
+Backend/api/node_modules/**

@@ -10,6 +10,8 @@ import Navbar from "./components/Navbar.jsx";
 import TagPage from "./pages/TagPage.jsx";
 import { LibraryProvider } from './context/LibraryProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
+import SellPage from "./pages/SellPage.jsx";
+import MyListings from "./pages/MyListings.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -35,6 +37,9 @@ function App() {
         switch (currentPage) {
             case 'Tag':
                 setVisible(false);
+                break;z
+            case 'Sell':
+                setVisible(false);
                 break;
             default:
                 setVisible(!selectionMode);
@@ -42,20 +47,24 @@ function App() {
         }
     }, [currentPage, selectionMode]);
 
+    const [searchTags, setSearchTags] = useState([])
+
 
     return (
 
-        <div className= "max-w-screen h-[5000px] bg-gray-300 overflow-x-hidden overflow-hidden" >
+        <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
-                <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>
+                <Header currentPage={currentPage} selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags}/>
                 {visible ? <Navbar/> : null}
                 <div>
                     <Routes>
-                        <Route path="/library" element={<Library selectionMode={selectionMode} />}/>
+                        <Route path="/library" element={<Library selectionMode={selectionMode} searchTags={searchTags}/>}/>
                         <Route path="/albums" element={<Albums/>}/>
                         <Route path="/explore" element={<Explore/>}/>
                         <Route path="/account" element={<Account/>}/>
                         <Route path="/tag" element={<TagPage/>}/>
+                        <Route path="/sell" element={<SellPage/>}/>
+                        <Route path="/listings" element={<MyListings/>}/>
                     </Routes>
                 </div>
             </LibraryProvider>

@@ -114,7 +114,7 @@ function CommonTag({selectedImages}) {
     }
 
     return (
-        <>
+        <div className={"min-h-screen"}>
             {/* Display images */}
             <div className="flex flex-grow mx-auto justify-center items-center w-screen ">
                 <div className="grid grid-cols-3  mx-2 my-2 gap-0.5">
@@ -204,7 +204,7 @@ function CommonTag({selectedImages}) {
                     Save
                 </button>
             </div>
-        </>
+        </div>
     );
 }
 
@@ -408,7 +408,7 @@ function TagPage() {
     const location = useLocation()
     const images = location.state?.selectedImages
     return (
-            <div className={"mt-[7.5rem] flex flex-col"}>
+            <div className={"mt-[7.5rem] flex flex-col min-h-screen"}>
 
                 <Nav
                     className="justify-around flex mb-2"

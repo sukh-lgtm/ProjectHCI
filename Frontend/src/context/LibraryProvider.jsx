@@ -37,7 +37,7 @@ export const LibraryProvider = ({ children }) => {
             console.error('Error uploading images:', error);
         }
 
-        fetchImages()
+        await fetchImages()
     }
     const onUploadButtonClick = () => {
         // `current` points to the mounted file input element
