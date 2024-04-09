@@ -1,8 +1,9 @@
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
-import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal} from 'lucide-react';
+import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Search} from 'lucide-react';
 import {Link} from "react-router-dom";
+import {TagsInput} from "react-tag-input-component";
 
 
 
@@ -190,16 +191,24 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                 </div>
 
 
-                <div className="flex flex-row pt-2 text-neutral-300">
-                    <form className=" mx-auto w-full">
+                <div className=" flex flex-row text-neutral-300">
+                    <form className="mt-2 mx-auto w-full">
                     <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                        <div className="relative w-full flex flex-row">
-                            <input type="search" id="default-search"
-                                   className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                                   placeholder="Search photo tags"/>
+                        <div className="relative w-full">
+                            <TagsInput
+                                isEditOnRemove
+                                name="Enter image tags"
+                                placeHolder="Search by tags"
+                                classNames={{
+                                    input: "flex placeholder:text-[0.85rem] text-slate-700",
+                                    tag: "bg-slate-400 text-slate-800",
+                                }}
+                                style={{ flexGrow: 1 }}
+                            />
+
                             <button type="submit"
-                                    className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                                <i className="fa fa-search mr-2 text-neutral-900"></i>
+                                    className="absolute text-neutral-900 top-[20%] right-2 ">
+                                <Search className={"p-0.5 ml-2"}/>
                             </button>
                         </div>
                     </form>
