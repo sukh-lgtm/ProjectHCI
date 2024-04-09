@@ -51,7 +51,7 @@ function App() {
         switch (currentPage) {
             case 'Tag':
                 setVisible(false);
-                break;z
+                break;
             case 'Sell':
                 setVisible(false);
                 break;

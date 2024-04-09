@@ -35,7 +35,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
         try {
             const response = await Axios.post(
-                'https://project-hci-eosin.vercel.app/upload',
+                'https://localhost:3000/upload',
                 formData// Data object
             );
         } catch (error) {

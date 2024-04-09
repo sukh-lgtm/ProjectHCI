@@ -195,7 +195,7 @@ app.post('/getImageUrls', (req, res) => {
                 .filter(file => imageList.includes(file))
                 .map(file => ({
                     id: file, // You can use a unique identifier for each image, such as the filename
-                    src: `https://project-hci-eosin.vercel.app/library_images/${file}` // Construct the URL for each image
+                    src: `https://localhost:3000/library_images/${file}` // Construct the URL for each image
                 }));
             console.log(imageUrls)
             return res.status(200).json(imageUrls);
@@ -215,7 +215,7 @@ app.get('/fetch-images', (req, res) => {
         } else {
             const images = files.map(file => ({
                 id: file, // You can use a unique identifier for each image, such as the filename
-                src: `https://project-hci-eosin.vercel.app/library_images/${file}` // Construct the URL for each image
+                src: `https://localhost:3000/library_images/${file}` // Construct the URL for each image
             }));
             res.json({ images });
         }
@@ -670,7 +670,7 @@ app.post('/getImagesByTags', async (req, res) => {
                 .filter(file => matchingImages.includes(file))
                 .map(file => ({
                     id: file, // You can use a unique identifier for each image, such as the filename
-                    src: `https://project-hci-eosin.vercel.app/library_images/${file}` // Construct the URL for each image
+                    src: `https://localhost:3000/library_images/${file}` // Construct the URL for each image
                 }));
             console.log(imageUrls)
             return res.status(200).json(imageUrls);
