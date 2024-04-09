@@ -68,7 +68,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         try {
             const response = await axios.post(
                 'http://localhost:3000/add-to-album',
-                { imageFilenames: selectedImagePath, newAlbumName: albumTitle }, // Data object
+                { imageFileNames: selectedImagePath, newAlbumName: albumTitle }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
             );
             //if successful, return to non "select" mode

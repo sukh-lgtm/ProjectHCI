@@ -7,7 +7,7 @@ import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick, setSearchTags }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, newAlbumButtonClicked, newAlbumButton }) {
     const { fetchImages } = useLibrary();
 
     function handleSearchInput(tags){
@@ -50,9 +50,6 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
     };
     const inputFile = useRef(null)
 
-    const onNewAlbumButtonClick= () => {
-        console.log("New Album!");
-    }
 
     const renameAlbum = () => {
         console.log("Rename Album!")
@@ -110,18 +107,29 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             
             case 'Albums':
                 return (
-                    selectionMode ? <div></div>
+                    newAlbumButton ?
+                        <div>
+                            <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                onClick={newAlbumButtonClicked(false)}
+                            >
+                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><X
+                                    width={20} height={20} /> Cancel
+                                </div>
+                            </button>
+                        </div>
 
-                    : <div>
-                        <button type="submit"
-                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                            onClick={onNewAlbumButtonClick}
-                        >
-                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
-                                width={20} height={20} /> New Album
-                            </div>
-                        </button>
-                </div>)
+                        : <div>
+                            <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                onClick={newAlbumButtonClicked(true)}
+                            >
+                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                    width={20} height={20} /> New Album
+                                </div>
+                            </button>
+                        </div>
+                )
             
             case 'RecentlyDeleted':
                 return (<div></div>)
@@ -132,7 +140,6 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                         <div>
                             <Link to={`/libInAlbum?=${insideAlbumTitle}`}>
                                 <button type="submit"
-                                    onClick={onAddToAlbumClick}
                                     className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
                                     <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
                                         width={20} height={20} /> Add
@@ -158,7 +165,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     <div>
                         <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                            onClick={onAddToAlbumClick}>
+                            onClick={null}>
                             
                             <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
                                 width={20} height={20} /> Add
@@ -292,15 +299,15 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             case 'Albums':
                 return (<div>
                     <div className="flex flex-row pt-2 text-neutral-300">
-                        <form className=" mx-auto w-full">
+                        <form className="mx-auto w-full">
                         <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                            <div className="relative w-full flex flex-row">
+                            <div className="relative w-full">
                                 <input type="search" id="default-search"
-                                    className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                    className="grow self-center w-full py-2 pl-2 text-[0.85rem] rounded-md text-slate-700 border border-slate-400 md:border-none focus: focus:border-blue-400 focus:border-4"
                                     placeholder="Search album names"/>
                                 <button type="submit"
-                                        className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                                    <i className="fa fa-search mr-2 text-neutral-900"></i>
+                                        className="absolute text-neutral-900 right-2 top-[20%]">
+                                    <Search className={"p-0.5 ml-2"} />
                                 </button>
                             </div>
                         </form>
@@ -361,15 +368,18 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
         <div>
             <div
                 className="fixed top-0 left-0 w-full z-50 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
-                <div className="flex flex-row items-center content-center justify-between">
-                    {renderPageHeaderLeft(currentPage)}
+                <div className="grid grid-cols-3 items-center content-center justify-between">
+                    <div className="flex col-start-1 justify-self-start">
+                        {renderPageHeaderLeft(currentPage)}
+                    </div>
 
-
-                    <div className={"text-slate-700 text-xl font-bold"}>
+                    <div className={"text-slate-700 text-xl font-bold col-start-2 justify-self-center"}>
                         {renderPageTitle(currentPage)}
                     </div>
 
-                    {renderPageHeaderRight(currentPage)}
+                    <div className="flex col-start-3 justify-self-end">
+                        {renderPageHeaderRight(currentPage)}
+                    </div>
 
 
                 </div>

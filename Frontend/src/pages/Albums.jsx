@@ -8,7 +8,7 @@ import {Plus, Trash2} from 'lucide-react'
 import { useLibrary } from '../context/LibraryProvider.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
-function Albums({ selectionMode, setSelectionMode }) {
+function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
     const location = useLocation
 
     const [selectedAlbums, setSelectedAlbums] = useState([]);
@@ -79,6 +79,9 @@ function Albums({ selectionMode, setSelectionMode }) {
         fetchAlbums();
     }, []);
 
+    useEffect(() => {
+        console.log("clicked:", newAlbumButton);
+    }, [newAlbumButton]);
 
     const toggleSelectedAlbum = (album) => {
         const isSelected = selectedAlbums.includes(album);
@@ -98,9 +101,9 @@ function Albums({ selectionMode, setSelectionMode }) {
     }
 
     return (
-        <>
+        <div className={"min-h-screen"}>
             {albums.length === 0 ?
-                <div className={"flex justify-center place-self-center items-center w-screen h-screen flex-col"}>
+                <div className={"flex justify-center place-self-center items-center w-screen min-h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +160,7 @@ function Albums({ selectionMode, setSelectionMode }) {
                 </div> :
 
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
-                    <div className="grid grid-cols-3 mx-2 my-2 gap-x-[10px] gap-y-[56px] mb-52">
+                    <div className="grid grid-cols-2 mx-2 my-2 gap-x-[10px] gap-y-[56px] mb-52">
                         {
                             albums.map(album => (
                                 <div key={album.title}>
@@ -268,7 +271,7 @@ function Albums({ selectionMode, setSelectionMode }) {
                 : null
             }
 
-        </>
+        </div>
     )
 }
 

@@ -368,7 +368,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
                                 <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
                                 <div className="relative w-full flex flex-row px-2">
                                     <input type="search" id="default-search"
-                                        className="self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                        className="flex-grow self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
                                         placeholder="Enter Album Name"
                                         onChange={(e) => setAlbumName(e.target.value)}/>
                                 </div>

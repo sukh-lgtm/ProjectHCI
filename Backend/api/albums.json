@@ -25,6 +25,25 @@
           "tags": []
         }
       ]
+    },
+    {
+      "title": "Sky",
+      "images": [
+        {
+          "fileName": "1712688404369-399592136-image-12.jpg",
+          "src": "library_images/1712688404369-399592136-image-12.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712688404369-259082234-image-13.jpg",
+          "src": "library_images/1712688404369-259082234-image-13.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
     }
   ]
 }

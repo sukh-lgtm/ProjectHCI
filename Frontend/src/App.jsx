@@ -21,6 +21,7 @@ function App() {
     const [count, setCount] = useState(0)
     const [selectionMode, setSelectionMode] = useState(false);
     const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
+    const [newAlbumButton, newAlbumButtonClicked] = useState(false)
 
     const location = useLocation();
 
@@ -63,18 +64,17 @@ function App() {
 
     const [searchTags, setSearchTags] = useState([])
 
-
     return (
 
         <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
-                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags}/>
+                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags} newAlbumButton={newAlbumButton} newAlbumButtonClicked={newAlbumButtonClicked}/>
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
                             <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags}/>} />
-                            <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
+                            <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButton={newAlbumButton}/>} />
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />

@@ -520,6 +520,10 @@ app.post('/fetch-album', (req, res) => {
     return res.status(500).json({ error: 'Error fetching album: ' + req.body.albumName });
 });
 
+//app.post('/add-to-album', (req, res) => {
+//
+//});
+
 // app.post('/submit-sale-info', async (req, res) => {
 //     const pictureInfo = req.body;
 //
