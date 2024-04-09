@@ -1,24 +1,34 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-import Axios from "axios";
+import axios from "axios";
 import {Image} from "react-bootstrap";
 import { useLibrary } from '../context/LibraryProvider';
+import RecentlyDeletedActionbar from '../components/RecentlyDeletedActionbar';
 
 
 function RecentlyDeleted({ selectionMode, setSelectionMode }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showRestorePopup, setShowRestorePopup] = useState(false);
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
 
-    const { loading, deletedImages, fetchDeletedImages } = useLibrary();
+    const { loading, deletedImages, fetchDeletedImages, setDeletedImages } = useLibrary();
 
-    const togglePopup = () => {
-        setShowPopup(!showPopup);
+    const toggleRestorePopup = () => {
+        setShowRestorePopup(!showRestorePopup);
     };
+
+    const toggleDeletePopup = () => {
+        setShowDeletePopup(!showDeletePopup);
+    }
 
     const restoreSelectedImages = async () => {
-        togglePopup(); // Show the popup for confirmation
+        toggleRestorePopup(); // Show the popup for confirmation
     };
+
+    const deleteSelectedImages = async () => {
+        toggleDeletePopup(); //show the popup for confirmation
+    }
 
     const toggleSelectImage = (image) => {
         const isSelected = selectedImages.includes(image);
@@ -28,6 +38,63 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
             setSelectedImages([...selectedImages, image]);
         }
     };
+
+    const confirmRestore = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        console.log("img path: ", selectedImagePath)
+        //make a backend call to restore the selected images
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/restore-images',
+                { imageFileNames: selectedImagePath}, // Data Object
+                { headers: { 'Content-Type': 'application/json' } },
+                {proxy:
+                    {
+                        host: 'localhost',
+                        port: 3000
+                    }
+                }
+            );
+            console.log(response.data)
+            // If successful, update the state to reflect the changes
+            const remainingImages = deletedImages.filter((image) => !selectedImages.includes(image));
+            setDeletedImages(remainingImages);
+            setSelectedImages([]);
+            toggleRestorePopup(); // Hide the popup after deletion
+        }
+        catch (error) {
+            console.error('Error restoring images: ', error)
+        }
+    }
+    
+    const confirmDelete = async () => {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        console.log(selectedImagePath)
+        //make a backend call to destroy the selected images
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/destroy-images',
+                { imageFileNames: selectedImagePath}, // Data Object
+                { headers: { 'Content-Type': 'application/json' } },
+                {proxy:
+                    {
+                        host: 'localhost',
+                        port: 3000
+                    }
+                }
+            );
+            console.log(response.data)
+            // If successful, update the state to reflect the changes
+            const remainingImages = deletedImages.filter((image) => !selectedImages.includes(image));
+            setDeletedImages(remainingImages);
+            setSelectedImages([]);
+            toggleDeletePopup(); // Hide the popup after deletion
+        }
+        catch (error) {
+            console.error('Error destroying images: ', error)
+        }
+    }
+
 
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href
@@ -48,7 +115,6 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
         setSelectionMode(true);
         fetchDeletedImages();
     }, []);
-
 
     return (
         <>
@@ -124,7 +190,6 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
                                                     d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
                                                     fill="white"/>
                                             </svg>
-
                                         </div> :
                                         selectionMode && !selectedImages.includes(image) ?
                                             <div>
@@ -138,16 +203,60 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
                                                         <circle cx="10" cy="10" r="9"/>
                                                     </svg>
                                                 </div>
-                                            </div>: <div></div>}
-
+                                            </div>: <div></div>
+                                    }
                                 </div>
 
                             </div>
                         ))}
                     </div>
                 </div>
+            }
 
+            {selectionMode ? <RecentlyDeletedActionbar onDelete={deleteSelectedImages} onRestore={restoreSelectedImages} selectedImages={selectedImages}/> : null}
 
+            {showRestorePopup &&
+                <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+
+                    {selectedImages.length === 1 ? <p className={"px-4 text-[0.8rem] flex justify-center"}>Are you sure you want to Restore this picture?</p>
+                    : <p className={"px-4 text-[0.8rem] flex justify-center"}>Are you sure you want to Restore {selectedImages.length} pictures?</p>
+                    }
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-500 px-2 py-3 border-r-2"
+                                    onClick={toggleRestorePopup}>
+                                Cancel
+                            </button>
+                            <button className="text-[1.2em] text-blue-600 px-2 py-3 rounded-md self-end"
+                                    onClick={confirmRestore}>
+                                Restore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            {showDeletePopup &&
+                <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+
+                    {selectedImages.length === 1 ? <p className={"px-4 text-[0.8rem] flex justify-center"}>Are you sure you want to permanently delete this picture?</p>
+                    : <p className={"px-4 text-[0.8rem] flex justify-center"}>Are you sure you want to permanently delete {selectedImages.length} pictures?</p>
+                    }
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-500 px-2 py-3 border-r-2"
+                                    onClick={toggleDeletePopup}>
+                                Cancel
+                            </button>
+                            <button className="text-[1.2em] text-blue-600 px-2 py-3 rounded-md self-end"
+                                    onClick={confirmDelete}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             }
 
         </>

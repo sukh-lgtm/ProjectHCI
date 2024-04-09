@@ -1,15 +1,15 @@
-import {Link} from "react-router-dom";
-
-
 function AlbumsActionbar({onDelete, selectedAlbums}) {
     const onAlbumSelected = selectedAlbums.length > 0;
 
     return (
         <div
             className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-4 gap-6">
+                <div className={"col-start-1 col-span-3 place-self-center text-slate-700 text-xl font-bold"}>
+                    {selectedAlbums.length === 1 ? `${selectedAlbums.length} Album Selected` : `${selectedAlbums.length} Albums Selected`}
+                </div>
                 <button type="button" disabled={!onAlbumSelected}
-                        className={`col-start-2 ${onAlbumSelected ? "active-action-link" : "action-bar-button"}`}
+                        className={`col-start-4 ${onAlbumSelected ? "active-action-link" : "action-bar-button"}`}
                         onClick={onDelete}>
                     <svg width="35" height="35" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg"
                          className="fill-inherit">

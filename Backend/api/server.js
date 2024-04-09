@@ -239,7 +239,6 @@ app.post('/delete-images', (req, res) => {
     let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
     let albumsFileNew = JSON.parse('{"albums": []}')
     for (let i = 0; i < albumsFile.albums.length; i++) { 
-        console.log("album: " + albumsFile.albums[i].title + " size: " + albumsFile.albums[i].images.length)
         if(albumsFile.albums[i].images.length > 0) {
             albumsFileNew.albums.push({
                 title: albumsFile.albums[i].title,
@@ -335,6 +334,31 @@ app.post('/create-album', (req, res) => {
     } catch (err) {
         fs1.writeFileSync(albumsJSON, '{ "albums": [] }')
         return res.status(400).json({ error: `error creating album: ` + err });
+    }
+
+});
+
+app.post('/restore-images', (req, res) => {
+    // Check if files are present in the request
+    if (!req.body.imageFileNames || req.body.imageFileNames.length === 0) {
+        return res.status(400).json({ error: 'No images were selected.' });
+    }
+
+    const imageFileNames = req.body.imageFileNames;
+
+    try {
+        // Move each image to the 'library_images' folder
+        imageFileNames.forEach(filename => {
+            const sourcePath = path.join(deletedImagesDir, filename);
+            const destPath = path.join(imagesDir, filename);
+
+            fs1.renameSync(sourcePath, destPath);
+        });
+
+        return res.status(200).send("Successfully restored images");
+
+    } catch (error) {
+        return res.status(500).json({ error: "Error restoring images: " + error});
     }
 
 });

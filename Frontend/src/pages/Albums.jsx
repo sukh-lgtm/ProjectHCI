@@ -241,8 +241,12 @@ function Albums({ selectionMode, setSelectionMode }) {
             {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
-                    <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfAlbumsSelected} albums forever?</p>
-                        <p className="px-4 text-[0.8rem]"> The images will not be deleted.</p>
+
+                        {numberOfAlbumsSelected === 1 ? <p className="px-4 text-[0.9rem] flex text-center">Are you sure you want to delete this album forever?</p>
+                        : <p className="px-4 text-[0.8rem] flex text-center">Are you sure you want to delete {numberOfAlbumsSelected} albums forever?</p>
+                        }
+
+                        <p className="px-4 text-center text-[0.9rem]"> The images will not be deleted.</p>
 
                         <hr className={"mt-4"}></hr>
                         <div className="w-full grid grid-cols-2 mb-0">

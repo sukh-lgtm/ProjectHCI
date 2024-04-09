@@ -205,7 +205,7 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
     function renderPageTitle(currentPage) {
         switch(currentPage) {
             case "RecentlyDeleted":
-                return (<div className = "relative translate-x-10">Recently Deleted</div>)
+                return (<div className="relative translate-x-10">Recently Deleted</div>)
             default:
                 return (<div>{currentPage}</div>)
         }
