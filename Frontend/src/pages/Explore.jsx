@@ -56,17 +56,17 @@ function Explore() {
                 }
               }}
             >
-              <input className="border w-full h-full p-2"
+              <input className="border w-full h-full p-2 text-neutral-900 border-gray-400 bg-gray-200"
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search Author..."
               />
-              <input className="border w-full h-full p-2"
+              <input className="border w-full h-full p-2 text-neutral-900 border-gray-400 bg-gray-200"
                 ref={maxPriceInputRef}
                 type="text"
                 placeholder="Max price... "
               />
-              <button className="backdrop-blur-[5rem] bg-gray-600 bg-opacity-40 px-2.5 py-1 rounded-3xl m-1" type="submit">Filter</button>
+              <button className="backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1 rounded-3xl m-1" type="submit">Filter</button>
             </form>
           </div>
         </div>
@@ -83,7 +83,7 @@ function Explore() {
       {filteredData.map((image, index) => {
         return (
           <React.Fragment key={index}>
-            <div className=" bg-white rounded-lg shadow-xl">
+            <div className="rounded-lg shadow-xl bg-gray-100">
               <img
                 onClick={openPreviewHandler.bind(this, image)}
                 src={image.url}
