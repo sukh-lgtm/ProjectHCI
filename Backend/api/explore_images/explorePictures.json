@@ -1,0 +1,146 @@
+[
+    {
+        "title": "Chile",
+        "description": "As I raised my camera to capture this fleeting moment, I couldn't help but feel humbled by the sheer magnificence before me.",
+        "author": "Alice",
+        "dateTaken": "4/5/2024",
+        "location": "The Southern Andes",
+        "price" : "$10",
+        "url": "https://picsum.photos/seed/a/800"
+    },
+    {
+        "title": "Imperdiet",
+        "description": "Eleifend quam adipiscing vitae proin sagittis.",
+        "author": "Bob",
+        "dateTaken": "2/3/2024",
+        "location": "The Amber Citadel",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/b/800"
+    },
+    {
+        "title": "Fames",
+        "description": "Cras fermentum odio eu feugiat. Tincidunt praesent semper feugiat nibh.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Iron Peaks",
+        "price" : "$5",
+        "url": "https://picsum.photos/seed/c/800"
+    },
+    {
+        "title": "Dignissim",
+        "description": "Integer vitae justo eget magna fermentum iaculis eu non diam. Sit amet venenatis urna cursus eget nunc scelerisque.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Whispering Woods",
+        "price" : "$25",
+        "url": "https://picsum.photos/seed/d/800"
+    },
+    {
+        "title": "Dolor",
+        "description": "Sit amet massa vitae tortor condimentum lacinia quis vel eros.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Shadowlands",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/e/800"
+    },
+    {
+        "title": "Praesent",
+        "description": "Pretium nibh ipsum consequat nisl vel pretium.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Sapphire Sea",
+        "price" : "$10",
+        "url": "https://picsum.photos/seed/f/800"
+    },
+    {
+        "title": "Adipiscing",
+        "description": "Tempor id eu nisl nunc mi ipsum. Scelerisque eu ultrices vitae auctor eu augue ut lectus.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Frostbite Tundra",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/g/800"
+    },
+    {
+        "title": "Tristique",
+        "description": "Donec adipiscing tristique risus nec. Vitae suscipit tellus mauris a diam maecenas sed.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Blood Moon Forest",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/h/800"
+    },
+    {
+        "title": "Libero",
+        "description": "Cursus euismod quis viverra nibh cras pulvinar mattis.",
+        "author": "Alice",
+        "dateTaken": "5/2/2023",
+        "location": "The Shimmering Isles",
+        "price" : "$5",
+        "url": "https://picsum.photos/seed/i/800"
+    },
+    {
+        "title": "Vitae",
+        "description": "Purus viverra accumsan in nisl. Rutrum quisque non tellus orci.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Velvet Veil",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/j/800"
+    },
+    {
+        "title": "Malesuada",
+        "description": "Tortor consequat id porta nibh venenatis cras sed felis eget.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Luminous Meadows",
+        "price" : "$10",
+        "url": "https://picsum.photos/seed/k/800"
+    },
+    {
+        "title": "Morbi",
+        "description": "Sit amet aliquam id diam maecenas ultricies.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Thunderhead Mountains",
+        "price" : "$5",
+        "url": "https://picsum.photos/seed/l/800"
+    },
+    {
+        "title": "Semper",
+        "description": "Vulputate eu scelerisque felis imperdiet proin.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Golden Grove",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/m/800"
+    },
+    {
+        "title": "Nunc",
+        "description": "Tempor id eu nisl nunc mi ipsum. Scelerisque eu ultrices vitae auctor eu augue ut lectus.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Silken Sands",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/n/800"
+    },
+    {
+        "title": "Purus",
+        "description": "Tempus quam pellentesque nec nam aliquam sem et tortor consequat.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Arcane Archipelago",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/o/800"
+    },
+    {
+        "title": "Dis",
+        "description": "A diam sollicitudin tempor id eu. Vitae turpis massa sed elementum tempus.",
+        "author": "Bob",
+        "dateTaken": "5/2/2023",
+        "location": "The Ebon Eclipse",
+        "price" : "$15",
+        "url": "https://picsum.photos/seed/p/800"
+    }
+]

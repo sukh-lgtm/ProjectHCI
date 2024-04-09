@@ -1,0 +1,30 @@
+{
+  "albums": [
+    {
+      "title": "Test",
+      "images": [
+        {
+          "fileName": "1712688404354-387562186-image-1.jpg",
+          "src": "library_images/1712688404354-387562186-image-1.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712688404363-625865442-image-3.jpg",
+          "src": "library_images/1712688404363-625865442-image-3.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712688404359-104114587-image-2.jpg",
+          "src": "library_images/1712688404359-104114587-image-2.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    }
+  ]
+}

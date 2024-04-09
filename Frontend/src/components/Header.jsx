@@ -1,13 +1,24 @@
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
-import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal} from 'lucide-react';
+import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus, PencilLine, Search} from 'lucide-react';
 import {Link} from "react-router-dom";
+import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, selectionMode, toggleSelectionMode }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick, setSearchTags }) {
     const { fetchImages } = useLibrary();
+
+    function handleSearchInput(tags){
+        setSearchTags(tags)
+    }
+
+    function handleSearchTagRemove(tag){
+        setSearchTags(prevItems => {
+            return prevItems.filter(item => item !== tag);
+        });
+    }
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -39,12 +50,41 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
     };
     const inputFile = useRef(null)
 
-    function renderPageHeaderLeft(currentPage) {
-        function backToHomePage(){
+    const onNewAlbumButtonClick= () => {
+        console.log("New Album!");
+    }
 
-        }
+    const renameAlbum = () => {
+        console.log("Rename Album!")
+    }
+
+    function renderPageHeaderLeft(currentPage) {
         switch (currentPage){
             case 'Tag':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
+            case 'Listings':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
+            case 'Sell':
                 return (<div>
                     <Link to="/library">
                         <button type="button"
@@ -67,13 +107,72 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                         </button>
                     </Link>
                 </div>)
+            
+            case 'Albums':
+                return (
+                    selectionMode ? <div></div>
+
+                    : <div>
+                        <button type="submit"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={onNewAlbumButtonClick}
+                        >
+                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                width={20} height={20} /> New Album
+                            </div>
+                        </button>
+                </div>)
+            
+            case 'RecentlyDeleted':
+                return (<div></div>)
+
+            case 'InsideAlbum':
+                return (
+                    selectionMode ?
+                        <div>
+                            <Link to={`/libInAlbum?=${insideAlbumTitle}`}>
+                                <button type="submit"
+                                    onClick={onAddToAlbumClick}
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                                    <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                        width={20} height={20} /> Add
+                                    </div>
+                                </button>
+                            </Link>
+                        </div>
+                        : <div>
+
+                            <Link to="/albums">
+                                <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                                    <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                        width={20} height={20} /> Back
+                                    </div>
+                                </button>
+                            </Link>
+                        </div>
+                )
+
+            case 'LibInAlbum':
+                return (
+                    <div>
+                        <button type="submit"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={onAddToAlbumClick}>
+                            
+                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                width={20} height={20} /> Add
+                            </div>
+                        </button>
+                    </div>
+                )
 
             case 'Account':
                 return(<div></div>)
 
             default:
                 return (<div>
-                    <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
+                    <input type="file" id="newAlbumInput" multiple={true} onChange={handleChange} ref={inputFile}
                            className={"hidden"}/>
                     <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
@@ -101,9 +200,32 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 )
 
-            case 'Explore':
+            case 'Listings':
                 return (
                     <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Done
+                            </div>
+                        </button>
+                    </Link>
+                )
+
+            case 'Sell':
+                return (
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Post
+                            </div>
+                        </button>
+                    </Link>
+                )
+            case 'Explore':
+                return (
+                    <Link to="/listings">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><List
@@ -113,8 +235,46 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
                     </Link>
                 )
 
+            case 'RecentlyDeleted':
+                return (
+                    <Link to="/albums">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> <div>Done</div>
+                            </div>
+                        </button>
+                    </Link>
+                )
+
+            case 'InsideAlbum':
+                return (<div>
+                    <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={toggleSelectionMode}>
+                        {selectionMode ?
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Done </div> :
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><PencilLine
+                                width={20} height={20}/> Edit </div>}
+                    </button>
+                </div>)
+                
             case 'Account':
                 return(<div></div>)
+            
+            case 'LibInAlbum':
+                return (<div>
+                    <Link to={`/insideAlbum?title=${insideAlbumTitle}`}
+                    onClick={toggleSelectionMode}>
+                        <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><X
+                                width={20} height={20}/> Cancel
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
 
             default:
                 return (<div>
@@ -132,26 +292,77 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
     }
 
-    function renderPageHeaderBottom(currentPage) {
+    function renderSearchBar(currentPage) {
         switch(currentPage) {
+
+            case 'Albums':
+                return (<div>
+                    <div className="flex flex-row pt-2 text-neutral-300">
+                        <form className=" mx-auto w-full">
+                        <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                            <div className="relative w-full flex flex-row">
+                                <input type="search" id="default-search"
+                                    className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                    placeholder="Search album names"/>
+                                <button type="submit"
+                                        className="text-neutral-900 absolute start-3 bottom-3 ml-1">
+                                    <i className="fa fa-search mr-2 text-neutral-900"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>)
+            
+            //intentional fallthrough
+            case 'RecentlyDeleted':
+            case 'InsideAlbum':
+            case 'LibInAlbum':
+                return (<div></div>)
+                
             case 'Account':
                 return(<div></div>)
 
             default:
-                return(<div className="flex flex-row pt-2 text-neutral-300">
-                <form className=" mx-auto w-full">
-                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                    <div className="relative w-full flex flex-row">
-                        <input type="search" id="default-search"
-                               className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                               placeholder="Search photo tags"/>
-                        <button type="submit"
-                                className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                            <i className="fa fa-search mr-2 text-neutral-900"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>)
+                return (
+                <div className=" flex flex-row text-neutral-300">
+                    <form className="mt-2 mx-auto w-full">
+                    <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                        <div className="relative w-full">
+                            <TagsInput
+                                isEditOnRemove
+                                onChange={(tags) => handleSearchInput(tags)}
+                                onRemoved={(tag) => handleSearchTagRemove(tag)}
+                                name="Enter image tags"
+                                placeHolder="Search by tags"
+                                classNames={{
+                                    input: "flex placeholder:text-[0.85rem] text-slate-700",
+                                    tag: "bg-slate-400 text-slate-800",
+                                }}
+                                style={{ flexGrow: 1 }}
+                            />
+
+                            <button type="submit"
+                                    className="absolute text-neutral-900 top-[20%] right-2 ">
+                                <Search className={"p-0.5 ml-2"}/>
+                            </button>
+                        </div>
+                    </form>
+                </div>)
+        }
+    }
+
+
+    function renderPageTitle(currentPage) {
+        switch(currentPage) {
+            case "RecentlyDeleted":
+                return (<div className="text-center text-xl text-nowrap">Recently Deleted</div>)
+            
+            case "InsideAlbum":
+                return (<div>{insideAlbumTitle}</div>)
+            case "LibInAlbum":
+                return (<div>Library</div>)
+            default:
+                return (<div>{currentPage}</div>)
         }
     }
 
@@ -164,15 +375,17 @@ function Header({ currentPage, selectionMode, toggleSelectionMode }) {
 
 
                     <div className={"text-slate-700 text-xl font-bold"}>
-                        {currentPage}
+                        {renderPageTitle(currentPage)}
                     </div>
 
                     {renderPageHeaderRight(currentPage)}
 
 
                 </div>
-
-                {renderPageHeaderBottom(currentPage)}
+                
+                <div>
+                    {renderSearchBar(currentPage)}
+                </div>
 
             </div>
         </div>
