@@ -11,8 +11,8 @@ const taggedPicturesFile = './taggedPictures.json';
 app.use(express.json())
 app.use(cors())
 
-const imagesDir = path.join(__dirname, '../library_images');
-const deletedImagesDir = path.join(__dirname, '../deleted_images');
+const imagesDir = path.join(__dirname, './library_images');
+const deletedImagesDir = path.join(__dirname, './deleted_images');
 const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
 const pictureSaleFilePath = path.join(__dirname, 'PictureSale.json');
 
@@ -23,7 +23,7 @@ app.get('/test', (req, res) => {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../library_images/');
+        cb(null, './library_images/');
     },
     filename: function (req, file, cb) {
         // Append a timestamp to ensure unique filenames
@@ -220,7 +220,7 @@ app.get('/fetch-images', (req, res) => {
         }
     });
 });
-app.use(express.static('..'))
+app.use(express.static('.'))
 
 // Endpoint to move images
 app.post('/delete-images', (req, res) => {
