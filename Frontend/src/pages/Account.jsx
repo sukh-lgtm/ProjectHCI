@@ -35,9 +35,9 @@ function Account({ selectionMode }) {
         <>
         {
             loggedIn ?
-            <div class="flex items-center justify-center max-h-screen bg-gray-300">
+            <div class="flex items-center justify-center min-h-screen bg-gray-300">
                 <form action="">
-                    <div className="flex pt-20 mx-auto justify-center self-center items-center">
+                    <div className="flex mx-auto justify-center self-center items-center">
                         <img class="w-36 h-36 object-cover border-2 border-gray-700 bg-gray-700 rounded-full mx-auto" src="/Default_pfp.png" alt="Blank Profile Picture"/>
                     </div>
                     <div className="w-full max-w-full h-25 pt-6 flex flex-col justify-center self-center items-center">
