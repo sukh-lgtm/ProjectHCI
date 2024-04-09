@@ -15,7 +15,7 @@ function Albums({ selectionMode, setSelectionMode }) {
     const [showPopup, setShowPopup] = useState(false);
 
     const { albums, loading, fetchAlbums, setAlbums } = useAlbums();
-    const { fetchDeletedImages, setDeletedImages } = useLibrary
+    //const { fetchDeletedImages, setDeletedImages } = useLibrary();
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
@@ -45,35 +45,11 @@ function Albums({ selectionMode, setSelectionMode }) {
             setAlbums(remainingAlbums);
             setSelectedAlbums([]);
             togglePopup(); // Hide the popup after deletion
+            setSelectionMode(false)
         } catch (error) {
             console.error('Error deleting images:', error);
         }
     };
-
-    async function handleChange(event) {
-        if (event.target.files) {
-            await newAlbum(event.target.files);
-        }
-
-    }
-
-    async function newAlbum(files) {
-        const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files', files[i]);
-        }
-
-        try {
-            const response = await Axios.post(
-                'http://localhost:3000/upload',
-                formData// Data object
-            );
-        } catch (error) {
-            console.error('Error uploading images:', error);
-        }
-
-        fetchAlbums()
-    }
 
     const onNewAlbumButtonClick = () => {
         console.log("New Album!")

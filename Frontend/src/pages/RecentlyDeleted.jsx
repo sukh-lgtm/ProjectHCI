@@ -41,7 +41,6 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
 
     const confirmRestore = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
-        console.log("img path: ", selectedImagePath)
         //make a backend call to restore the selected images
         try {
             const response = await axios.post(

@@ -100,14 +100,14 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                 return (
                     selectionMode ?
                         <div>
-                            <button type="submit"
-                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                                onClick={onAddToAlbumClick}
-                            >
-                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
-                                    width={20} height={20} /> Add
-                                </div>
-                            </button>
+                            <Link to={`/libInAlbum?=${insideAlbumTitle}`}>
+                                <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                                    <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                        width={20} height={20} /> Add
+                                    </div>
+                                </button>
+                            </Link>
                         </div>
                         : <div>
 
@@ -120,6 +120,20 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                                 </button>
                             </Link>
                         </div>
+                )
+
+            case 'LibInAlbum':
+                return (
+                    <div>
+                        <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={onAddToAlbumClick}>
+                            
+                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                width={20} height={20} /> Add
+                            </div>
+                        </button>
+                    </div>
                 )
 
             default:
@@ -188,6 +202,19 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                                 width={20} height={20}/> Edit </div>}
                     </button>
                 </div>)
+            
+            case 'LibInAlbum':
+                return (<div>
+                    <Link to={`/insideAlbum?title=${insideAlbumTitle}`}
+                    onClick={toggleSelectionMode}>
+                        <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><X
+                                width={20} height={20}/> Cancel
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
 
             default:
                 return (<div>
@@ -229,6 +256,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             //intentional fallthrough
             case 'RecentlyDeleted':
             case 'InsideAlbum':
+            case 'LibInAlbum':
                 return (<div></div>)
 
             default:
@@ -257,8 +285,11 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
         switch(currentPage) {
             case "RecentlyDeleted":
                 return (<div className="text-center text-xl text-nowrap">Recently Deleted</div>)
+            
             case "InsideAlbum":
                 return (<div>{insideAlbumTitle}</div>)
+            case "LibInAlbum":
+                return (<div>Library</div>)
             default:
                 return (<div>{currentPage}</div>)
         }

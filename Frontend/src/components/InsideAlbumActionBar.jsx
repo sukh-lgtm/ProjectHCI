@@ -7,7 +7,7 @@ function InsideAlbumActionBar({onRemove, selectedImages}) {
             className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
             <div className="grid grid-cols-4 gap-6">
                 <div className={"col-start-1 col-span-3 place-self-center text-slate-700 text-xl font-bold"}>
-                    {selectedImages.length === 1 ? `${selectedImages.length} Album Selected` : `${selectedImages.length} Albums Selected`}
+                    {selectedImages.length === 1 ? `${selectedImages.length} Image Selected` : `${selectedImages.length} Images Selected`}
                 </div>
                 <button type="button" disabled={!onImageSelected}
                         className={`col-start-4 ${onImageSelected ? "active-action-link" : "action-bar-button"}`}

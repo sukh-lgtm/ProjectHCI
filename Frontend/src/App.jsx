@@ -13,6 +13,7 @@ import { LibraryProvider } from './context/LibraryProvider.jsx';
 import { AlbumsProvider } from './context/AlbumsProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
 import InsideAlbum from './pages/InsideAlbum.jsx';
+import LibInAlbum from './pages/LibInAlbum.jsx';
 
 function App() {
     const [count, setCount] = useState(0)
@@ -58,7 +59,7 @@ function App() {
 
     return (
 
-        <div className= "max-w-screen h-[5000px] bg-gray-300 overflow-x-hidden overflow-hidden" >
+        <div className= "max-w-screen h-screen grow bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
                     <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} />
@@ -72,6 +73,7 @@ function App() {
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
                             <Route path="/insideAlbum" element={<InsideAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
+                            <Route path="/libInAlbum" element={<LibInAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
                         </Routes>
                     </div>
                 </AlbumsProvider>

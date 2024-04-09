@@ -1,75 +1,57 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-import {Upload} from 'lucide-react'
-import Actionbar from "../components/Actionbar.jsx";
+import { useLibrary } from '../context/LibraryProvider';
+
+import { Plus, Check } from 'lucide-react'
 import {Image} from "react-bootstrap";
-import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode, toggleSelectionMode }) {
+function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
-    const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
-    const [albumName, setAlbumName] = useState("")
 
-    const { images, loading, fetchImages, setImages } = useLibrary();
+    const [albumImages, setAlbumImages] = useState([]);
+    const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const [imagesNotInAlbum, setImagesNotInAlbum] = useState([])
+    const [isNewAlbum, setIsNewAlbum] = useState(false)
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
 
-    const toggleAlbumNamePopup = () => {
-        setShowAlbumNamePopup(!showAlbumNamePopup);
-    }
-
-    const deleteSelectedImages = async () => {
-        togglePopup(); // Show the popup for confirmation
-    };
-
-    const createAlbumFromSelectedImages = async () => {
-        toggleAlbumNamePopup(); // Show album creation popup for confirmation
-    }
-
-    const confirmDelete = async () => {
-        const selectedImagePath = selectedImages.map(image => (image.fileName));
-        // Make a backend call to delete the selected images
+    const fetchImages = async () => {
+        setLoading(true)
         try {
-            const response = await axios.post(
-                'http://localhost:3000/delete-images',
-                { imageFilenames: selectedImagePath }, // Data object
-                { headers: { 'Content-Type': 'application/json' } },
-                {proxy: {
-                        host: 'localhost',
-                        port: 3000
-                    }}
-            );
-            console.log(response.data);
-            // If successful, update the state to reflect the changes
-            const remainingImages = images.filter((image) => !selectedImages.includes(image));
-            setImages(remainingImages);
-            setSelectedImages([]);
-            togglePopup(); // Hide the popup after deletion
-            toggleSelectionMode();
+            const response = await axios.get('http://localhost:3000/fetch-images', {
+
+            });
+            const imageList = response.data.images.map((image, index) => ({
+                src: image.src,
+                fileName: image.id
+            }));
+            setImages(imageList);
         } catch (error) {
-            console.error('Error deleting images:', error);
+            console.error('Error fetching images:', error);
         }
+        setLoading(false)
     };
 
-    const createAlbum = async () => {
+    const confirmAddToAlbum = async () => {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         //make backend call to create new album from selected images
         try {
             const response = await axios.post(
-                'http://localhost:3000/create-album',
-                { imageFilenames: selectedImagePath, newAlbumName: albumName }, // Data object
+                'http://localhost:3000/add-to-album',
+                { imageFilenames: selectedImagePath, newAlbumName: albumTitle }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
             );
             //if successful, return to non "select" mode
             console.log(response.data)
             setSelectedImages([])
-            toggleAlbumNamePopup();
-            toggleSelectionMode();
+            setSelectionMode(false);
 
         } catch (error) {
             console.error('Error creating album:', error);
@@ -77,38 +59,38 @@ function Library({ selectionMode, toggleSelectionMode }) {
 
     }
 
-    async function handleChange(event) {
-        if (event.target.files) {
-            await uploadFiles(event.target.files);
-        }
+    const fetchAlbum = async () => {
 
-    }
-    async function uploadFiles(files) {
-        const formData = new FormData();
+        if(isNewAlbum)
+            return;
 
-        for (let i = 0; i < files.length; i++) {
-            console.log(files[i])
-            formData.append('files', files[i]);
-        }
-
+        fetchInsideAlbumTitle()
+        //make backend call to create new album from selected images
         try {
-            const response = axios.post(
-                'http://localhost:3000/upload',
-                formData// Data object
+            const response = await axios.post(
+                'http://localhost:3000/fetch-album',
+                { albumName: albumTitle }, // Data object
+                { headers: { 'Content-Type': 'application/json' } },
+                {proxy: {
+                        host: 'localhost',
+                        port: 3000
+                    }}
             );
+
+            const imageList = response.data.images.map(image => ({
+                src: image.src,
+                fileName: image.fileName
+            }));
+
+            setAlbumImages(imageList)
+
+            setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
+
         } catch (error) {
-            console.error('Error uploading images:', error);
+            console.error('Error fetching album: ', error);
         }
-
-        fetchImages()
     }
-    const onUploadButtonClick = () => {
-        // `current` points to the mounted file input element
-        inputFile.current.click();
-    };
-    const inputFile = useRef(null)
 
-    const numberOfImagesSelected = selectedImages.length
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
@@ -122,22 +104,20 @@ function Library({ selectionMode, toggleSelectionMode }) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [showPopup]);
-    const [imagesLength, setImagesLength] = useState(images.length);
-
-    useEffect(() => {
-        // Update the imagesLength state whenever the images array changes
-        setImagesLength(images.length);
-    }, [images]);
-
 
     useEffect(() => {
         setSelectedImages([]);
     }, [selectionMode]);
 
     useEffect(() => {
-        fetchImages();
-    }, []);
+        setIsNewAlbum(albumImages.length == 0)
+    }, [albumImages.length, albumTitle]);
 
+    useEffect(() => {
+        fetchImages();
+        fetchAlbum();
+        setSelectionMode(true)
+    }, []);
 
     const toggleSelectImage = (image) => {
         const isSelected = selectedImages.includes(image);
@@ -154,8 +134,7 @@ function Library({ selectionMode, toggleSelectionMode }) {
 
     return (
         <>
-
-            {imagesLength === 0 ?
+            {imagesNotInAlbum.length === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
@@ -187,22 +166,7 @@ function Library({ selectionMode, toggleSelectionMode }) {
                         No Pictures Found!
                     </div>
 
-                    <div className={"mt-6 text-neutral-800 flex justify-center content-center items-center"}>
-                        Tap <input type="file" id="uploadInput" multiple={true} onChange={handleChange} ref={inputFile}
-                                   className={"hidden"}/>
-                        <button type="submit"
-                                className="mx-2 rounded-[36px] backdrop-blur-[5rem] bg-slate-500 bg-opacity-40 px-2.5 py-1"
-                                onClick={onUploadButtonClick}
-                        >
-                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Upload
-                                width={20} height={20}/> Upload
-                            </div>
-                        </button>
-                        to upload pictures
-                    </div>
                 </div> :
-
-
                 loading ?
                     <div role="status"
                          className="flex flex-row w-screen h-screen justify-center align-middle items-center overflow-x-hidden">
@@ -218,9 +182,10 @@ function Library({ selectionMode, toggleSelectionMode }) {
                     </svg>
                     <span className="font-bold ml-4 text-neutral-700">Loading Images</span>
                 </div> :
+
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
-                        {images.map((image, index) => (
+                        {imagesNotInAlbum.map((image, index) => (
 
                             <div key={index}>
                                 <div
@@ -266,62 +231,10 @@ function Library({ selectionMode, toggleSelectionMode }) {
                     </div>
                 </div>
             }
-            {selectionMode ? <Actionbar onDelete={deleteSelectedImages} onAlbum={createAlbumFromSelectedImages} selectedImages={selectedImages}/> : null}
-            {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
-                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
-                    <p className="px-4 text-[0.8rem] flex justify-center">Are you sure you want to delete {numberOfImagesSelected} pictures?</p>
-                        <p className="px-4 text-[0.8rem]">These images will be stored in <span className={"font-bold whitespace-pre"}> 'Recently Deleted' </span>for 30 days</p>
 
-                        <hr className={"mt-4"}></hr>
-                        <div className="w-full grid grid-cols-2 mb-0">
-                            <button className="text-[1.2em] text-blue-800 px-2 py-3 border-r-2"
-                                    onClick={togglePopup}>
-                                Cancel
-                            </button>
-                            <button className="text-[1.2em] text-red-600 px-2 py-3 rounded-md self-end"
-                                    onClick={confirmDelete}>
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-            {showAlbumNamePopup && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
-                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
-                        <p className="px-4 text-[1.0rem] flex justify-center">Create New Album</p>
-
-                        <div className="flex flex-row pt-2 text-neutral-300">
-                            <form className=" mx-auto w-full">
-                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                                <div className="relative w-full flex flex-row px-2">
-                                    <input type="search" id="default-search"
-                                        className="self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                                        placeholder="Enter Album Name"
-                                        onChange={(e) => setAlbumName(e.target.value)}/>
-                                </div>
-                            </form>
-                        </div>
-                        <hr className={"mt-4"}></hr>
-                        <div className="w-full grid grid-cols-2 mb-0">
-                            <button className="text-[1.2em] text-red-600 px-2 py-3 border-r-2"
-                                    onClick={toggleAlbumNamePopup}>
-                                Cancel
-                            </button>
-                            <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
-                                    onClick={createAlbum}>
-                                Create
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
         </>
-
     )
-
 }
 
-export default Library;
+export default LibInAlbum;
