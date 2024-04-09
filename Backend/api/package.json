@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "0.0.0",
   "description": "Backend Server",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
