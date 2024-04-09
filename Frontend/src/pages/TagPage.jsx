@@ -42,7 +42,7 @@ function CommonTag({selectedImages}) {
     async function setImageTagInfo() {
         const obj = {"images": selectedImagesFilenames}
         console.log("Object here :", obj)
-        const currImageTags = (await axios.post('http://localhost:3000/currentImageTags', obj)).data
+        const currImageTags = (await axios.post('https://project-hci-eosin.vercel.app/currentImageTags', obj)).data
         console.log("Data from backend: " , currImageTags)
         let currTags = [];
         let currLocation = "";
@@ -95,7 +95,7 @@ function CommonTag({selectedImages}) {
 
     function addImageTags() {
         const obj = {"images" : selectedImagesFilenames, "Location": imageLocation, "Date": imageDate, "Tags": imageTags}
-        axios.post('http://localhost:3000/updateCommonTags', obj).then(r => console.log(r.data))
+        axios.post('https://project-hci-eosin.vercel.app/updateCommonTags', obj).then(r => console.log(r.data))
     }
 
     // Placeholder data for images
@@ -110,11 +110,11 @@ function CommonTag({selectedImages}) {
 
     function handleDeleteTag(tag) {
         const obj = {"images" : selectedImagesFilenames, "tag": tag}
-        axios.post('http://localhost:3000/deleteTag', obj).then()
+        axios.post('https://project-hci-eosin.vercel.app/deleteTag', obj).then()
     }
 
     return (
-        <>
+        <div className={"min-h-screen"}>
             {/* Display images */}
             <div className="flex flex-grow mx-auto justify-center items-center w-screen ">
                 <div className="grid grid-cols-3  mx-2 my-2 gap-0.5">
@@ -204,7 +204,7 @@ function CommonTag({selectedImages}) {
                     Save
                 </button>
             </div>
-        </>
+        </div>
     );
 }
 
@@ -227,12 +227,12 @@ function SeparateTag({selectedImages}) {
 
     function addImageTags() {
         console.log(imageInfo)
-        axios.post('http://localhost:3000/updateSeparateTags', imageInfo).then(r => console.log(r.data))
+        axios.post('https://project-hci-eosin.vercel.app/updateSeparateTags', imageInfo).then(r => console.log(r.data))
     }
 
     async function setImageTagInfo() {
         const obj = {"images": selectedImagesFilenames}
-        const currImageTags = (await axios.post('http://localhost:3000/currentImageTags', obj)).data
+        const currImageTags = (await axios.post('https://project-hci-eosin.vercel.app/currentImageTags', obj)).data
 
         console.log("tags: ", currImageTags)
 
@@ -289,7 +289,7 @@ function SeparateTag({selectedImages}) {
     function handleDeleteTag(image, tag) {
         const obj = {"images" : [image], "tag": tag}
         console.log("Object hererererere", obj)
-        axios.post('http://localhost:3000/deleteTag', obj).then()
+        axios.post('https://project-hci-eosin.vercel.app/deleteTag', obj).then()
     }
 
     return (
@@ -408,7 +408,7 @@ function TagPage() {
     const location = useLocation()
     const images = location.state?.selectedImages
     return (
-            <div className={"mt-[7.5rem] flex flex-col"}>
+            <div className={"mt-[7.5rem] flex flex-col min-h-screen"}>
 
                 <Nav
                     className="justify-around flex mb-2"

@@ -1,13 +1,24 @@
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
-import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus, PencilLine} from 'lucide-react';
+import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus, PencilLine, Search} from 'lucide-react';
 import {Link} from "react-router-dom";
+import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick, setSearchTags }) {
     const { fetchImages } = useLibrary();
+
+    function handleSearchInput(tags){
+        setSearchTags(tags)
+    }
+
+    function handleSearchTagRemove(tag){
+        setSearchTags(prevItems => {
+            return prevItems.filter(item => item !== tag);
+        });
+    }
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -24,7 +35,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
         try {
             const response = await Axios.post(
-                'http://localhost:3000/upload',
+                'https://project-hci-eosin.vercel.app/upload',
                 formData// Data object
             );
         } catch (error) {
@@ -50,6 +61,30 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
     function renderPageHeaderLeft(currentPage) {
         switch (currentPage){
             case 'Tag':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
+            case 'Listings':
+                return (<div>
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
+                                width={20} height={20}/> Back
+                            </div>
+                        </button>
+                    </Link>
+                </div>)
+
+            case 'Sell':
                 return (<div>
                     <Link to="/library">
                         <button type="button"
@@ -162,9 +197,32 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     </Link>
                 )
 
-            case 'Explore':
+            case 'Listings':
                 return (
                     <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Done
+                            </div>
+                        </button>
+                    </Link>
+                )
+
+            case 'Sell':
+                return (
+                    <Link to="/library">
+                        <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
+                                width={20} height={20}/> Post
+                            </div>
+                        </button>
+                    </Link>
+                )
+            case 'Explore':
+                return (
+                    <Link to="/listings">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><List
@@ -256,24 +314,34 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                 return (<div></div>)
 
             default:
-                return (<div>
-                    <div className="flex flex-row pt-2 text-neutral-300">
-                        <form className=" mx-auto w-full">
-                        <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                            <div className="relative w-full flex flex-row">
-                                <input type="search" id="default-search"
-                                    className="self-center block w-full p-2 ps-10 text-neutral-900 border border-gray-400 rounded-full bg-gray-200 focus:outline-blue-600 placeholder:self-center"
-                                    placeholder="Search photo tags"/>
-                                <button type="submit"
-                                        className="text-neutral-900 absolute start-3 bottom-3 ml-1">
-                                    <i className="fa fa-search mr-2 text-neutral-900"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                return (
+                <div className=" flex flex-row text-neutral-300">
+                    <form className="mt-2 mx-auto w-full">
+                    <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                        <div className="relative w-full">
+                            <TagsInput
+                                isEditOnRemove
+                                onChange={(tags) => handleSearchInput(tags)}
+                                onRemoved={(tag) => handleSearchTagRemove(tag)}
+                                name="Enter image tags"
+                                placeHolder="Search by tags"
+                                classNames={{
+                                    input: "flex placeholder:text-[0.85rem] text-slate-700",
+                                    tag: "bg-slate-400 text-slate-800",
+                                }}
+                                style={{ flexGrow: 1 }}
+                            />
+
+                            <button type="submit"
+                                    className="absolute text-neutral-900 top-[20%] right-2 ">
+                                <Search className={"p-0.5 ml-2"}/>
+                            </button>
+                        </div>
+                    </form>
                 </div>)
         }
     }
+
 
     function renderPageTitle(currentPage) {
         switch(currentPage) {
@@ -293,18 +361,15 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
         <div>
             <div
                 className="fixed top-0 left-0 w-full z-50 p-3 bg-gray-300 bg-opacity-65 backdrop-blur text-neutral-900 border-b border-gray-400">
-                <div className="grid grid-cols-3 items-center content-center">
-                    <div className="flex col-start-1 justify-self-start">
-                        {renderPageHeaderLeft(currentPage)}
-                    </div>
+                <div className="flex flex-row items-center content-center justify-between">
+                    {renderPageHeaderLeft(currentPage)}
 
-                    <div className={"text-slate-700 text-xl font-bold col-start-2 justify-self-center"}>
+
+                    <div className={"text-slate-700 text-xl font-bold"}>
                         {renderPageTitle(currentPage)}
                     </div>
 
-                    <div className="flex col-start-3 justify-self-end">
-                        {renderPageHeaderRight(currentPage)}
-                    </div>
+                    {renderPageHeaderRight(currentPage)}
 
 
                 </div>

@@ -31,14 +31,14 @@ export const LibraryProvider = ({ children }) => {
 
         try {
             const response = await Axios.post(
-                'http://localhost:3000/upload',
+                'https://project-hci-eosin.vercel.app/upload',
                 formData// Data object
             );
         } catch (error) {
             console.error('Error uploading images:', error);
         }
 
-        fetchImages()
+        await fetchImages()
     }
     const onUploadButtonClick = () => {
         // `current` points to the mounted file input element
@@ -49,7 +49,7 @@ export const LibraryProvider = ({ children }) => {
     const fetchImages = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:3000/fetch-images', {
+            const response = await axios.get('https://project-hci-eosin.vercel.app/fetch-images', {
 
             });
             const imageList = response.data.images.map((image, index) => ({

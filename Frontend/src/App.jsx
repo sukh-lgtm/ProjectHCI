@@ -12,6 +12,8 @@ import RecentlyDeleted from './pages/RecentlyDeleted.jsx';
 import { LibraryProvider } from './context/LibraryProvider.jsx';
 import { AlbumsProvider } from './context/AlbumsProvider.jsx';
 import Actionbar from "./components/Actionbar.jsx";
+import SellPage from "./pages/SellPage.jsx";
+import MyListings from "./pages/MyListings.jsx";
 import InsideAlbum from './pages/InsideAlbum.jsx';
 import LibInAlbum from './pages/LibInAlbum.jsx';
 
@@ -49,6 +51,9 @@ function App() {
         switch (currentPage) {
             case 'Tag':
                 setVisible(false);
+                break;z
+            case 'Sell':
+                setVisible(false);
                 break;
             default:
                 setVisible(!selectionMode);
@@ -56,14 +61,16 @@ function App() {
         }
     }, [currentPage, selectionMode]);
 
+    const [searchTags, setSearchTags] = useState([])
+
 
     return (
 
-        <div className= "max-w-screen h-screen grow bg-gray-300 overflow-x-hidden overflow-hidden" >
+        <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
                     <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} />
-                    {!selectionMode ? <Navbar /> : null}
+                    {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
                             <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
@@ -71,6 +78,8 @@ function App() {
                             <Route path="/explore" element={<Explore />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/tag" element={<TagPage />} />
+                            <Route path="/sell" element={<SellPage />} />
+                            <Route path="/listings" element={<MyListings />} />
                             <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
                             <Route path="/insideAlbum" element={<InsideAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
                             <Route path="/libInAlbum" element={<LibInAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />

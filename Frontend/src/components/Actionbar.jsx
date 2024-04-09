@@ -1,11 +1,11 @@
 import {Link} from "react-router-dom";
 
-function Actionbar({onDelete, onAlbum, selectedImages}) {
+function Actionbar({onDelete, onAlbum, selectedImages, onSellClick}) {
     const onImageSelected = selectedImages.length > 0;
 
     return (
         <div
-            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-10 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
+            className="px-1 bg-neutral-200 bg-opacity-80 backdrop-blur-2xl fixed bottom-0 w-full z-50 flex flex-col pt-0.5 nav-bar-section border-t border-gray-400">
             <div className="grid grid-cols-4 gap-6">
                 <button disabled={!onImageSelected} type="button"
                         className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}
@@ -100,8 +100,35 @@ function Actionbar({onDelete, onAlbum, selectedImages}) {
                     </span>
                 </button>
 
-                <button type="button" disabled={!onImageSelected}
-                        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}>
+                {/*<button type="button" disabled={!onImageSelected}*/}
+                {/*        className={`${onImageSelected ? "active-action-link" : "action-bar-button"}`}*/}
+                {/*        onClick={onSellClick}>*/}
+                {/*    <svg width="35" height="35" viewBox="0 0 35 35" className="fill-inherit"*/}
+                {/*         xmlns="http://www.w3.org/2000/svg">*/}
+                {/*        <g clipPath="url(#clip0_255_2593)">*/}
+                {/*            <path*/}
+                {/*                d="M17.2085 15.8958C13.898 15.0354 12.8335 14.1458 12.8335 12.7604C12.8335 11.1708 14.3064 10.0625 16.771 10.0625C19.3668 10.0625 20.3293 11.3021 20.4168 13.125H23.6397C23.5376 10.6167 22.0064 8.3125 18.9585 7.56875V4.375H14.5835V7.525C11.7543 8.1375 9.4793 9.975 9.4793 12.7896C9.4793 16.1583 12.2647 17.8354 16.3335 18.8125C19.9793 19.6875 20.7085 20.9708 20.7085 22.3271C20.7085 23.3333 19.9939 24.9375 16.771 24.9375C13.7668 24.9375 12.5855 23.5958 12.4251 21.875H9.2168C9.3918 25.0688 11.7835 26.8625 14.5835 27.4604V30.625H18.9585V27.4896C21.8022 26.95 24.0626 25.3021 24.0626 22.3125C24.0626 18.1708 20.5189 16.7562 17.2085 15.8958Z"*/}
+                {/*            />*/}
+                {/*        </g>*/}
+                {/*        <defs>*/}
+                {/*            <clipPath id="clip0_255_2593">*/}
+                {/*                <rect width="35" height="35"/>*/}
+                {/*            </clipPath>*/}
+                {/*        </defs>*/}
+                {/*    </svg>*/}
+
+
+                {/*    <span>*/}
+                {/*        Sell*/}
+                {/*    </span>*/}
+                {/*</button>*/}
+
+
+                <Link disabled={!onImageSelected}
+                      className={`${onImageSelected ? "active-action-link stroke-blue-800" : "action-bar-button stroke-neutral-500"}`}
+                      to={"/sell"}
+                      state={{selectedImages: selectedImages}}
+                >
                     <svg width="35" height="35" viewBox="0 0 35 35" className="fill-inherit"
                          xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_255_2593)">
@@ -120,11 +147,11 @@ function Actionbar({onDelete, onAlbum, selectedImages}) {
                     <span>
                         Sell
                     </span>
-                </button>
+                </Link>
 
             </div>
         </div>
-    );
+);
 }
 
 export default Actionbar;
