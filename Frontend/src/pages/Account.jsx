@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
 import Actionbar from '../components/Actionbar';
-import axios from "axios";
+import Axios from "axios";
 import {Image} from "react-bootstrap";
-import {useLibrary} from "../context/LibraryProvider.jsx";
 
 function Account({ selectionMode }) {
 
     const [loggedIn, setLoggedIn] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
-
-    const { images, loading, fetchImages, setImages } = useLibrary();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -32,10 +29,6 @@ function Account({ selectionMode }) {
         } else {
             setLoggedIn(true);
         }
-    }
-
-    function getImageUrl(path) {
-        return new URL(path, import.meta.url).href
     }
 
     return (
