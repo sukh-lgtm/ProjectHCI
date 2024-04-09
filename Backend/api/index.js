@@ -15,6 +15,7 @@ const imagesDir = path.join(__dirname, './library_images');
 const deletedImagesDir = path.join(__dirname, './deleted_images');
 const jsonFilePath = path.join(__dirname, 'taggedPictures.json');
 const pictureSaleFilePath = path.join(__dirname, 'PictureSale.json');
+const albumsJSON = path.join(__dirname, 'albums.json');
 
 
 app.get('/test', (req, res) => {
@@ -220,7 +221,211 @@ app.get('/fetch-images', (req, res) => {
         }
     });
 });
+
+// Endpoint to fetch deleted images
+app.get('/fetch-deleted-images', (req, res) => {
+    // Read the images directory and send the list of image filenames to the client
+    res.header("Access-Control-Allow-Origin", "*");
+    fs1.readdir(deletedImagesDir, (err, files) => {
+        if (err) {
+            console.error('Error reading deleted images directory:', err);
+            res.status(500).json({ error: 'Error reading deleted images directory' });
+        } else {
+            const images = files.map(file => ({
+                id: file, // You can use a unique identifier for each image, such as the filename
+                src: `http://localhost:3000/deleted_images/${file}` // Construct the URL for each image
+            }));
+            res.json({ images });
+        }
+    });
+});
+
+// Endpoint to fetch albums
+app.get('/fetch-albums', (req, res) => {
+    // Read the albums json and send the list of albums to the client
+
+    const fileJSON = JSON.parse(fs1.readFileSync(albumsJSON))
+    const fileWithLocalhostPathJSON = fileJSON.albums;
+    for (album of fileWithLocalhostPathJSON) {
+        for (image of album.images) {
+            image.src = "http://localhost:3000/" + image.src;
+        }
+    }
+    if (!fileWithLocalhostPathJSON) {
+        res.status(500).json({ error: 'Error reading albums json' });
+    }
+    else {
+        res.json(fileWithLocalhostPathJSON)
+    }
+
+});
+
 app.use(express.static('.'))
+
+// Endpoint to remove images from an album
+app.post('/remove-album-images', (req, res) => {
+    // Assuming the client sends a list of image filenames to move
+    const imageFilenames = req.body.imageFileNames;
+    const albumName = req.body.albumName;
+
+    //for each image to be deleted, remove it from any albums it is in
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileNew = JSON.parse('{"albums": []}')
+
+    //find the album we are removing images from, and then remove the necessary images
+    for (album of albumsFile.albums) {
+        if (album.title !== albumName) {
+            albumsFileNew.albums.push(album)
+            continue;
+        }
+
+        albumsFileNew.albums.push({
+            title: album.title,
+            images: []
+        });
+
+        for (image of album.images) {
+            if (!imageFilenames.includes(image.fileName))
+                albumsFileNew.albums[albumsFileNew.albums.length - 1].images.push(image)
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    //go through albums, if there are any albums that are "empty", make sure to delete the album itself (i.e., don't copy it)
+    albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    albumsFileNew = JSON.parse('{"albums": []}')
+    for (let i = 0; i < albumsFile.albums.length; i++) {
+        if (albumsFile.albums[i].images.length > 0) {
+            albumsFileNew.albums.push({
+                title: albumsFile.albums[i].title,
+                images: albumsFile.albums[i].images
+            });
+        }
+    }
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    res.status(200).send("Images removed from album successfully.");
+});
+
+// Endpoint to delete albums
+app.post('/delete-albums', (req, res) => {
+    if (req.body.albumTitleList.length <= 0) {
+        return res.status(400).json({ error: "List of albums to delete is empty" })
+    }
+
+    // Assuming the client sends a list of album titles to move
+    const albumsToDelete = req.body.albumTitleList;
+
+    // from "albumsFile" to "albumsFileDeleted", only copy albums we are KEEPING,
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileDeleted = JSON.parse('{"albums": []}')
+
+    //only copy albums that we are KEEPING
+    for (album of albumsFile.albums) {
+        if (!albumsToDelete.includes(album.title)) {
+            albumsFileDeleted.albums.push(album)
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileDeleted, null, 2));
+
+    res.status(200).send("Album(s): " + albumsToDelete + " Deleted Successfully")
+
+});
+
+
+// Endpoint to create albums
+app.post('/create-album', (req, res) => {
+    // Check if files are present in the request
+    if (!req.body.imageFilenames || req.body.imageFilenames.length === 0) {
+        return res.status(400).json({ error: 'No files were uploaded.' });
+    }
+    if (req.body.newAlbumName == "") {
+        return res.status(400).json({ error: 'Invalid album name.' });
+    }
+
+    try {
+        //first, open the file in read only mode, to extract information about current albums
+        fileJSON = JSON.parse(fs1.readFileSync(albumsJSON));
+
+        for (album of fileJSON.albums) {
+            if (album.title == req.body.newAlbumName) {
+                return res.status(400).json({ error: "Album name already exists." })
+            }
+        }
+        let newAlbum = {
+            title: req.body.newAlbumName,
+            images: req.body.imageFilenames.map(imageName => ({
+                fileName: imageName, //construct image name
+                src: `library_images/${imageName}`, // Construct the URL for each image
+                location: "",
+                date: "",
+                tags: []
+            })),
+        };
+        fileJSON.albums.push(newAlbum);
+
+        //now, truncate the file, and write the new JSON, which includes the newly created album
+        fs1.writeFileSync(albumsJSON, JSON.stringify(fileJSON, null, 2))
+
+        // Respond with success message and list of uploaded files
+        return res.status(200).json({ message: 'Album created successfully' });
+    } catch (err) {
+        fs1.writeFileSync(albumsJSON, '{ "albums": [] }')
+        return res.status(400).json({ error: `error creating album: ` + err });
+    }
+
+});
+
+// Endpoint to restore images from recently deleted
+app.post('/restore-images', (req, res) => {
+    // Check if files are present in the request
+    if (!req.body.imageFileNames || req.body.imageFileNames.length === 0) {
+        return res.status(400).json({ error: 'No images were selected.' });
+    }
+
+    const imageFileNames = req.body.imageFileNames;
+
+    try {
+        // Move each image to the 'library_images' folder
+        imageFileNames.forEach(filename => {
+            const sourcePath = path.join(deletedImagesDir, filename);
+            const destPath = path.join(imagesDir, filename);
+
+            fs1.renameSync(sourcePath, destPath);
+        });
+
+        return res.status(200).send("Successfully restored images");
+
+    } catch (error) {
+        return res.status(500).json({ error: "Error restoring images: " + error });
+    }
+
+});
+
+// Endpoint to destroy images forever and ever from recently deleted
+app.post('/destroy-images', (req, res) => {
+    // Check if files are present in the request
+    if (!req.body.imageFileNames || req.body.imageFileNames.length === 0) {
+        return res.status(400).json({ error: 'No images were selected.' });
+    }
+
+    const imageFileNames = req.body.imageFileNames;
+
+    try {
+        // delete each image, forever...
+        imageFileNames.forEach(filename => {
+            fs1.rmSync(deletedImagesDir + "/" + filename)
+        });
+
+        return res.status(200).send("Successfully destroyed: " + imageFileNames);
+
+    } catch (error) {
+        return res.status(500).json({ error: "Error destroying images: " + error });
+    }
+
+});
 
 // Endpoint to move images
 app.post('/delete-images', (req, res) => {
@@ -240,6 +445,37 @@ app.post('/delete-images', (req, res) => {
             }
         });
     });
+
+    //for each image to be deleted, remove it from any albums it is in
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileNew = JSON.parse('{"albums": []}')
+
+    //copying albumsFile into albumsFileNew, but only if we are NOT deleting the image
+    for (let i = 0; i < albumsFile.albums.length; i++) {
+        albumsFileNew.albums.push({
+            title: albumsFile.albums[i].title,
+            images: []
+        });
+        for (let j = 0; j < albumsFile.albums[i].images.length; j++) {
+            if (filename !== albumsFile.albums[i].images[j].fileName) {
+                albumsFileNew.albums[i].images.push(albumsFile.albums[i].images[j])
+            }
+        }
+    }
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    //go through albums, if there are any albums that are "empty", make sure to delete the album itself (i.e., don't copy it)
+    albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    albumsFileNew = JSON.parse('{"albums": []}')
+    for (let i = 0; i < albumsFile.albums.length; i++) {
+        if (albumsFile.albums[i].images.length > 0) {
+            albumsFileNew.albums.push({
+                title: albumsFile.albums[i].title,
+                images: albumsFile.albums[i].images
+            });
+        }
+    }
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
 
     res.status(200).send("Images moved successfully.");
 });
@@ -261,6 +497,27 @@ app.post('/upload', upload.array('files'), (req, res) => {
     res.status(200).json({ message: 'Files uploaded successfully', uploadedFiles });
 
     appendToTaggedPictures()
+});
+
+// Endpoint to fetch single album
+app.post('/fetch-album', (req, res) => {
+    //read the albums json
+    const fileJSON = JSON.parse(fs1.readFileSync(albumsJSON))
+
+    //get the specified album from the albums json
+    for (album of fileJSON.albums) {
+        if (album.title === req.body.albumName) {
+            for (image of album.images) {
+                image.src = "http://localhost:3000/" + image.src;
+                image.fileName = image.fileName
+            }
+
+            return res.json(album)
+        }
+    }
+
+    //if we did not find the album something went wrong
+    return res.status(500).json({ error: 'Error fetching album: ' + req.body.albumName });
 });
 
 // app.post('/submit-sale-info', async (req, res) => {
