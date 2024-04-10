@@ -67,10 +67,6 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked, searchTags}) {
         setSelectedItem(null);
     };
 
-
-    //Filters popup
-// Toggle button is temporary
-
     return (
         <div className={"min-h-screen"}>
             {isVisible && (<div>

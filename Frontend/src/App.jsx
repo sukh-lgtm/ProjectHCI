@@ -80,6 +80,9 @@ function App() {
             case 'Sell':
                 setVisible(false);
                 break;
+            case 'Listings':
+                setVisible(false);
+                break;
             default:
                 setVisible(!selectionMode);
                 break;
