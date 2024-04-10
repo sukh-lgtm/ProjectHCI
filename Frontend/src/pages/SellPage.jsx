@@ -6,10 +6,11 @@ import { TagsInput } from "react-tag-input-component";
 import '../tags.css'
 
 
-function SellPage() {
+function SellPage({selectedImages , setSelectedImages}) {
     const [imageInfo, setImageInfo] = useState({});
     const location = useLocation()
-    const selectedImages = location.state?.selectedImages
+
+    const [sellImages, setSellImages] = useState([])
 
     function getImageUrl(path) {
         return new URL(path, import.meta.url).href;
@@ -17,8 +18,19 @@ function SellPage() {
 
     useEffect(() => {
         // Call the function to set image tag info when the component is mounted
-        setImageSellInfo().then();
+        console.log("selected: ", selectedImages)
+        if(selectedImages && selectedImages.length > 0){
+            setSellImages(selectedImages)
+        }
     }, [selectedImages]);
+
+    useEffect(() => {
+        // Call the function to set image tag info when the component is mounted
+        console.log("selected: ", selectedImages)
+        setImageSellInfo().then();
+    }, [sellImages]);
+
+
 
     useEffect(() => {
         console.log("Hello there")
@@ -31,12 +43,15 @@ function SellPage() {
     }
 
     async function setImageSellInfo() {
+        const selectedImagesFilenames = sellImages.map((image, index) => {
+            return image.fileName
+        })
         const obj = {"images": selectedImagesFilenames}
         const currImageTags = (await axios.post('http://localhost:3000/currentImageTags', obj)).data
 
         console.log("tags: ", currImageTags)
 
-        await setImageInfo(prevHashmap => {
+        setImageInfo(prevHashmap => {
             const updatedHashmap = { ...prevHashmap };
 
             for (const image in currImageTags) {
@@ -48,11 +63,6 @@ function SellPage() {
         });
     }
 
-    const images = [...selectedImages];
-
-    const selectedImagesFilenames = selectedImages.map((image, index) => {
-        return image.fileName
-    })
 
     function handleNameChange(imageName, value) {
         setImageInfo(prevHashmap => {
@@ -79,6 +89,7 @@ function SellPage() {
     }
 
     function handleLocationChange(imageName, value) {
+        console.log("Val", value)
         setImageInfo(prevHashmap => {
             const updatedHashmap = { ...prevHashmap }; // Create a copy of the previous hashmap
             updatedHashmap[imageName].Location = value;
@@ -100,19 +111,26 @@ function SellPage() {
         axios.post('http://localhost:3000/deleteTag', obj).then()
     }
 
+    function handlePostClick(image) {
+        const imageList = [...sellImages];
+        const updatedItems = imageList.filter((img, index) => img !== image);
+        console.log(updatedItems)
+        setSellImages(updatedItems);
+    }
+
     return (
         <div className={"mt-[7.5rem] flex flex-col min-h-screen mb-12"}>
             <div className={"ml-3 text-slate-700 font-bold text-lg"}>
-                Selling {images.length} {images.length > 1 ? "Pictures" : "Picture"}
+                Selling {sellImages.length} {sellImages.length > 1 ? "Pictures" : "Picture"}
             </div>
             <div className={"w-full"}>
 
                 <div className={"flex gap-3 flex-col"}>
-                    {images.map((image, index) => (
-                        <div key={index}
-                             className={"mt-2 bg-slate-100 border border-slate-400 p-2 rounded-lg mx-2 flex flex-col max-w-full justify-center items-center content-center text-slate-800"}>
+                    {sellImages.map((image, index) => (
+                        <form key={index}
+                              className={"mt-2 bg-slate-100 border border-slate-400 p-2 rounded-lg mx-2 flex flex-col max-w-full justify-center items-center content-center text-slate-800"}>
                             <div className="text-left self-start text-slate-600">
-                                Picture {index + 1} of {images.length}
+                                Picture {index + 1} of {sellImages.length}
                             </div>
                             <div
                                 className={"mt-4 flex content-center justify-center items-center w-full h-full col-span-1"}>
@@ -128,15 +146,15 @@ function SellPage() {
                                     className={"mx-2 flex flex-col gap-2"}>
 
                                     <div>
-                                        <div className={"w-full flex items-center font-bold"}>
+                                        <label className={"w-full flex items-center font-bold"}>
                                             Picture Name *
-                                        </div>
+                                        </label>
 
                                         <div className={"w-full col-span-2"}>
                                             {imageInfo[image.fileName] ? <input
                                                 required={true}
-                                                value={imageInfo[image.fileName].Name}
-                                                onChange={(e) => handleNameChange(image.fileName, e.target.value)}
+                                                defaultValue={imageInfo[image.fileName].Name}
+                                                onBlur={(e) => handleNameChange(image.fileName, e.target.value)}
                                                 className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50 invalid:border-red-500"}
                                                 placeholder={"Enter Image Name"}
                                             /> : <>Loading...</>}
@@ -144,15 +162,14 @@ function SellPage() {
                                     </div>
 
                                     <div>
-                                        <div className={"w-full flex items-center font-bold"}>
+                                        <label className={"w-full flex items-center font-bold"}>
                                             Location
-                                        </div>
+                                        </label>
 
                                         <div className={"w-full col-span-2"}>
                                             {imageInfo[image.fileName] ? <input
-                                                required={true}
-                                                value={imageInfo[image.fileName].Location}
-                                                onChange={(e) => handleLocationChange(image.fileName, e.target.value)}
+                                                defaultValue={imageInfo[image.fileName].Location}
+                                                onBlur={(e) => handleLocationChange(image.fileName, e.target.value)}
                                                 className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50"}
                                                 placeholder={"Enter Image Name"}
                                             /> : <>Loading...</>}
@@ -160,9 +177,9 @@ function SellPage() {
                                     </div>
 
                                     <div>
-                                        <div className={"w-full flex items-center font-bold"}>
+                                        <label className={"w-full flex items-center font-bold"}>
                                             Price *
-                                        </div>
+                                        </label>
 
                                         <div className={"relative w-full col-span-2"}>
                                             {/*{imageInfo[image.fileName] ? <input*/}
@@ -178,13 +195,12 @@ function SellPage() {
                                             <input
                                                 required={true}
                                                 type="number"
-                                                onChange={(e) => handlePriceChange(image.fileName, e.target.value)}
+                                                onBlur={(e) => handlePriceChange(image.fileName, e.target.value)}
                                                 className={"w-full rounded-md border border-slate-400 px-2 placeholder:text-sm py-1 bg-slate-50 pl-10 invalid:border-red-500"}
                                                 placeholder={"Enter Image Price"}
                                             />
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div className={"flex flex-col col-span-3 mx-4 py-2 w-full"}>
@@ -211,7 +227,12 @@ function SellPage() {
                             </div>
 
                             <p className="text-red-500 mt-2 text-xs italic self-start">* Required Fields</p>
-                        </div>
+                            <button type="submit"
+                                    className="mx-2  bg-blue-600 px-6 pt-1 pb-2 rounded-3xl m-1"
+                                    onSubmit={() => handlePostClick(image)}>
+                                Post
+                            </button>
+                        </form>
                     ))}
                 </div>
 

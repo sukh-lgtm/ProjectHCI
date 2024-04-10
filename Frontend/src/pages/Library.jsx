@@ -139,6 +139,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags, selectedImage
     }, [showPopup]);
 
     useEffect(() => {
+        console.log("Selection mode, ", selectionMode)
         setSelectedImages([]);
     }, [selectionMode]);
 

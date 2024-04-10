@@ -29,30 +29,6 @@ function MyListings() {
         setImageListing().then(() => {console.log(imagesSource)});
     }, []);
 
-    const confirmDelete = async () => {
-        const selectedImagePath = selectedImages.map(image => (image.fileName));
-        // Make a backend call to delete the selected images
-        try {
-            const response = await axios.post(
-                'http://localhost:3000/delete-images',
-                { imageFilenames: selectedImagePath }, // Data object
-                { headers: { 'Content-Type': 'application/json' } },
-                {proxy: {
-                        host: 'localhost',
-                        port: 3000
-                    }}
-            );
-            console.log(response.data);
-            // If successful, update the state to reflect the changes
-            const remainingImages = images.filter((image) => !selectedImages.includes(image));
-            setImages(remainingImages);
-            setSelectedImages([]);
-            togglePopup(); // Hide the popup after deletion
-        } catch (error) {
-            console.error('Error deleting images:', error);
-        }
-    };
-
 
     async function setImageListing() {
         const currImageListings = (await axios.get('http://localhost:3000/getListings')).data

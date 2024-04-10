@@ -96,11 +96,125 @@
     },
     "1712718285463-757103991-image-2.jpg": {
       "Path": "/library_images/1712718285463-757103991-image-2.jpg",
+      "Name": "asd",
+      "Location": "as",
+      "Date": "",
+      "Tags": [
+        "Cmon"
+      ],
+      "Price": "12",
+      "Sales": 0
+    },
+    "1712718285458-714503194-image-1.jpg": {
+      "Path": "/library_images/1712718285458-714503194-image-1.jpg",
       "Name": "",
       "Location": "",
       "Date": "",
       "Tags": [],
       "Price": 0,
+      "Sales": 0
+    },
+    "1712718285465-315262932-image-3.jpg": {
+      "Path": "/library_images/1712718285465-315262932-image-3.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285479-504681957-image-8.jpg": {
+      "Path": "/library_images/1712718285479-504681957-image-8.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285478-876423518-image-7.jpg": {
+      "Path": "/library_images/1712718285478-876423518-image-7.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285483-129970134-image-11.jpg": {
+      "Path": "/library_images/1712718285483-129970134-image-11.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285483-708141462-image-10.jpg": {
+      "Path": "/library_images/1712718285483-708141462-image-10.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285485-68276140-image-13.jpg": {
+      "Path": "/library_images/1712718285485-68276140-image-13.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285469-812303388-image-5.jpg": {
+      "Path": "/library_images/1712718285469-812303388-image-5.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285474-481275033-image-6.jpg": {
+      "Path": "/library_images/1712718285474-481275033-image-6.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712718285467-175343244-image-4.jpg": {
+      "Path": "/library_images/1712718285467-175343244-image-4.jpg",
+      "Name": "sdf",
+      "Location": "sdf",
+      "Date": "",
+      "Tags": [
+        "Cmon"
+      ],
+      "Price": "123",
+      "Sales": 0
+    },
+    "1712718285481-82186276-image-9.jpg": {
+      "Path": "/library_images/1712718285481-82186276-image-9.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712727165620-319739907-image-28.jpg": {
+      "Path": "/library_images/1712727165620-319739907-image-28.jpg",
+      "Name": "asd",
+      "Location": "asd",
+      "Date": "",
+      "Tags": [
+        "asd"
+      ],
+      "Price": "12",
       "Sales": 0
     }
   }

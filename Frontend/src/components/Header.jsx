@@ -278,7 +278,7 @@ function Header(
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
-                                width={20} height={20}/> Post
+                                width={20} height={20}/> Post All
                             </div>
                         </button>
                     </Link>

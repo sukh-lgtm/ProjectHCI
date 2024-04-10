@@ -95,7 +95,7 @@ function App() {
             <LibraryProvider>
                 <AlbumsProvider>
                     <Header
-                        currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} clearInsideAlbumTitle={clearInsideAlbumTitle} toggleSelectionMode={toggleSelectionMode} 
+                        currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} clearInsideAlbumTitle={clearInsideAlbumTitle} toggleSelectionMode={toggleSelectionMode}
                         setSearchTags={setSearchTags} newAlbumButtonClicked={toggleAlbumButtonClicked} selectedImages={selectedImages} insidealbumtitle={insideAlbumTitle}
                         setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode}
                         searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}
@@ -103,27 +103,27 @@ function App() {
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
-                            <Route 
-                                path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode} 
+                            <Route
+                                path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode}
                                 selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
-                            <Route path="/albums" element={<Albums 
+                            <Route path="/albums" element={<Albums
                                 selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButtonClicked={toggleAlbumButtonClicked} clearInsideAlbumTitle={clearInsideAlbumTitle}
-                                searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}/>} 
+                                searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}/>}
                             />
                             <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} searchTags={searchTags}/>} />
                             <Route path="/account" element={<Account setVisible={setVisible}/>}/>
                             <Route path="/tag" element={<TagPage />} />
-                            <Route path="/sell" element={<SellPage />} />
+                            <Route path="/sell" element={<SellPage selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>} />
                             <Route path="/listings" element={<MyListings />} />
                             <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
-                            <Route path="/insideAlbum" element={<InsideAlbum 
-                                selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} 
-                                setSelectionMode={setSelectionMode} selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>} 
+                            <Route path="/insideAlbum" element={<InsideAlbum
+                                selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle}
+                                setSelectionMode={setSelectionMode} selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
-                            <Route path="/libInAlbum" element={<LibInAlbum 
+                            <Route path="/libInAlbum" element={<LibInAlbum
                                 selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}
-                                selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>} 
+                                selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
                         </Routes>
                     </div>
