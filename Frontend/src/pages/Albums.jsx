@@ -162,8 +162,8 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
                 <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-2 mx-2 my-2 gap-x-[10px] gap-y-[56px] mb-52">
                         {
-                            albums.map(album => (
-                                <div key={album.title}>
+                            albums.map((album, index) => (
+                                <div key={index}>
                                     <div
                                         onClick={() => selectionMode && toggleSelectedAlbum(album)}
                                         className={`${selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative w-full h-full rounded-lg" : "relative col-span-6 w-full h-full rounded-lg"}`}

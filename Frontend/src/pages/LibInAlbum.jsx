@@ -5,11 +5,13 @@ import { useLibrary } from '../context/LibraryProvider';
 import { Plus, Check } from 'lucide-react'
 import {Image} from "react-bootstrap";
 import axios from "axios";
+import { Link } from 'react-router-dom';
+import LibInAlbumActionBar from '../components/LibInAlbumActionBar';
 
-function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode }) {
+function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode, addToAlbumButtonClicked, setAddToAlbumButtonClicked }) {
 
     const [selectedImages, setSelectedImages] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showAddPopup, setShowAddPopup] = useState(false);
 
     const [albumImages, setAlbumImages] = useState([]);
     const [images, setImages] = useState([]);
@@ -18,8 +20,8 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
     const [imagesNotInAlbum, setImagesNotInAlbum] = useState([])
     const [isNewAlbum, setIsNewAlbum] = useState(false)
 
-    const togglePopup = () => {
-        setShowPopup(!showPopup);
+    const toggleAddPopup = () => {
+        setShowAddPopup(!showAddPopup);
     };
 
     const fetchImagesAndAlbum = async () => {
@@ -27,7 +29,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
             const response = await axios.get('http://localhost:3000/fetch-images', {
 
             });
-            const imageList = response.data.images.map((image, index) => ({
+            const imageList = response.data.images.map((image) => ({
                 src: image.src,
                 fileName: image.id
             }));
@@ -68,13 +70,12 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         try {
             const response = await axios.post(
                 'http://localhost:3000/add-to-album',
-                { imageFileNames: selectedImagePath, newAlbumName: albumTitle }, // Data object
+                { imageFileNames: selectedImagePath, albumName: albumTitle }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
             );
             //if successful, return to non "select" mode
             console.log(response.data)
             setSelectedImages([])
-            setSelectionMode(false);
 
         } catch (error) {
             console.error('Error creating album:', error);
@@ -83,8 +84,8 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (showPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
-                setShowPopup(false);
+            if (showAddPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
+                setShowAddPopup(false);
             }
         };
 
@@ -93,7 +94,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-    }, [showPopup]);
+    }, [showAddPopup]);
 
     useEffect(() => {
         setSelectedImages([]);
@@ -110,6 +111,9 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
             setSelectionMode(true);
             setLoading(false)
         });
+        console.log("lib imgs: ", images)
+        console.log("album images: ", albumImages)
+        console.log("images we should see: ", imagesNotInAlbum)
 
     }, []);
 
@@ -117,6 +121,10 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
 
     }, [images, albumImages]);
+
+    useEffect(() => {
+        setShowAddPopup(true);
+    }, [addToAlbumButtonClicked]);
 
     const toggleSelectImage = (image) => {
         const isSelected = selectedImages.includes(image);
@@ -230,6 +238,30 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
                     </div>
                 </div>
             }
+
+            {selectionMode ? <LibInAlbumActionBar selectedImages={selectedImages} /> : null}
+            {(selectedImages.length > 0 && showAddPopup) && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4 min-w-screen">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                    <p className="px-4 text-[0.9rem] flex justify-center">Are you sure you want to add {selectedImages.length} pictures to the album:</p>
+                        <p className="px-4 text-[1.1rem] font-bold flex justify-center">{albumTitle}?</p>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] col-start-1 text-blue-800 px-2 py-3 border-r-2"
+                                    onClick={toggleAddPopup}>
+                                Cancel
+                            </button>
+                            <Link to={`/insideAlbum?title=${albumTitle}`}
+                                className="col-start-2 grid grid-cols-3">
+                                <button className="text-[1.2em] col-start-2 text-blue-800 px-2 py-3 rounded-md self-end"
+                                        onClick={confirmAddToAlbum}>
+                                    Add
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
         </>

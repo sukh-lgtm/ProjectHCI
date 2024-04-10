@@ -106,7 +106,7 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
     }, [albumTitle]);
 
     useEffect(() => {
-        fetchInsideAlbumTitle();
+        fetchInsideAlbumTitle().then(() => {fetchAlbum()});
     }, []);
 
     function getImageUrl(path) {
@@ -114,7 +114,7 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
     }
 
     return (
-        <>
+        <div className='min-h-screen'>
             {loading ?
                 <div role="status"
                     className="flex flex-row w-screen h-screen justify-center align-middle items-center overflow-x-hidden">
@@ -235,7 +235,7 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
                 </div>
             )}
 
-        </>
+        </div>
     )
 }
 

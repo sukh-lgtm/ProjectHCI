@@ -444,25 +444,26 @@ app.post('/delete-images', (req, res) => {
                 console.log(`${filename} moved successfully to delete_images folder.`);
             }
         });
-    });
 
-    //for each image to be deleted, remove it from any albums it is in
-    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
-    let albumsFileNew = JSON.parse('{"albums": []}')
+        //for each image to be deleted, remove it from any albums it is in
+        let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+        let albumsFileNew = JSON.parse('{"albums": []}')
 
-    //copying albumsFile into albumsFileNew, but only if we are NOT deleting the image
-    for (let i = 0; i < albumsFile.albums.length; i++) {
-        albumsFileNew.albums.push({
-            title: albumsFile.albums[i].title,
-            images: []
-        });
-        for (let j = 0; j < albumsFile.albums[i].images.length; j++) {
-            if (filename !== albumsFile.albums[i].images[j].fileName) {
-                albumsFileNew.albums[i].images.push(albumsFile.albums[i].images[j])
+        //copying albumsFile into albumsFileNew, but only if we are NOT deleting the image
+        for (let i = 0; i < albumsFile.albums.length; i++) {
+            albumsFileNew.albums.push({
+                title: albumsFile.albums[i].title,
+                images: []
+            });
+            for (let j = 0; j < albumsFile.albums[i].images.length; j++) {
+                if (filename !== albumsFile.albums[i].images[j].fileName) {
+                    albumsFileNew.albums[i].images.push(albumsFile.albums[i].images[j])
+                }
             }
         }
-    }
-    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+        fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    });
 
     //go through albums, if there are any albums that are "empty", make sure to delete the album itself (i.e., don't copy it)
     albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
@@ -520,9 +521,50 @@ app.post('/fetch-album', (req, res) => {
     return res.status(500).json({ error: 'Error fetching album: ' + req.body.albumName });
 });
 
-//app.post('/add-to-album', (req, res) => {
-//
-//});
+//endpoint to add pictures to existing album
+app.post('/add-to-album', (req, res) => {
+
+    // assumes images are NOT already in album - i.e., does not check if duplicating images
+    // if this happens, the frontend is showing users images that are already IN the album they are viewing
+    const imageFilenames = req.body.imageFileNames;
+    const albumName = req.body.albumName;
+
+    if(!imageFilenames || imageFilenames.length == 0)
+        return res.status(500).json({ error: 'invalid selection of images: ' + imageFilenames});
+
+    //for each image to be deleted, remove it from any albums it is in
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+    let albumsFileNew = JSON.parse('{"albums": []}')
+
+    //find the album we are adding images from, and then add the given images
+    for (album of albumsFile.albums) {
+        if (album.title !== albumName) {
+            albumsFileNew.albums.push(album)
+            continue;
+        }
+
+        albumsFileNew.albums.push({
+            title: album.title,
+            images: album.images
+        });
+
+        for (imageName of imageFilenames) {
+            albumsFileNew.albums[albumsFileNew.albums.length - 1].images.push( {
+                fileName: imageName,
+                src: "library_images/" + imageName,
+                locaion: "",
+                date: "",
+                tags: []
+            });
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFileNew, null, 2));
+
+    // Respond with success message and list of uploaded files
+    res.status(200).json({ message: 'Files: ' + imageFilenames + ' added to album successfully' });
+
+});
 
 // app.post('/submit-sale-info', async (req, res) => {
 //     const pictureInfo = req.body;

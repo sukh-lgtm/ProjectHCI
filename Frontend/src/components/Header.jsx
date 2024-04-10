@@ -7,7 +7,7 @@ import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, newAlbumButtonClicked, newAlbumButton }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, toggleNewAlbumButtonClicked, newAlbumButton, onAddToAlbumButtonClicked }) {
     const { fetchImages } = useLibrary();
 
     function handleSearchInput(tags){
@@ -49,7 +49,6 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
         inputFile.current.click();
     };
     const inputFile = useRef(null)
-
 
     const renameAlbum = () => {
         console.log("Rename Album!")
@@ -111,7 +110,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                         <div>
                             <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                                onClick={newAlbumButtonClicked(false)}
+                                onClick={toggleNewAlbumButtonClicked}
                             >
                                 <div className={"flex flex-row justify-center items-center content-center gap-2"}><X
                                     width={20} height={20} /> Cancel
@@ -122,7 +121,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                         : <div>
                             <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                                onClick={newAlbumButtonClicked(true)}
+                                onClick={toggleNewAlbumButtonClicked}
                             >
                                 <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
                                     width={20} height={20} /> New Album
@@ -141,8 +140,8 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                             <Link to={`/libInAlbum?=${insideAlbumTitle}`}>
                                 <button type="submit"
                                     className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
-                                    <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
-                                        width={20} height={20} /> Add
+                                    <div className={"flex flex-row justify-center items-center text-nowrap content-center gap-2"}><Plus
+                                        width={20} height={20} /> Add Pictures
                                     </div>
                                 </button>
                             </Link>
@@ -165,7 +164,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     <div>
                         <button type="submit"
                             className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                            onClick={null}>
+                            onClick={onAddToAlbumButtonClicked}>
                             
                             <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
                                 width={20} height={20} /> Add

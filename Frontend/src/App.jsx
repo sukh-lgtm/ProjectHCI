@@ -21,7 +21,8 @@ function App() {
     const [count, setCount] = useState(0)
     const [selectionMode, setSelectionMode] = useState(false);
     const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
-    const [newAlbumButton, newAlbumButtonClicked] = useState(false)
+    const [newAlbumButton, setAlbumButtonClicked] = useState(false)
+    const [addToAlbumButtonClicked, setAddToAlbumButtonClicked] = useState(false)
 
     const location = useLocation();
 
@@ -37,6 +38,18 @@ function App() {
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
     };
+
+    const toggleAlbumButtonClicked = () => {
+        setAlbumButtonClicked(!newAlbumButton);
+    }
+
+    const toggleAddToAlbumButton = () => {
+        setAddToAlbumButtonClicked(!addToAlbumButtonClicked);
+    }
+
+    const onAddToAlbumClicked = () => {
+        toggleAddToAlbumButton(true);
+    }
 
     const fetchInsideAlbumTitle = async () => {
         setInsideAlbumTitle(location.search.split("=")[1])
@@ -69,7 +82,10 @@ function App() {
         <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
-                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags} newAlbumButton={newAlbumButton} newAlbumButtonClicked={newAlbumButtonClicked}/>
+                    <Header
+                        currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} 
+                        setSearchTags={setSearchTags} newAlbumButton={newAlbumButton} toggleNewAlbumButtonClicked={toggleAlbumButtonClicked} onAddToAlbumButtonClicked={onAddToAlbumClicked}
+                    />
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
@@ -82,7 +98,10 @@ function App() {
                             <Route path="/listings" element={<MyListings />} />
                             <Route path="/recentlyDeleted" element={<RecentlyDeleted selectionMode={selectionMode} setSelectionMode={setSelectionMode}/>}/>
                             <Route path="/insideAlbum" element={<InsideAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
-                            <Route path="/libInAlbum" element={<LibInAlbum selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}/>} />
+                            <Route path="/libInAlbum" element={<LibInAlbum 
+                                selectionMode={selectionMode} albumTitle={insideAlbumTitle} fetchInsideAlbumTitle={fetchInsideAlbumTitle} setSelectionMode={setSelectionMode}
+                                addToAlbumButtonClicked={addToAlbumButtonClicked} setAddToAlbumButtonClicked={setAddToAlbumButtonClicked}/>} 
+                            />
                         </Routes>
                     </div>
                 </AlbumsProvider>
