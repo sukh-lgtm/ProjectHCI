@@ -9,7 +9,8 @@ import {TagsInput} from "react-tag-input-component";
 
 function Header(
     { currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, newAlbumButtonClicked, 
-    toggleFilterButtonClicked, filterButtonClicked , fullPageImage, toggleFullPageMode, selectedImages, clearInsideAlbumTitle }) {
+    toggleFilterButtonClicked, filterButtonClicked , fullPageImage, toggleFullPageMode, selectedImages, clearInsideAlbumTitle,
+    searchedAlbum, setSearchedAlbum}) {
 
     const { fetchImages  } = useLibrary();
 
@@ -130,21 +131,24 @@ function Header(
                 )
 
             case 'Albums':
-                return (
-                    <div>
-                        <Link to={"/libInAlbum?="}>
-                            <button type="button"
-                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                                onClick={newAlbumButtonAndClearTitle}
-                            >
-                                <div className={"flex flex-row justify-center text-nowrap items-center content-center gap-2"}><Plus
-                                    width={20} height={20} /> New
-                                </div>
-                            </button>
-                        </Link>
-                    </div>
-
-                )
+                if(!selectionMode) {
+                    return (
+                        <div>
+                            <Link to={"/libInAlbum?="}>
+                                <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                    onClick={newAlbumButtonAndClearTitle}
+                                >
+                                    <div className={"flex flex-row justify-center text-nowrap items-center content-center gap-2"}><Plus
+                                        width={20} height={20} /> New
+                                    </div>
+                                </button>
+                            </Link>
+                        </div>)
+                }
+                else {
+                    return (<div></div>)
+                }
             
             case 'RecentlyDeleted':
                 return (<div></div>)
@@ -360,22 +364,28 @@ function Header(
         switch(currentPage) {
 
             case 'Albums':
-                return (<div>
-                    <div className="flex flex-row pt-2 text-neutral-300">
-                        <form className="mx-auto w-full">
-                        <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
-                            <div className="relative w-full">
-                                <input type="search" id="default-search"
-                                    className="grow self-center w-full py-2 pl-2 text-[0.85rem] rounded-md text-slate-700 border border-slate-400 md:border-none focus: focus:border-blue-400 focus:border-4"
-                                    placeholder="Search album names"/>
-                                <button type="submit"
-                                        className="absolute text-neutral-900 right-2 top-[20%]">
-                                    <Search className={"p-0.5 ml-2"} />
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>)
+                if(selectionMode){
+                    return (<div></div>)
+                }
+                else {
+                    return (<div>
+                        <div className="flex flex-row pt-2 text-neutral-300">
+                            <form className="mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full">
+                                    <input type="search" id="default-search"
+                                        className="grow self-center w-full py-2 pl-2 text-[0.85rem] rounded-md text-slate-700 border border-slate-400 md:border-none focus: focus:border-blue-400 focus:border-4"
+                                        placeholder="Search album names" />
+                                    <button type="submit"
+                                        className="absolute text-neutral-900 right-2 top-[20%]"
+                                        onChange={(e) => setSearchedAlbum(e.target.value)}>
+                                        <Search className={"p-0.5 ml-2"} />
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>)
+                }
             
             //intentional fallthrough
             case 'RecentlyDeleted':

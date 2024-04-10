@@ -567,6 +567,31 @@ app.post('/add-to-album', (req, res) => {
 
 });
 
+app.post('/rename-album', (req, res) => {
+
+    const newName = req.body.newAlbumName;
+    const currentName = req.body.oldAlbumName;
+
+    console.log("new name: ", newName)
+    console.log("cur name: ", currentName)
+
+    //for each image to be deleted, remove it from any albums it is in
+    let albumsFile = JSON.parse(fs1.readFileSync(albumsJSON))
+
+    for (album of albumsFile.albums) {
+        if(album.title === currentName) {
+            album.title = newName;
+            break;
+        }
+    }
+
+    fs1.writeFileSync(albumsJSON, JSON.stringify(albumsFile, null, 2));
+
+    // Respond with success message and list of uploaded files
+    res.status(200).json({ message: 'Album: ' + currentName + ' renamed to: ' + newName });
+
+});
+
 // app.post('/submit-sale-info', async (req, res) => {
 //     const pictureInfo = req.body;
 //

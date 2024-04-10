@@ -18,14 +18,15 @@ import InsideAlbum from './pages/InsideAlbum.jsx';
 import LibInAlbum from './pages/LibInAlbum.jsx';
 
 function App() {
-    const [count, setCount] = useState(0)
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedImages, setSelectedImages] = useState([]);
     const [filterButtonClicked, setFilterButtonClicked] = useState(false);
     const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
     const [newAlbumButton, setAlbumButtonClicked] = useState(false)
-    const [addToAlbumButtonClicked, setAddToAlbumButtonClicked] = useState(false)
     const [fullPageImage, setFullPageImage] = useState(false)
+
+    const [searchedAlbum, setSearchedAlbum] = useState("")
+
 
 
     const location = useLocation();
@@ -97,6 +98,7 @@ function App() {
                         currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} clearInsideAlbumTitle={clearInsideAlbumTitle} toggleSelectionMode={toggleSelectionMode} 
                         setSearchTags={setSearchTags} newAlbumButtonClicked={toggleAlbumButtonClicked} selectedImages={selectedImages} insidealbumtitle={insideAlbumTitle}
                         setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode}
+                        searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}
                     />
                     {visible ? <Navbar /> : null}
                     <div>
@@ -105,7 +107,10 @@ function App() {
                                 path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode} 
                                 selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
-                            <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButton={newAlbumButton}/>} />
+                            <Route path="/albums" element={<Albums 
+                                selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButtonClicked={toggleAlbumButtonClicked} clearInsideAlbumTitle={clearInsideAlbumTitle}
+                                searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}/>} 
+                            />
                             <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} searchTags={searchTags}/>} />
                             <Route path="/account" element={<Account setVisible={setVisible}/>}/>
                             <Route path="/tag" element={<TagPage />} />

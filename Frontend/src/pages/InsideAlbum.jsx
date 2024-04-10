@@ -4,13 +4,16 @@ import axios from "axios";
 import {Image} from "react-bootstrap";
 import { useLibrary } from '../context/LibraryProvider';
 import InsideAlbumActionBar from '../components/InsideAlbumActionBar';
+import {PencilLine} from 'lucide-react'
 
 function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode, selectedImages, setSelectedImages }) {
 
     const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
-    const [showDeletePopup, setShowDeletePopup] = useState(false)
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState([]);
+    const [newAlbumTitle, setNewAlbumTitle] = useState("");
+
 
     const toggleAlbumNamePopup = () => {
         setShowAlbumNamePopup(!showAlbumNamePopup);
@@ -77,6 +80,37 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
         } catch (error) {
             console.error('Error removing images from album:', error);
         }
+    }
+
+    async function renameAlbum(newName, oldName) {
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/rename-album',
+                { newAlbumName: newName, oldAlbumName: oldName }, // Data object
+                { headers: { 'Content-Type': 'application/json' } },
+                {
+                    proxy: {
+                        host: 'localhost',
+                        port: 3000
+                    }
+                }
+            );
+            console.log(response.data);
+            // If successful, update the state to reflect the changes
+            const remainingImages = images.filter((image) => !selectedImages.includes(image));
+            setImages(remainingImages);
+            setSelectedImages([]);
+            toggleAlbumNamePopup(); // Hide the popup after deletion
+            setSelectionMode(false);
+
+        } catch (error) {
+            console.error('Error deleting images:', error);
+        }
+
+    }
+
+    function onRenameAlbumClick() {
+        renameAlbum(newAlbumTitle, albumTitle);
     }
 
     const toggleSelectImage = (image) => {
@@ -162,7 +196,20 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
                         </div>
 
                     </div> :
-                    <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
+                    <div className="flex mt-28 flex-grow flex-col mx-auto justify-center items-center w-screen">
+
+                        {selectionMode && selectedImages.length === 0 ?
+                        <div>
+                            <button type="button"
+                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                onClick={toggleAlbumNamePopup}>
+                                <div className={"flex flex-row justify-center items-center content-center gap-1"}><PencilLine
+                                    width={20} height={20} /> Rename Album
+                                </div>
+                            </button>
+                        </div>
+
+                        : <div></div>}
                         <div className="grid grid-cols-3 mx-2 my-2 gap-1 mb-52">
                             {images.map((image, index) => (
 
@@ -212,6 +259,37 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
             }
 
             {selectionMode ? <InsideAlbumActionBar onRemove={removeSelectedImages} selectedImages={selectedImages} /> : null}
+
+            {showAlbumNamePopup && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                        <p className="px-4 text-[1.0rem] flex justify-center">Create New Album</p>
+
+                        <div className="flex flex-row pt-2 text-neutral-300">
+                            <form className=" mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full flex flex-row px-2">
+                                    <input type="search" id="default-search"
+                                        className="flex-grow self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                        placeholder="Enter Album Name"
+                                        onChange={(e) => setNewAlbumTitle(e.target.value)}/>
+                                </div>
+                            </form>
+                        </div>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-600 px-2 py-3 border-r-2"
+                                    onClick={toggleAlbumNamePopup}>
+                                Cancel
+                            </button>
+                            <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
+                                    onClick={onRenameAlbumClick}>
+                                Rename
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {showDeletePopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-75 px-4">
