@@ -8,21 +8,32 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import LibInAlbumActionBar from '../components/LibInAlbumActionBar';
 
-function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode, addToAlbumButtonClicked, setAddToAlbumButtonClicked }) {
+function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode, selectedImages, setSelectedImages }) {
 
-    const [selectedImages, setSelectedImages] = useState([]);
     const [showAddPopup, setShowAddPopup] = useState(false);
+    const [showNewAlbumPopup, setShowNewAlbumPopup] = useState(false)
 
     const [albumImages, setAlbumImages] = useState([]);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [imagesNotInAlbum, setImagesNotInAlbum] = useState([])
-    const [isNewAlbum, setIsNewAlbum] = useState(false)
+
+    const [isNewAlbum, setIsNewAlbum] = useState(true)
+    const [newAlbumName, setNewAlbumName] = useState("")
 
     const toggleAddPopup = () => {
         setShowAddPopup(!showAddPopup);
     };
+
+    const toggleNewAlbumPopup = () => {
+        setShowNewAlbumPopup(!showNewAlbumPopup)
+    }
+
+    const onCreateAlbumClick = async () => {
+        createAlbum(newAlbumName)
+        setSelectionMode(false)
+    }
 
     const fetchImagesAndAlbum = async () => {
         try {
@@ -36,28 +47,30 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
 
             setImages(imageList);
 
-            fetchInsideAlbumTitle()
-            //make backend call to create new album from selected images
-            const albumResponse = await axios.post(
-                'http://localhost:3000/fetch-album',
-                { albumName: albumTitle }, // Data object
-                { headers: { 'Content-Type': 'application/json' } },
-                {
-                    proxy: {
-                        host: 'localhost',
-                        port: 3000
+            if(!isNewAlbum) {
+                fetchInsideAlbumTitle()
+                //make backend call to create new album from selected images
+                const albumResponse = await axios.post(
+                    'http://localhost:3000/fetch-album',
+                    { albumName: albumTitle }, // Data object
+                    { headers: { 'Content-Type': 'application/json' } },
+                    {
+                        proxy: {
+                            host: 'localhost',
+                            port: 3000
+                        }
                     }
-                }
-            );
+                );
 
-            const albumImageList = albumResponse.data.images.map(image => ({
-                src: image.src,
-                fileName: image.fileName
-            }));
+                const albumImageList = albumResponse.data.images.map(image => ({
+                    src: image.src,
+                    fileName: image.fileName
+                }));
 
-            setAlbumImages(albumImageList)
+                setAlbumImages(albumImageList)
 
-            setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
+                setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
+            }
 
         } catch (error) {
             console.error('Error fetching images and album:', error);
@@ -82,6 +95,26 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
         }
     }
 
+    async function createAlbum(newAlbumName) {
+        const selectedImagePath = selectedImages.map(image => (image.fileName));
+        //make backend call to create new album from selected images
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/create-album',
+                { imageFilenames: selectedImagePath, newAlbumName: newAlbumName }, // Data object
+                { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
+            );
+            //if successful, return to non "select" mode
+            console.log(response.data)
+            setSelectedImages([])
+            toggleNewAlbumPopup();
+
+        } catch (error) {
+            console.error('Error creating album:', error);
+        }
+
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showAddPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
@@ -101,30 +134,21 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
     }, [selectionMode]);
 
     useEffect(() => {
-        setIsNewAlbum(albumImages.length == 0)
+        setIsNewAlbum(albumImages.length === 0 && (albumTitle === ""));
     }, [albumImages.length, albumTitle]);
 
     useEffect(() => {
-
         setLoading(true);
         fetchImagesAndAlbum().then(() => {
             setSelectionMode(true);
             setLoading(false)
         });
-        console.log("lib imgs: ", images)
-        console.log("album images: ", albumImages)
-        console.log("images we should see: ", imagesNotInAlbum)
-
     }, []);
 
     useEffect(() => {
         setImagesNotInAlbum(images.filter((img) => !(albumImages.map(image => image.fileName)).includes(img.fileName)))
 
     }, [images, albumImages]);
-
-    useEffect(() => {
-        setShowAddPopup(true);
-    }, [addToAlbumButtonClicked]);
 
     const toggleSelectImage = (image) => {
         const isSelected = selectedImages.includes(image);
@@ -190,7 +214,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
                     <span className="font-bold ml-4 text-neutral-700">Loading Images</span>
                 </div> :
 
-                <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
+                <div className="flex mt-16 flex-grow mx-auto justify-center items-center w-screen">
                     <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
                         {imagesNotInAlbum.map((image, index) => (
 
@@ -239,7 +263,7 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
                 </div>
             }
 
-            {selectionMode ? <LibInAlbumActionBar selectedImages={selectedImages} /> : null}
+            {selectionMode ? ( !isNewAlbum ? <LibInAlbumActionBar selectedImages={selectedImages} onAdd={toggleAddPopup}/> : <LibInAlbumActionBar selectedImages={selectedImages} onAdd={toggleNewAlbumPopup}/>) : null}
             {(selectedImages.length > 0 && showAddPopup) && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4 min-w-screen">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
@@ -256,6 +280,38 @@ function LibInAlbum({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelec
                                 <button className="text-[1.2em] col-start-2 text-blue-800 px-2 py-3 rounded-md self-end"
                                         onClick={confirmAddToAlbum}>
                                     Add
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {(selectedImages.length > 0 && showNewAlbumPopup) && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
+                    <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
+                        <p className="px-4 text-[1.0rem] flex justify-center">Create New Album</p>
+
+                        <div className="flex flex-row pt-2 text-neutral-300">
+                            <form className=" mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full flex flex-row px-2">
+                                    <input type="search" id="default-search"
+                                        className="flex-grow self-center block w-full px-2 py-1 ps-4 text-neutral-900 border border-gray-400 rounded-md bg-gray-200 focus:outline-blue-600 placeholder:self-center"
+                                        placeholder="Enter Album Name"
+                                        onChange={(e) => setNewAlbumName(e.target.value)}/>
+                                </div>
+                            </form>
+                        </div>
+                        <hr className={"mt-4"}></hr>
+                        <div className="w-full grid grid-cols-2 mb-0">
+                            <button className="text-[1.2em] text-red-600 px-2 py-3 border-r-2"
+                                    onClick={toggleNewAlbumPopup}>
+                                Cancel
+                            </button>
+                            <Link to={`/insideAlbum?title=${newAlbumName}`}>
+                                <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
+                                        onClick={onCreateAlbumClick}>
+                                    Create
                                 </button>
                             </Link>
                         </div>

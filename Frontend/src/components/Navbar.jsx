@@ -1,11 +1,12 @@
 import {Link, useLocation} from 'react-router-dom';
+import InsideAlbum from '../pages/InsideAlbum';
 
 function Navbar() {
     const location = useLocation();
 
     // Function to check if a link is active
     const isActiveLink = (path) => {
-        return location.pathname === path;
+        return location.pathname.includes(path);
     };
 
 
@@ -49,7 +50,7 @@ function Navbar() {
                         Explore
                     </span>
                 </Link>
-                <Link className={`nav-bar-button ${isActiveLink('/albums') ? 'active-nav-link' : ''}`} to="/albums">
+                <Link className={`nav-bar-button ${(isActiveLink('/albums') || isActiveLink("/insideAlbum")) ? 'active-nav-link' : ''}`} to="/albums">
                     <svg className="fill-inherit" width="35" height="35" viewBox="0 0 22 27"
                          xmlns="http://www.w3.org/2000/svg">
                         <rect y="8" width="22" height="19" rx="3"/>

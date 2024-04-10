@@ -5,9 +5,8 @@ import {Image} from "react-bootstrap";
 import { useLibrary } from '../context/LibraryProvider';
 import InsideAlbumActionBar from '../components/InsideAlbumActionBar';
 
-function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode }) {
+function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSelectionMode, selectedImages, setSelectedImages }) {
 
-    const [selectedImages, setSelectedImages] = useState([]);
     const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
     const [showDeletePopup, setShowDeletePopup] = useState(false)
     const [loading, setLoading] = useState(true);
@@ -106,7 +105,8 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
     }, [albumTitle]);
 
     useEffect(() => {
-        fetchInsideAlbumTitle().then(() => {fetchAlbum()});
+        fetchInsideAlbumTitle();
+        fetchAlbum();
     }, []);
 
     function getImageUrl(path) {
@@ -162,8 +162,8 @@ function InsideAlbum ({ selectionMode, albumTitle, fetchInsideAlbumTitle, setSel
                         </div>
 
                     </div> :
-                    <div className="flex mt-16 flex-grow mx-auto justify-center items-center w-screen">
-                        <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52">
+                    <div className="flex mt-28 flex-grow mx-auto justify-center items-center w-screen">
+                        <div className="grid grid-cols-3 mx-2 my-2 gap-1 mb-52">
                             {images.map((image, index) => (
 
                                 <div key={index}>

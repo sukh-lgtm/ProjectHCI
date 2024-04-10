@@ -6,11 +6,10 @@ import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode, toggleSelectionMode, searchTags }) {
+function Library({ selectionMode, toggleSelectionMode, searchTags, selectedImages, setSelectedImages }) {
 
     console.log(selectionMode)
 
-    const [selectedImages, setSelectedImages] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
     const [albumName, setAlbumName] = useState("")
@@ -34,6 +33,10 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
     const sellSelectedImages = async () => {
         toggleSellMenuPopup();
     };
+
+    const onCreateAlbumClick = async () => {
+        createAlbum(albumName)
+    }
 
     const deleteSelectedImages = async () => {
         togglePopup(); // Show the popup for confirmation
@@ -68,13 +71,13 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         }
     };
 
-    const createAlbum = async () => {
+    async function createAlbum(newAlbumName ) {
         const selectedImagePath = selectedImages.map(image => (image.fileName));
         //make backend call to create new album from selected images
         try {
             const response = await axios.post(
                 'http://localhost:3000/create-album',
-                { imageFilenames: selectedImagePath, newAlbumName: albumName }, // Data object
+                { imageFilenames: selectedImagePath, newAlbumName: newAlbumName }, // Data object
                 { headers: { 'Content-Type': 'application/json' } } // Specify content type as JSON
             );
             //if successful, return to non "select" mode
@@ -371,7 +374,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
                                 Cancel
                             </button>
                             <button className="text-[1.2em] text-blue-800 px-2 py-3 rounded-md self-end"
-                                    onClick={createAlbum}>
+                                    onClick={onCreateAlbumClick}>
                                 Create
                             </button>
                         </div>

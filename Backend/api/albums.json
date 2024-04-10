@@ -1,3 +1,37 @@
 {
-  "albums": []
+  "albums": [
+    {
+      "title": "Are you ok?",
+      "images": [
+        {
+          "fileName": "1712718285463-757103991-image-2.jpg",
+          "src": "library_images/1712718285463-757103991-image-2.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712718285469-812303388-image-5.jpg",
+          "src": "library_images/1712718285469-812303388-image-5.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712718285481-82186276-image-9.jpg",
+          "src": "library_images/1712718285481-82186276-image-9.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712718285485-68276140-image-13.jpg",
+          "src": "library_images/1712718285485-68276140-image-13.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    }
+  ]
 }

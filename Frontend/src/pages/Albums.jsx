@@ -11,12 +11,12 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
     const location = useLocation
 
     const [selectedAlbums, setSelectedAlbums] = useState([]);
-    const [showPopup, setShowPopup] = useState(false);
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
 
     const { albums, loading, fetchAlbums, setAlbums } = useAlbums();
 
     const togglePopup = () => {
-        setShowPopup(!showPopup);
+        setShowDeletePopup(!showDeletePopup);
     };
 
     // Function to check if a link is active
@@ -56,8 +56,8 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
     const numberOfAlbumsSelected = selectedAlbums.length
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (showPopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
-                setShowPopup(false);
+            if (showDeletePopup && !event.target.closest(".popup-container") && !event.target.closest(".nav-bar-section")) {
+                setShowDeletePopup(false);
             }
         };
 
@@ -66,7 +66,7 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-    }, [showPopup]);
+    }, [showDeletePopup]);
 
 
     useEffect(() => {
@@ -76,10 +76,6 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
     useEffect(() => {
         fetchAlbums();
     }, []);
-
-    useEffect(() => {
-        console.log("clicked:", newAlbumButton);
-    }, [newAlbumButton]);
 
     const toggleSelectedAlbum = (album) => {
         const isSelected = selectedAlbums.includes(album);
@@ -227,7 +223,7 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
             }
 
             {selectionMode ? <AlbumsActionbar onDelete={deleteSelectedAlbums} selectedAlbums={selectedAlbums} /> : null}
-            {showPopup && (
+            {showDeletePopup && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-75 px-4">
                     <div className="bg-neutral-50 pt-4 rounded-lg popup-container">
 

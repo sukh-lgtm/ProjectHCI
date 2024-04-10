@@ -35,7 +35,7 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
 
 
     //Filters popup
-// Toggle button is temporary
+    // Toggle button is temporary
 
     return (
         <div className={"min-h-screen"}>
