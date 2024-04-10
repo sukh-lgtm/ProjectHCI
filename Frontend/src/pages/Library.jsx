@@ -104,7 +104,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         }
 
         try {
-            const response = axios.post(
+            const response = await axios.post(
                 'http://localhost:3000/upload',
                 formData// Data object
             );
@@ -112,7 +112,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
             console.error('Error uploading images:', error);
         }
 
-        fetchImages()
+        await fetchImages()
     }
     const onUploadButtonClick = () => {
         // `current` points to the mounted file input element

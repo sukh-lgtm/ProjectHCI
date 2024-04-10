@@ -251,7 +251,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     <Link to="/listings">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-50 px-2.5 py-1">
-                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><List
+                            <div className={"flex flex-row justify-center items-center content-center gap-1 text-nowrap"}><List
                                 width={20} height={20}/> <div>My Listings</div>
                             </div>
                         </button>

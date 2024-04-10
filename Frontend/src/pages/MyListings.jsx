@@ -169,7 +169,7 @@ function MyListings() {
     }
 
     return (
-        <div className={" mb-28 flex flex-col"}>
+        <div className={"min-h-screen mb-28 flex flex-col"}>
             <div className={"w-full"}>
 
                 <div className={"flex gap-3 flex-col"}>
@@ -408,7 +408,7 @@ function MyListings() {
                             </div>
                         ))}
                         </div>:
-                        <div className={"flex justify-center text-center content-center items-center w-screen flex-col"}>
+                        <div className={"flex justify-center min-h-screen text-center content-center items-center w-screen flex-col"}>
 
                             <div className={"text-2xl text-neutral-600 font-bold"}>
                                 You haven't posted any pictures for sale!
