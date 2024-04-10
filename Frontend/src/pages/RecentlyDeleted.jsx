@@ -116,7 +116,7 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
     }, []);
 
     return (
-        <>
+        <div className="min-h-screen">
             {deletedImagesLength === 0 ?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
@@ -258,7 +258,7 @@ function RecentlyDeleted({ selectionMode, setSelectionMode }) {
                 </div>
             }
 
-        </>
+        </div>
     )
 }
 

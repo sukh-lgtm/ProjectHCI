@@ -140,7 +140,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
                                 onClick={toggleNewAlbumButtonClicked}
                             >
-                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                <div className={"flex flex-row justify-center text-nowrap items-center content-center gap-2"}><Plus
                                     width={20} height={20} /> New Album
                                 </div>
                             </button>

@@ -5,7 +5,6 @@ import Axios from "axios";
 import {Image} from "react-bootstrap";
 import {useAlbums} from "../context/AlbumsProvider.jsx";
 import {Plus, Trash2} from 'lucide-react'
-import { useLibrary } from '../context/LibraryProvider.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
 function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
@@ -15,7 +14,6 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButton }) {
     const [showPopup, setShowPopup] = useState(false);
 
     const { albums, loading, fetchAlbums, setAlbums } = useAlbums();
-    //const { fetchDeletedImages, setDeletedImages } = useLibrary();
 
     const togglePopup = () => {
         setShowPopup(!showPopup);

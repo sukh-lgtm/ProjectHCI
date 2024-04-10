@@ -1,3 +1,30 @@
 {
-  "albums": []
+  "albums": [
+    {
+      "title": "Wow!",
+      "images": [
+        {
+          "fileName": "1712715007138-673986317-image-3.jpg",
+          "src": "library_images/1712715007138-673986317-image-3.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712715007136-765627605-image-2.jpg",
+          "src": "library_images/1712715007136-765627605-image-2.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        },
+        {
+          "fileName": "1712715007130-415485931-image-1.jpg",
+          "src": "library_images/1712715007130-415485931-image-1.jpg",
+          "location": "",
+          "date": "",
+          "tags": []
+        }
+      ]
+    }
+  ]
 }
