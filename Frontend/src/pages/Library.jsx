@@ -6,7 +6,7 @@ import {Image} from "react-bootstrap";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import axios from "axios";
 
-function Library({ selectionMode, toggleSelectionMode, searchTags }) {
+function Library({ selectionMode, toggleSelectionMode, searchTags, fullPageImage, toggleFullPageMode}) {
 
     console.log(selectionMode)
 
@@ -15,13 +15,13 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
     const [showAlbumNamePopup, setShowAlbumNamePopup] = useState(false);
     const [albumName, setAlbumName] = useState("")
     const [showSellPopup, setSellPopup] = useState(false);
-    const [fullPageImage, setFullPageImage] = useState(false)
 
     const { images, loading, fetchImages, setImages } = useLibrary();
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
+
 
     const toggleAlbumNamePopup = () => {
         setShowAlbumNamePopup(!showAlbumNamePopup);
@@ -175,12 +175,13 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
     }
 
     function closeImage() {
-        setFullPageImage(false)
+        console.log("Clsed ? ")
+        toggleFullPageMode()
         setSelectedImages([])
     }
 
     function openImage(image) {
-        setFullPageImage(true)
+        toggleFullPageMode()
         setSelectedImages([image])
         console.log(image)
     }
@@ -264,9 +265,6 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
                         </div> :
                         fullPageImage && selectedImages.length > 0 ?
                             <div>
-                                <button className={"absolute top-28 flex self-start"} onClick={closeImage}>
-                                    Back
-                                </button>
                                 <div
                                     className="flex mx-auto justify-center items-center w-screen h-screen content-center">
                                     <Image

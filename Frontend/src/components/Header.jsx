@@ -7,8 +7,8 @@ import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, toggleNewAlbumButtonClicked, newAlbumButton, onAddToAlbumButtonClicked, toggleFilterButtonClicked, filterButtonClicked}) {
-    const { fetchImages } = useLibrary();
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, toggleNewAlbumButtonClicked, newAlbumButton, onAddToAlbumButtonClicked, toggleFilterButtonClicked, filterButtonClicked , fullPageImage, toggleFullPageMode}) {
+    const { fetchImages  } = useLibrary();
 
     function handleSearchInput(tags){
         setSearchTags(tags)
@@ -74,7 +74,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
             case 'Listings':
                 return (<div>
-                    <Link to="/library">
+                    <Link to="/explore">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><ChevronLeft
@@ -193,6 +193,37 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             case 'Account':
                 return(<div></div>)
 
+            case 'Library':
+                if(fullPageImage){
+                    return (
+                        <div>
+
+                            <button type="button"
+                                    onClick={toggleFullPageMode}
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1">
+                                <div className={"flex flex-row justify-center items-center content-center gap-1"}>
+                                    <ChevronLeft
+                                        width={20} height={20}/> Back
+                                </div>
+                            </button>
+
+                        </div>
+                    )
+                }
+                return (<div>
+                    <input type="file" id="newAlbumInput" multiple={true} onChange={handleChange} ref={inputFile}
+                           className={"hidden"}/>
+                    <button type="submit"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={onUploadButtonClick}
+                    >
+                        <div className={"flex flex-row justify-center items-center content-center gap-2"}><Upload
+                            width={20} height={20}/> Upload
+                        </div>
+                    </button>
+                </div>)
+
+
             default:
                 return (<div>
                     <input type="file" id="newAlbumInput" multiple={true} onChange={handleChange} ref={inputFile}
@@ -225,7 +256,7 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
 
             case 'Listings':
                 return (
-                    <Link to="/library">
+                    <Link to="/explore">
                         <button type="button"
                                 className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-green-600 bg-opacity-50 px-2.5 py-1 outline outline-slate-70">
                             <div className={"flex flex-row justify-center items-center content-center gap-1"}><Check
@@ -299,6 +330,25 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                     </Link>
                 </div>)
 
+            case 'Library':
+                if(fullPageImage){
+                    return (
+                        <div>
+                        </div>
+                    )
+                }
+                return (<div>
+                    <button type="button"
+                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                            onClick={toggleSelectionMode}>
+                        {selectionMode ?
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><X
+                                width={20} height={20}/> Cancel </div> :
+                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><SquareCheck
+                                width={20} height={20}/> Select </div>}
+                    </button>
+                </div>)
+
             default:
                 return (<div>
                     <button type="button"
@@ -344,6 +394,41 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                 
             case 'Account':
                 return(<div></div>)
+
+            case 'Library':
+                if(fullPageImage){
+                    return (
+                        <div>
+                        </div>
+                    )
+                }
+                else{
+                    return (
+                        <div className=" flex flex-row text-neutral-300">
+                            <form className="mt-2 mx-auto w-full">
+                                <label htmlFor="default-search" className="mb-2  sr-only">Search</label>
+                                <div className="relative w-full">
+                                    <TagsInput
+                                        isEditOnRemove
+                                        onChange={(tags) => handleSearchInput(tags)}
+                                        onRemoved={(tag) => handleSearchTagRemove(tag)}
+                                        name="Enter image tags"
+                                        placeHolder="Search by tags"
+                                        classNames={{
+                                            input: "flex placeholder:text-[0.85rem] text-slate-700",
+                                            tag: "bg-slate-400 text-slate-800",
+                                        }}
+                                        style={{ flexGrow: 1 }}
+                                    />
+
+                                    <button type="submit"
+                                            className="absolute text-neutral-900 top-[20%] right-2 ">
+                                        <Search className={"p-0.5 ml-2"}/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>)
+                }
 
             default:
                 return (
