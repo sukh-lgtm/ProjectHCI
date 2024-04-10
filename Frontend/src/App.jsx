@@ -97,7 +97,7 @@ function App() {
                         <Routes>
                             <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags}/>} />
                             <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButton={newAlbumButton}/>} />
-                            <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked}/>} />
+                            <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} searchTags={searchTags}/>} />
                             <Route path="/account" element={<Account setVisible={setVisible}/>}/>
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/sell" element={<SellPage />} />
