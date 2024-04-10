@@ -190,7 +190,7 @@ function CommonTag({selectedImages}) {
                             }}
                             name="Enter image tags"
                             placeHolder="Hit enter to add tags"
-                            classNames={{input: "w-full placeholder:text-[0.85rem] bg-slate-50", tag: "bg-slate-300"}}
+                            classNames={{input: "w-full placeholder:text-[0.85rem]", tag: "bg-slate-300"}}
                         />
                     </div>
                 </div>
@@ -198,9 +198,9 @@ function CommonTag({selectedImages}) {
 
             </div>
 
-            <div className={"flex w-full mt-3 justify-end p-3"}>
+            <div className={"flex w-full mt-3 justify-center p-3"}>
                 <button onClick={addImageTags}
-                        className={"px-5 py-2  rounded-xl bg-blue-600 text-neutral-100 active:shadow-2xl active:bg-blue-600 active:text-neutral-900"}>
+                        className={"px-5 py-2 rounded-xl bg-blue-600 text-neutral-200 active:shadow-2xl active:bg-blue-200 active:text-neutral-900"}>
                     Save
                 </button>
             </div>
@@ -376,7 +376,7 @@ function SeparateTag({selectedImages}) {
                                         onChange={(tags) => handleTagsChange(image.fileName, tags)}
                                         name="Enter image tags"
                                         placeHolder="Hit enter to add tags"
-                                        classNames={{input: "w-full placeholder:text-[0.85rem] bg-slate-50", tag: "bg-slate-300"}}
+                                        classNames={{input: "w-full placeholder:text-[0.85rem] ", tag: "bg-slate-300"}}
 
                                     /> : <>Loading...</>}
                             </div>
@@ -385,9 +385,9 @@ function SeparateTag({selectedImages}) {
                 ))}
             </div>
 
-            <div className={"flex w-full mt-3 justify-end p-3"}>
+            <div className={"flex w-full mt-3 justify-center p-3"}>
                 <button onClick={addImageTags}
-                        className={"px-5 py-2 border rounded-xl bg-blue-600 text-neutral-200 active:shadow-2xl active:bg-blue-200 active:text-neutral-900"}>
+                        className={"px-5 py-2 rounded-xl bg-blue-600 text-neutral-200 active:shadow-2xl active:bg-blue-200 active:text-neutral-900"}>
                     Save
                 </button>
             </div>
