@@ -58,6 +58,41 @@
       ],
       "Price": 0,
       "Sales": 0
+    },
+    "1712716902338-320156441-image-2.jpg": {
+      "Path": "/library_images/1712716902338-320156441-image-2.jpg",
+      "Name": "",
+      "Location": "",
+      "Date": "",
+      "Tags": [],
+      "Price": 0,
+      "Sales": 0
+    },
+    "1712725194844-815214549-image-2.jpg": {
+      "Path": "/library_images/1712725194844-815214549-image-2.jpg",
+      "Name": "Swimming",
+      "Location": "Calgary",
+      "Date": "2024-04-08",
+      "Tags": [
+        "City",
+        "Trip",
+        "Swim"
+      ],
+      "Price": "10",
+      "Sales": 0
+    },
+    "1712725194842-363903391-image-1.jpg": {
+      "Path": "/library_images/1712725194842-363903391-image-1.jpg",
+      "Name": "Building",
+      "Location": "Calgary",
+      "Date": "2024-04-08",
+      "Tags": [
+        "City",
+        "Trip",
+        "Building"
+      ],
+      "Price": "5",
+      "Sales": 0
     }
   }
 }

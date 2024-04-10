@@ -8,7 +8,7 @@
         "url": "https://picsum.photos/seed/a/800",
         "tags": [
             "Nature",
-            "Mountain"
+            "Mountains"
         ]
     },
     {
@@ -25,7 +25,11 @@
         "dateTaken": "5/2/2023",
         "location": "The Iron Peaks",
         "price" : "$5",
-        "url": "https://picsum.photos/seed/c/800"
+        "url": "https://picsum.photos/seed/c/800",
+        "tags": [
+            "Cool",
+            "Mountains"
+        ]
     },
     {
         "title": "Dignissim",

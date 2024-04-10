@@ -24,6 +24,9 @@ function App() {
     const [filterButtonClicked, setFilterButtonClicked] = useState(false);
     const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
     const [newAlbumButton, setAlbumButtonClicked] = useState(false)
+    const [addToAlbumButtonClicked, setAddToAlbumButtonClicked] = useState(false)
+    const [fullPageImage, setFullPageImage] = useState(false)
+
 
     const location = useLocation();
 
@@ -39,6 +42,10 @@ function App() {
     const toggleFilterButtonClicked = () => {
         setFilterButtonClicked(!filterButtonClicked)
     }
+
+    const toggleFullPageMode = () => {
+        setFullPageImage(!fullPageImage);
+    };
 
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
@@ -70,6 +77,9 @@ function App() {
             case 'Sell':
                 setVisible(false);
                 break;
+            case 'Listings':
+                setVisible(false);
+                break;
             default:
                 setVisible(!selectionMode);
                 break;
@@ -85,19 +95,19 @@ function App() {
                 <AlbumsProvider>
                     <Header
                         currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} clearInsideAlbumTitle={clearInsideAlbumTitle} toggleSelectionMode={toggleSelectionMode} 
-                        setSearchTags={setSearchTags} newAlbumButtonClicked={toggleAlbumButtonClicked} selectedImages={selectedImages} insideAlbumTitle={insideAlbumTitle}
-                        setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked}
+                        setSearchTags={setSearchTags} newAlbumButtonClicked={toggleAlbumButtonClicked} selectedImages={selectedImages} insidealbumtitle={insideAlbumTitle}
+                        setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode}
                     />
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
                             <Route 
-                                path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags} 
+                                path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode} 
                                 selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
                             <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButton={newAlbumButton}/>} />
-                            <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked}/>} />
-                            <Route path="/account" element={<Account selectionMode={selectionMode} />}/>
+                            <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} searchTags={searchTags}/>} />
+                            <Route path="/account" element={<Account setVisible={setVisible}/>}/>
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/sell" element={<SellPage />} />
                             <Route path="/listings" element={<MyListings />} />

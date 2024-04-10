@@ -4,25 +4,59 @@ import data from '../../../Backend/api/explore_images/explorePictures.json';
 export default Explore;
 
 
-function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
+function Explore({filterButtonClicked, toggleFilterButtonClicked, searchTags}) {
     const [selectedAuthor, setSelectedAuthor] = useState("");
     const [maxPrice, setMaxPrice] = useState(Infinity);
     const searchInputRef = createRef();
     const maxPriceInputRef = createRef();
     const [isVisible, setIsVisible] = useState(false);
 
+    const [filteredData, setFilteredData] = useState([])
+
+
+
+    useEffect(() => {
+        const filteredDatas = data
+            .filter((image) => {
+                if (!selectedAuthor || !image.author) return true;
+                return image.author === selectedAuthor;
+            })
+            .filter((image) => parseInt(image.price.replace("$", "")) <= maxPrice)
+        setFilteredData(filteredDatas)
+    }, []);
+
+    useEffect(() => {
+        if(!maxPrice){
+            setMaxPrice(Infinity)
+        }
+        const filteredDatas =  data
+            .filter((image) => {
+                if (!selectedAuthor || !image.author) return true;
+                return image.author === selectedAuthor;
+            })
+            .filter((image) => parseInt(image.price.replace("$", "")) <= maxPrice)
+            .filter((image) => {
+                if(searchTags && searchTags.length > 0){
+                    if(image.tags && image.tags.length > 0){
+                        console.log("Goog to go")
+
+                        console.log("This , ", searchTags.every(tag => {image.tags.includes(tag)}))
+                        return searchTags.some(tag => {return image.tags.includes(tag)});
+                    }
+                    else{
+                        return false
+                    }
+                }
+                else{
+                    return true
+                }
+            })
+        setFilteredData(filteredDatas)
+    }, [searchTags, maxPrice, selectedAuthor]);
 
     useEffect(() => {
         setIsVisible(filterButtonClicked);
     }, [filterButtonClicked]);
-
-
-    const filteredData = data
-        .filter((image) => {
-            if (!selectedAuthor || !image.author) return true;
-            return image.author === selectedAuthor;
-        })
-        .filter((image) => parseInt(image.price.replace("$", "")) <= maxPrice);
 
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -32,10 +66,6 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
     const closePreviewHandler = () => {
         setSelectedItem(null);
     };
-
-
-    //Filters popup
-    // Toggle button is temporary
 
     return (
         <div className={"min-h-screen"}>
@@ -60,7 +90,7 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
                               }}
                         >
                             <input
-                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-100 mx-4 rounded-md"
                                 value={selectedAuthor}
                                 ref={searchInputRef}
                                 onChange={(e) => {setSelectedAuthor(e.target.value)}}
@@ -68,7 +98,7 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
                                 placeholder="Search Author..."
                             />
                             <input
-                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-100 mx-4 rounded-md"
                                 ref={maxPriceInputRef}
                                 value={maxPrice}
                                 onChange={(e) => {setMaxPrice(parseInt(e.target.value))}}

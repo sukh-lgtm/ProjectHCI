@@ -22,6 +22,7 @@ export const LibraryProvider = ({ children }) => {
         }
 
     }
+
     async function uploadFiles(files) {
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
