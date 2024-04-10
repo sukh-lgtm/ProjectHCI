@@ -25,10 +25,6 @@ function App() {
     const [newAlbumButton, setAlbumButtonClicked] = useState(false)
     const [fullPageImage, setFullPageImage] = useState(false)
 
-    const [searchedAlbum, setSearchedAlbum] = useState("")
-
-
-
     const location = useLocation();
 
     useEffect(() => {
@@ -98,7 +94,6 @@ function App() {
                         currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} clearInsideAlbumTitle={clearInsideAlbumTitle} toggleSelectionMode={toggleSelectionMode} 
                         setSearchTags={setSearchTags} newAlbumButtonClicked={toggleAlbumButtonClicked} selectedImages={selectedImages} insidealbumtitle={insideAlbumTitle}
                         setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked} fullPageImage={fullPageImage} toggleFullPageMode={toggleFullPageMode}
-                        searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}
                     />
                     {visible ? <Navbar /> : null}
                     <div>
@@ -108,8 +103,7 @@ function App() {
                                 selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>}
                             />
                             <Route path="/albums" element={<Albums 
-                                selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButtonClicked={toggleAlbumButtonClicked} clearInsideAlbumTitle={clearInsideAlbumTitle}
-                                searchedAlbum={searchedAlbum} setSearchedAlbum={setSearchedAlbum}/>} 
+                                selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} newAlbumButtonClicked={toggleAlbumButtonClicked} clearInsideAlbumTitle={clearInsideAlbumTitle}/>} 
                             />
                             <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} searchTags={searchTags}/>} />
                             <Route path="/account" element={<Account setVisible={setVisible}/>}/>

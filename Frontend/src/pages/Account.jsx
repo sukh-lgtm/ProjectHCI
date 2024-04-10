@@ -40,10 +40,10 @@ function Account({setVisible}) {
         <>
         {
             loggedIn ?
-            <div class="flex items-center justify-center min-h-screen bg-gray-300">
+            <div className="flex items-center justify-center min-h-screen bg-gray-300">
                 <form action="">
                     <div className="flex mx-auto justify-center self-center items-center">
-                        <img class="w-36 h-36 object-cover border-2 border-gray-700 bg-gray-700 rounded-full mx-auto"
+                        <img className="w-36 h-36 object-cover border-2 border-gray-700 bg-gray-700 rounded-full mx-auto"
                              src="/Default_pfp.png" alt="Blank Profile Picture"/>
                     </div>
                     <div className="w-full max-w-full h-25 pt-6 flex flex-col justify-center self-center items-center">
@@ -92,15 +92,17 @@ function Account({setVisible}) {
                             </div>
                         </div>
                     </div>
-                    <button type="button"
-                            className="rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-opacity-40 px-2.5 py-1 flex ml-auto mr-4 mt-4"
-                    >
-                        <div className={"flex flex-row justify-center items-center content-center gap-3 text-lg text-red-600"}
-                             onClick={toggleLogin}>
-                            <LogOut
-                                width={25} height={25}/> Log Out
-                        </div>
-                    </button>
+                            <div className="grid grid-cols-3 items-center">
+                                <button type="button"
+                                    className="rounded-[36px] col-start-2 justify-center backdrop-blur-[5rem] outline outline-slate-700 bg-opacity-40 px-2.5 py-1 flex ml-auto mr-4 mt-4"
+                                >
+                                    <div className={"flex flex-row text-nowrap justify-center items-center content-center gap-3 text-lg text-red-600"}
+                                        onClick={toggleLogin}>
+                                        <LogOut
+                                            width={25} height={25} /> Log Out
+                                    </div>
+                                </button>
+                            </div>
                 </form>
             </div> :
                 <body className="flex items-center flex-col justify-center min-h-screen  mx-4">
@@ -113,28 +115,28 @@ function Account({setVisible}) {
                         Login or Sign Up
                     </h3>
                     <form action="">
-                        <label for="first" class="block mt-4 mb-1 text-left text-gray-800 font-bold">Username:</label>
+                        <label htmlFor="first" className="block mt-4 mb-1 text-left text-gray-800 font-bold">Username:</label>
                         <input type="text" id="first" name="first"
                             placeholder="Enter your Username"
-                            class="block w-full mb-6 px-4 py-2 border 
+                            className="block w-full mb-6 px-4 py-2 border 
                             border-gray-300 rounded-md focus:outline-none" required>
                         </input>        
                                 
-                        <label for="password" class="block mb-1 text-left text-gray-800 font-bold">Password:</label>
+                        <label htmlFor="password" className="block mb-1 text-left text-gray-800 font-bold">Password:</label>
                         <input type="password" id="password" name="password"
                             placeholder="Enter your Password"
-                            class="block w-full mb-6 px-4 py-2 border 
+                            className="block w-full mb-6 px-4 py-2 border 
                             border-gray-300 rounded-md focus:outline-none" required>
                         </input>
 
-                        <div class="flex flex-col mx-14 justify-center items-center gap-3">
+                        <div className="flex flex-col mx-14 justify-center items-center gap-3">
                             <button type="submit"
-                                    class="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-white bg-blue-600 px-12 pt-1 pb-2 rounded-3xl m-1 text-xl">
+                                    className="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-white bg-blue-600 px-12 pt-1 pb-2 rounded-3xl m-1 text-xl">
                                 Login
                             </button>
 
                             <button type="submit"
-                                    class="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-blue-800 bg-slate-300 px-10 pt-1 pb-2 rounded-3xl m-1 text-xl">
+                                    className="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-blue-800 bg-slate-300 px-10 pt-1 pb-2 rounded-3xl m-1 text-xl">
                                 Sign Up
                             </button>
                         </div>

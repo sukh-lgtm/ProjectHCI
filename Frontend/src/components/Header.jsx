@@ -9,8 +9,7 @@ import {TagsInput} from "react-tag-input-component";
 
 function Header(
     { currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, setSearchTags, newAlbumButtonClicked, 
-    toggleFilterButtonClicked, filterButtonClicked , fullPageImage, toggleFullPageMode, selectedImages, clearInsideAlbumTitle,
-    searchedAlbum, setSearchedAlbum}) {
+    toggleFilterButtonClicked, filterButtonClicked , fullPageImage, toggleFullPageMode, selectedImages, clearInsideAlbumTitle, }) {
 
     const { fetchImages  } = useLibrary();
 

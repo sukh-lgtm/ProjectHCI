@@ -7,7 +7,7 @@ import {useAlbums} from "../context/AlbumsProvider.jsx";
 import {Plus, Trash2} from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom';
 
-function Albums({ selectionMode, setSelectionMode, newAlbumButtonClicked, clearInsideAlbumTitle, searchedAlbum, setSearchedAlbum }) {
+function Albums({ selectionMode, setSelectionMode, newAlbumButtonClicked, clearInsideAlbumTitle }) {
     const location = useLocation
 
     const [selectedAlbums, setSelectedAlbums] = useState([]);
@@ -75,7 +75,6 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButtonClicked, clearI
 
     useEffect(() => {
         fetchAlbums();
-        console.log("searched: ", searchedAlbum)
     }, []);
 
     const toggleSelectedAlbum = (album) => {
@@ -161,67 +160,63 @@ function Albums({ selectionMode, setSelectionMode, newAlbumButtonClicked, clearI
                         {
                             albums.map((album, index) => (
                                 <div key={index}>
-                                    {(searchedAlbum === "" || (searchedAlbum !== "" && album.title.contains(searchedAlbum))) ?
-                                        <div
-                                            onClick={() => selectionMode && toggleSelectedAlbum(album)}
-                                            className={`${selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative w-full h-full rounded-lg" : "relative col-span-6 w-full h-full rounded-lg"}`}
-                                        >
-                                            {
-                                                selectionMode ?
+                                    <div
+                                        onClick={() => selectionMode && toggleSelectedAlbum(album)}
+                                        className={`${selectionMode && selectedAlbums.includes(album) ? "bg-neutral-800 relative w-full h-full rounded-lg" : "relative col-span-6 w-full h-full rounded-lg"}`}
+                                    >
+                                        {
+                                            selectionMode ?
+                                                <Image
+                                                    thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
+                                                    alt={album.title}
+                                                    className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
+                                                />
+
+                                                :
+                                                <Link
+                                                    className={`col-start-2 ${isActiveLink('/insideAlbum') ? 'active-nav-link' : 'disabled'}`}
+                                                    to={`/insideAlbum?title=${album.title}`}>
                                                     <Image
                                                         thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
                                                         alt={album.title}
                                                         className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
                                                     />
-
-                                                    :
-                                                    <Link
-                                                        className={`col-start-2 ${isActiveLink('/insideAlbum') ? 'active-nav-link' : 'disabled'}`}
-                                                        to={`/insideAlbum?title=${album.title}`}>
-                                                        <Image
-                                                            thumbnail src={getImageUrl(getAlbumThumbnail(album).src)}
-                                                            alt={album.title}
-                                                            className={`aspect-square rounded-lg w-full h-full object-cover col-span-6 ${selectionMode ? "cursor-pointer" : "cursor-default"}`}
-                                                        />
-                                                    </Link>
-                                            }
-                                            <div className={"text-slate-700 text-lg col-span-1 font-bold"}>
-                                                {album.title}
-                                            </div>
-                                            <div className={"relative bottom-[0.4rem] text-slate-500 text-lg font-light col-span-1"}>
-                                                {album.images.length}
-                                            </div>
-                                            {selectionMode && selectedAlbums.includes(album) ?
-                                                <div className={"absolute z-100 top-1.5 left-1.5"}>
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <circle cx="10" cy="10" r="9.5" fill="#0500FF" stroke="#E6E0E0" />
-                                                        <rect x="4" y="9.71875" width="2" height="6.11681"
-                                                            transform="rotate(-45 4 9.71875)" fill="white" />
-                                                        <path
-                                                            d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
-                                                            fill="white" />
-                                                    </svg>
-
-                                                </div> :
-                                                selectionMode && !selectedAlbums.includes(album) ?
-                                                    <div>
-                                                        <div
-                                                            className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
-                                                        </div>
-                                                        <div
-                                                            className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
-                                                            <svg width="20" height="20" viewBox="0 0 20 20"
-                                                                xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="10" cy="10" r="9" />
-                                                            </svg>
-                                                        </div>
-                                                    </div> : <div></div>}
-
+                                                </Link>
+                                        }
+                                        <div className={"text-slate-700 text-lg col-span-1 font-bold"}>
+                                            {album.title}
                                         </div>
-                                        : <div></div>
-                                    }
+                                        <div className={"relative bottom-[0.4rem] text-slate-500 text-lg font-light col-span-1"}>
+                                            {album.images.length}
+                                        </div>
+                                        {selectionMode && selectedAlbums.includes(album) ?
+                                            <div className={"absolute z-100 top-1.5 left-1.5"}>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="10" cy="10" r="9.5" fill="#0500FF" stroke="#E6E0E0" />
+                                                    <rect x="4" y="9.71875" width="2" height="6.11681"
+                                                        transform="rotate(-45 4 9.71875)" fill="white" />
+                                                    <path
+                                                        d="M8.50391 14.2422L7.08969 12.828L14.9149 5.00278L16.3291 6.41699L8.50391 14.2422Z"
+                                                        fill="white" />
+                                                </svg>
 
+                                            </div> :
+                                            selectionMode && !selectedAlbums.includes(album) ?
+                                                <div>
+                                                    <div
+                                                        className={"absolute top-0 left-0 bg-black blur-md opacity-30 w-full h-[40%] "}>
+                                                    </div>
+                                                    <div
+                                                        className={"absolute top-0 left-0 z-50 stroke-white stroke-2 fill-none ml-2 mt-2"}>
+                                                        <svg width="20" height="20" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="10" cy="10" r="9" />
+                                                        </svg>
+                                                    </div>
+                                                </div> : <div></div>}
+
+                                    </div>
                                 </div>
                         ))  /*albums.map(album => ...*/ }
                     </div>
