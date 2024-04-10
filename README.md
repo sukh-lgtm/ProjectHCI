@@ -28,7 +28,10 @@ We aim to create a system where users can not only manage their pictures, but al
   * If a user is able to categorize and group their photos, then it would not make sense if they were not able to search for those photos (within their groupings/categorizations, of course!), and so we decided that this was a Must Include.
 
 # How to Run
-- Start the backend service located in directory `Backend/api` by running `node index.js`
+- Run `npm i` on the `Backend/api` directory to install all packages
+- Run `npm i` on the `Frontend` directory to install all packages
+
+- Start the backend service located in directory `Backend/api` by running `npm start`
   - The output should show something like: `Server is running on port 3000`
 
 - Start the frontend by heading over to the `Frontend` directory and run the frontend by running `npm run dev`
