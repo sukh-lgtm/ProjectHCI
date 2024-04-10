@@ -376,8 +376,7 @@ function Header(
                                         className="grow self-center w-full py-2 pl-2 text-[0.85rem] rounded-md text-slate-700 border border-slate-400 md:border-none focus: focus:border-blue-400 focus:border-4"
                                         placeholder="Search album names" />
                                     <button type="submit"
-                                        className="absolute text-neutral-900 right-2 top-[20%]"
-                                        onChange={(e) => setSearchedAlbum(e.target.value)}>
+                                        className="absolute text-neutral-900 right-2 top-[20%]">
                                         <Search className={"p-0.5 ml-2"} />
                                     </button>
                                 </div>
@@ -480,7 +479,7 @@ function Header(
                         {renderPageHeaderLeft(currentPage)}
                     </div>
 
-                    <div className={"text-slate-700 text-xl font-bold text-no-wrap text-center col-start-2 justify-self-center"}>
+                    <div className={"text-slate-700 text-xl font-bold text-nowrap col-start-2 justify-self-center"}>
                         {renderPageTitle(currentPage)}
                     </div>
 

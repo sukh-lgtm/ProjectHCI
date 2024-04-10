@@ -1,51 +1,39 @@
 {
   "albums": [
     {
-      "title": "123",
+      "title": "Purchased",
       "images": [
         {
-          "fileName": "1712718285458-714503194-image-1.jpg",
-          "src": "library_images/1712718285458-714503194-image-1.jpg",
+          "fileName": "PURCHASED_image-1.jpg",
+          "src": "purchased_images/PURCHASED_image-1.jpg",
           "location": "",
           "date": "",
           "tags": []
         },
         {
-          "fileName": "1712718285463-757103991-image-2.jpg",
-          "src": "library_images/1712718285463-757103991-image-2.jpg",
+          "fileName": "PURCHASED_image-2.jpg",
+          "src": "purchased_images/PURCHASED_image-2.jpg",
           "location": "",
           "date": "",
           "tags": []
         },
         {
-          "fileName": "1712718285465-315262932-image-3.jpg",
-          "src": "library_images/1712718285465-315262932-image-3.jpg",
-          "location": "",
-          "date": "",
-          "tags": []
-        }
-      ]
-    },
-    {
-      "title": "Hello",
-      "images": [
-        {
-          "fileName": "1712718285458-714503194-image-1.jpg",
-          "src": "library_images/1712718285458-714503194-image-1.jpg",
+          "fileName": "PURCHASED_image-3.jpg",
+          "src": "purchased_images/PURCHASED_image-3.jpg",
           "location": "",
           "date": "",
           "tags": []
         },
         {
-          "fileName": "1712718285463-757103991-image-2.jpg",
-          "src": "library_images/1712718285463-757103991-image-2.jpg",
+          "fileName": "PURCHASED_image-4.jpg",
+          "src": "purchased_images/PURCHASED_image-4.jpg",
           "location": "",
           "date": "",
           "tags": []
         },
         {
-          "fileName": "1712718285465-315262932-image-3.jpg",
-          "src": "library_images/1712718285465-315262932-image-3.jpg",
+          "fileName": "PURCHASED_image-5.jpg",
+          "src": "purchased_images/PURCHASED_image-5.jpg",
           "location": "",
           "date": "",
           "tags": []
