@@ -83,9 +83,9 @@ export const LibraryProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        fetchImages();
-        fetchDeletedImages();
+    useEffect(async () => {
+        await fetchImages();
+        await fetchDeletedImages();
     }, []);
 
     return (

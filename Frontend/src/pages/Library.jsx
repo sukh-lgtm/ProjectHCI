@@ -135,7 +135,6 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         };
     }, [showPopup]);
 
-
     useEffect(() => {
         setSelectedImages([]);
     }, [selectionMode]);
@@ -155,9 +154,6 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         fetchSearchImages(searchTags);
     }, [searchTags]);
 
-    useEffect(() => {
-        fetchImages();
-    }, []);
 
 
     const toggleSelectImage = (image) => {

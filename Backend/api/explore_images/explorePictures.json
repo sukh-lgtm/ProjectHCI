@@ -1,162 +1,134 @@
 [
     {
-        "id": 0,
         "title": "Chile",
-        "description": "As I raised my camera to capture this fleeting moment, I couldn't help but feel humbled by the sheer magnificence before me.",
         "author": "Alice",
         "dateTaken": "4/5/2024",
         "location": "The Southern Andes",
         "price" : "$10",
-        "url": "https://picsum.photos/seed/a/800"
+        "url": "https://picsum.photos/seed/a/800",
+        "tags": [
+            "Nature",
+            "Mountain"
+        ]
     },
     {
-        "id": 1,
-        "title": "Image B",
-        "description": "consectetur adipiscing elit",
+        "title": "Imperdiet",
         "author": "Bob",
         "dateTaken": "2/3/2024",
-        "location": "Location where photo was taken",
+        "location": "The Amber Citadel",
         "price" : "$15",
         "url": "https://picsum.photos/seed/b/800"
     },
     {
-        "id": 2,
-        "title": "Image C",
-        "description": "consectetur adipiscing elit",
+        "title": "Fames",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Iron Peaks",
+        "price" : "$5",
         "url": "https://picsum.photos/seed/c/800"
     },
     {
-        "id": 3,
-        "title": "Image D",
-        "description": "consectetur adipiscing elit",
+        "title": "Dignissim",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Whispering Woods",
+        "price" : "$25",
         "url": "https://picsum.photos/seed/d/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Dolor",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Shadowlands",
         "price" : "$15",
         "url": "https://picsum.photos/seed/e/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Praesent",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Sapphire Sea",
+        "price" : "$10",
         "url": "https://picsum.photos/seed/f/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Adipiscing",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Frostbite Tundra",
         "price" : "$15",
         "url": "https://picsum.photos/seed/g/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Tristique",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Blood Moon Forest",
         "price" : "$15",
         "url": "https://picsum.photos/seed/h/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
-        "author": "Bob",
+        "title": "Libero",
+        "author": "Alice",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Shimmering Isles",
+        "price" : "$5",
         "url": "https://picsum.photos/seed/i/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Vitae",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Velvet Veil",
         "price" : "$15",
         "url": "https://picsum.photos/seed/j/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Malesuada",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Luminous Meadows",
+        "price" : "$10",
         "url": "https://picsum.photos/seed/k/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Morbi",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
-        "price" : "$15",
+        "location": "The Thunderhead Mountains",
+        "price" : "$5",
         "url": "https://picsum.photos/seed/l/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Semper",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Golden Grove",
         "price" : "$15",
         "url": "https://picsum.photos/seed/m/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Nunc",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Silken Sands",
         "price" : "$15",
-        "url": "https://picsum.photos/seed/e/800"
+        "url": "https://picsum.photos/seed/n/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Purus",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Arcane Archipelago",
         "price" : "$15",
-        "url": "https://picsum.photos/seed/e/800"
+        "url": "https://picsum.photos/seed/o/800"
     },
     {
-        "id": 4,
-        "title": "Image E",
-        "description": "consectetur adipiscing elit",
+        "title": "Dis",
         "author": "Bob",
         "dateTaken": "5/2/2023",
-        "location": "Location where photo was taken",
+        "location": "The Ebon Eclipse",
         "price" : "$15",
-        "url": "https://picsum.photos/seed/e/800"
+        "url": "https://picsum.photos/seed/p/800"
     }
 ]
