@@ -1,16 +1,18 @@
 [
     {
         "title": "Chile",
-        "description": "As I raised my camera to capture this fleeting moment, I couldn't help but feel humbled by the sheer magnificence before me.",
         "author": "Alice",
         "dateTaken": "4/5/2024",
         "location": "The Southern Andes",
         "price" : "$10",
-        "url": "https://picsum.photos/seed/a/800"
+        "url": "https://picsum.photos/seed/a/800",
+        "tags": [
+            "Nature",
+            "Mountain"
+        ]
     },
     {
         "title": "Imperdiet",
-        "description": "Eleifend quam adipiscing vitae proin sagittis.",
         "author": "Bob",
         "dateTaken": "2/3/2024",
         "location": "The Amber Citadel",
@@ -19,7 +21,6 @@
     },
     {
         "title": "Fames",
-        "description": "Cras fermentum odio eu feugiat. Tincidunt praesent semper feugiat nibh.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Iron Peaks",
@@ -28,7 +29,6 @@
     },
     {
         "title": "Dignissim",
-        "description": "Integer vitae justo eget magna fermentum iaculis eu non diam. Sit amet venenatis urna cursus eget nunc scelerisque.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Whispering Woods",
@@ -37,7 +37,6 @@
     },
     {
         "title": "Dolor",
-        "description": "Sit amet massa vitae tortor condimentum lacinia quis vel eros.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Shadowlands",
@@ -46,7 +45,6 @@
     },
     {
         "title": "Praesent",
-        "description": "Pretium nibh ipsum consequat nisl vel pretium.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Sapphire Sea",
@@ -55,7 +53,6 @@
     },
     {
         "title": "Adipiscing",
-        "description": "Tempor id eu nisl nunc mi ipsum. Scelerisque eu ultrices vitae auctor eu augue ut lectus.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Frostbite Tundra",
@@ -64,7 +61,6 @@
     },
     {
         "title": "Tristique",
-        "description": "Donec adipiscing tristique risus nec. Vitae suscipit tellus mauris a diam maecenas sed.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Blood Moon Forest",
@@ -73,7 +69,6 @@
     },
     {
         "title": "Libero",
-        "description": "Cursus euismod quis viverra nibh cras pulvinar mattis.",
         "author": "Alice",
         "dateTaken": "5/2/2023",
         "location": "The Shimmering Isles",
@@ -82,7 +77,6 @@
     },
     {
         "title": "Vitae",
-        "description": "Purus viverra accumsan in nisl. Rutrum quisque non tellus orci.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Velvet Veil",
@@ -91,7 +85,6 @@
     },
     {
         "title": "Malesuada",
-        "description": "Tortor consequat id porta nibh venenatis cras sed felis eget.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Luminous Meadows",
@@ -100,7 +93,6 @@
     },
     {
         "title": "Morbi",
-        "description": "Sit amet aliquam id diam maecenas ultricies.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Thunderhead Mountains",
@@ -109,7 +101,6 @@
     },
     {
         "title": "Semper",
-        "description": "Vulputate eu scelerisque felis imperdiet proin.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Golden Grove",
@@ -118,7 +109,6 @@
     },
     {
         "title": "Nunc",
-        "description": "Tempor id eu nisl nunc mi ipsum. Scelerisque eu ultrices vitae auctor eu augue ut lectus.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Silken Sands",
@@ -127,7 +117,6 @@
     },
     {
         "title": "Purus",
-        "description": "Tempus quam pellentesque nec nam aliquam sem et tortor consequat.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Arcane Archipelago",
@@ -136,7 +125,6 @@
     },
     {
         "title": "Dis",
-        "description": "A diam sollicitudin tempor id eu. Vitae turpis massa sed elementum tempus.",
         "author": "Bob",
         "dateTaken": "5/2/2023",
         "location": "The Ebon Eclipse",

@@ -1,118 +1,137 @@
-import React, { useState, useRef, createRef  } from 'react'
+import React, {useState, useRef, createRef, useEffect} from 'react'
 import Saleinfo from './Saleinfo';
 import data from '../../../Backend/api/explore_images/explorePictures.json';
-function Explore() {
-  const [selectedAuthor, setSelectedAuthor] = useState("");
-  const [maxPrice, setMaxPrice] = useState(Infinity);
-  const searchInputRef = createRef();
-  const maxPriceInputRef = createRef();
+export default Explore;
 
 
-  const filteredData = data
-    .filter((image) => {
-      if (!selectedAuthor || !image.author) return true;
-      return image.author === selectedAuthor;
-    })
-    .filter((image) => parseInt(image.price.replace("$", "")) <= maxPrice);
-
-
-  const [selectedItem, setSelectedItem] = useState(null);
-  const openPreviewHandler = (item) => {
-    setSelectedItem(item);
-  };
-  const closePreviewHandler = () => {
-    setSelectedItem(null);
-  };
-
-
-  //Filters popup
-  const Filters = () => {
+function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
+    const [selectedAuthor, setSelectedAuthor] = useState("");
+    const [maxPrice, setMaxPrice] = useState(Infinity);
+    const searchInputRef = createRef();
+    const maxPriceInputRef = createRef();
     const [isVisible, setIsVisible] = useState(false);
-    const myRef = useRef();
 
 
-    const handleClick = () => {
-      setIsVisible(!isVisible);
+    useEffect(() => {
+        setIsVisible(filterButtonClicked);
+    }, [filterButtonClicked]);
+
+
+    const filteredData = data
+        .filter((image) => {
+            if (!selectedAuthor || !image.author) return true;
+            return image.author === selectedAuthor;
+        })
+        .filter((image) => parseInt(image.price.replace("$", "")) <= maxPrice);
+
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const openPreviewHandler = (item) => {
+        setSelectedItem(item);
+    };
+    const closePreviewHandler = () => {
+        setSelectedItem(null);
     };
 
 
+    //Filters popup
+// Toggle button is temporary
+
     return (
-      <div>
-        <div
-          className={`grid grid-cols-2 gap-4 fixed top-0 left-0 ${isVisible ? "" : "hidden"}`}
-          ref={myRef}
-        >
-          <div className="bg-gray-300 rounded-lg shadow-xl mt-28">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSelectedAuthor(searchInputRef.current.value);
-                if (maxPriceInputRef.current.value == "") {
-                setMaxPrice(Infinity);
-                } else {
-                setMaxPrice(parseInt(maxPriceInputRef.current.value));
-                }
-              }}
-            >
-              <input className="border w-full h-full p-2 text-neutral-900 border-gray-400 bg-gray-200"
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search Author..."
-              />
-              <input className="border w-full h-full p-2 text-neutral-900 border-gray-400 bg-gray-200"
-                ref={maxPriceInputRef}
-                type="text"
-                placeholder="Max price... "
-              />
-              <button className="backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1 rounded-3xl m-1" type="submit">Filter</button>
-            </form>
-          </div>
-        </div>
-        <button className="pt-28" onClick={handleClick}>
-          Toggle
-        </button>
-      </div>
-    );
-  };
-// Toggle button is temporary 
+        <div className={"min-h-screen"}>
+            {isVisible && (<div>
+                <div
+                    className={`flex flex-col mx-4 gap-4 ${isVisible ? "" : "hidden"}`}
+                >
 
-  return (
-    <div className="grid grid-cols-3 mx-2 my-2 gap-0.5 mb-52 mt-28">
-      {filteredData.map((image, index) => {
-        return (
-          <React.Fragment key={index}>
-            <div className="rounded-lg shadow-xl bg-gray-100">
-              <img
-                onClick={openPreviewHandler.bind(this, image)}
-                src={image.url}
-                alt=""
-                className="rounded-lg"
-              />
-              <div className="flex items-end justify-center">
-                <p className="mr-4">{image.title}</p>
-                <p className=" text-green-600">{image.price}</p>
-              </div>
+                    <div className="bg-gray-300 rounded-lg shadow-xl mt-28">
+                        <div className={"text-slate-700 font-bold ml-4"}>
+                            Add Filters
+                        </div>
+                        <form className={"flex flex-col w-full gap-2"}
+                              onSubmit={(e) => {
+                                  e.preventDefault();
+                                  setSelectedAuthor(searchInputRef.current.value);
+                                  if (maxPriceInputRef.current.value === "") {
+                                      setMaxPrice(Infinity);
+                                  } else {
+                                      setMaxPrice(parseInt(maxPriceInputRef.current.value));
+                                  }
+                              }}
+                        >
+                            <input
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                value={selectedAuthor}
+                                ref={searchInputRef}
+                                onChange={(e) => {setSelectedAuthor(e.target.value)}}
+                                type="text"
+                                placeholder="Search Author..."
+                            />
+                            <input
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                ref={maxPriceInputRef}
+                                value={maxPrice}
+                                onChange={(e) => {setMaxPrice(parseInt(e.target.value))}}
+                                type="number"
+                                placeholder="Max price... "
+                            />
+                            <div className={"flex w-full justify-between"}>
+                                <button
+                                    className="backdrop-blur-[5rem] outline outline-slate-400 my-4 mx-2 bg-opacity-40 text-red-500 px-2.5 py-1 rounded-3xl m-1 self-start text-sm"
+                                    type="submit"
+                                    onClick={() => {
+                                        searchInputRef.current.value = ""; // clear search input
+                                        maxPriceInputRef.current.value = ""; // clear max price input
+                                        setSelectedAuthor(""); // reset selected author
+                                        setMaxPrice(Infinity); // reset max price
+                                    }}> Reset Filters
+                                </button>
+                                <button
+                                    className="backdrop-blur-[5rem] outline outline-blue-800 my-4 mx-2 bg-opacity-40 text-blue-800 px-2.5 py-1 rounded-3xl m-1 self-end text-sm"
+                                    type="submit"
+                                    onClick={toggleFilterButtonClicked}> Apply Filters
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>)}
+            <div className={`grid grid-cols-2 mx-2 my-2 gap-4 mb-52 ${isVisible ? 'mt-4' : 'mt-28'}`}>
+                {filteredData.map((image, index) => {
+                    return (
+                        <React.Fragment key={index}>
+                            <div className="rounded-lg shadow-xl bg-gray-100">
+                                <img
+                                    onClick={openPreviewHandler.bind(this, image)}
+                                    src={image.url}
+                                    alt=""
+                                    className="rounded-lg"
+                                />
+                                <div className="ml-3 mt-2 flex justify-center flex-col">
+                                    <p className="mr-4">Name: {image.title}</p>
+                                    <p className="text-green-700 flex gap-1"><p
+                                        className={"text-slate-700"}>Price:</p> {image.price}</p>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    );
+                })}
+                {selectedItem !== null ? (
+                    <Saleinfo
+                        show={true}
+                        onClose={closePreviewHandler}
+                        title={selectedItem.title || ""}
+                        tags={selectedItem.tags || []}
+                        price={selectedItem.price}
+                        preview={selectedItem.url}
+                        author={selectedItem.author}
+                        date={selectedItem.dateTaken}
+                        location={selectedItem.location}
+                    />
+                ) : null}
+
             </div>
-          </React.Fragment>
-        );
-      })}
-      {selectedItem !== null ? (
-        <Saleinfo
-          show={true}
-          onClose={closePreviewHandler}
-          title={selectedItem.title || ""}
-          description={selectedItem.description || ""}
-          price={selectedItem.price}
-          preview={selectedItem.url}
-          author={selectedItem.author}
-          date={selectedItem.dateTaken}
-          location={selectedItem.location}
-        />
-      ) : null}
-      <Filters />
-    </div>
-  );
+        </div>
+
+    );
 }
-
-
-export default Explore;

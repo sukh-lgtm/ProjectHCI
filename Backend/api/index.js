@@ -217,6 +217,7 @@ app.get('/fetch-images', (req, res) => {
                 id: file, // You can use a unique identifier for each image, such as the filename
                 src: `http://localhost:3000/library_images/${file}` // Construct the URL for each image
             }));
+            console.log("IMAGEs LENGTH", images.length)
             res.json({ images });
         }
     });

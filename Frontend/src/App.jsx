@@ -20,6 +20,7 @@ import LibInAlbum from './pages/LibInAlbum.jsx';
 function App() {
     const [count, setCount] = useState(0)
     const [selectionMode, setSelectionMode] = useState(false);
+    const [filterButtonClicked, setFilterButtonClicked] = useState(false);
     const [insideAlbumTitle, setInsideAlbumTitle] = useState("")
 
     const location = useLocation();
@@ -32,6 +33,10 @@ function App() {
             fetchInsideAlbumTitle();
 
     }, [location]);
+
+    const toggleFilterButtonClicked = () => {
+        setFilterButtonClicked(!filterButtonClicked)
+    }
 
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
@@ -69,13 +74,13 @@ function App() {
         <div className= "max-w-screen bg-gray-300 overflow-x-hidden overflow-hidden" >
             <LibraryProvider>
                 <AlbumsProvider>
-                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags}/>
+                    <Header currentPage={currentPage} selectionMode={selectionMode} insideAlbumTitle={insideAlbumTitle} toggleSelectionMode={toggleSelectionMode} setSearchTags={setSearchTags} setFilterButtonClicked={setFilterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked} filterButtonClicked={filterButtonClicked}/>
                     {visible ? <Navbar /> : null}
                     <div>
                         <Routes>
                             <Route path="/library" element={<Library selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode} searchTags={searchTags}/>} />
                             <Route path="/albums" element={<Albums selectionMode={selectionMode} toggleSelectionMode={toggleSelectionMode}/>} />
-                            <Route path="/explore" element={<Explore />} />
+                            <Route path="/explore" element={<Explore filterButtonClicked={filterButtonClicked} toggleFilterButtonClicked={toggleFilterButtonClicked}/>} />
                             <Route path="/account" element={<Account selectionMode={selectionMode} />}/>
                             <Route path="/tag" element={<TagPage />} />
                             <Route path="/sell" element={<SellPage />} />

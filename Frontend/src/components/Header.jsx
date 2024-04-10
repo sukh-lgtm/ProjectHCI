@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Axios from "axios";
 import {useLibrary} from "../context/LibraryProvider.jsx";
 import {Check, X, ChevronLeft, SquareCheck, Upload, List, SlidersHorizontal, Plus, PencilLine, Search} from 'lucide-react';
@@ -7,7 +7,7 @@ import {TagsInput} from "react-tag-input-component";
 
 
 
-function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick, setSearchTags }) {
+function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionMode, onAddToAlbumClick, setSearchTags, toggleFilterButtonClicked, filterButtonClicked}) {
     const { fetchImages } = useLibrary();
 
     function handleSearchInput(tags){
@@ -19,6 +19,10 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
             return prevItems.filter(item => item !== tag);
         });
     }
+
+    useEffect(() => {
+        console.log(filterButtonClicked)
+    }, [filterButtonClicked]);
 
     async function handleChange(event) {
         if (event.target.files) {
@@ -97,30 +101,43 @@ function Header({ currentPage, insideAlbumTitle, selectionMode, toggleSelectionM
                 </div>)
 
             case 'Explore':
-                return (<div>
-                    <Link to="/library">
-                        <button type="button"
-                                className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-slate-400 outline outline-slate-700 bg-opacity-40 px-2.5 py-1">
-                            <div className={"flex flex-row justify-center items-center content-center gap-1"}><SlidersHorizontal
-                                width={20} height={20}/> Filter
-                            </div>
-                        </button>
-                    </Link>
-                </div>)
-            
+                return (
+                    !filterButtonClicked ?
+                        <div onClick={toggleFilterButtonClicked}>
+                            <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-slate-400 outline outline-slate-700 bg-opacity-40 px-2.5 py-1"
+                                    >
+                                <div className={"flex flex-row justify-center items-center content-center gap-1"}>
+                                    <SlidersHorizontal
+                                        width={20} height={20}/> Filter
+                                </div>
+                            </button>
+                        </div> :
+                        <div onClick={toggleFilterButtonClicked}>
+                            <button type="button"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] bg-slate-400 outline outline-slate-700 bg-opacity-40 px-2.5 py-1"
+                                    >
+                                <div className={"flex flex-row justify-center items-center content-center gap-1"}>
+                                    <X
+                                        width={20} height={20}/> Close
+                                </div>
+                            </button>
+                        </div>
+                )
+
             case 'Albums':
                 return (
                     selectionMode ? <div></div>
 
-                    : <div>
-                        <button type="submit"
-                            className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
-                            onClick={onNewAlbumButtonClick}
-                        >
-                            <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
-                                width={20} height={20} /> New Album
-                            </div>
-                        </button>
+                        : <div>
+                            <button type="submit"
+                                    className="ml-auto rounded-[36px] backdrop-blur-[5rem] outline outline-slate-700 bg-slate-400 bg-opacity-40 px-2.5 py-1"
+                                    onClick={onNewAlbumButtonClick}
+                            >
+                                <div className={"flex flex-row justify-center items-center content-center gap-2"}><Plus
+                                    width={20} height={20}/> New Album
+                                </div>
+                            </button>
                 </div>)
             
             case 'RecentlyDeleted':

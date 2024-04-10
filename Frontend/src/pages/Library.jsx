@@ -134,13 +134,6 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [showPopup]);
-    const [imagesLength, setImagesLength] = useState(images.length);
-
-    useEffect(() => {
-        // Update the imagesLength state whenever the images array changes
-        setImagesLength(images.length);
-    }, [images]);
-
 
     useEffect(() => {
         setSelectedImages([]);
@@ -161,9 +154,6 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
         fetchSearchImages(searchTags);
     }, [searchTags]);
 
-    useEffect(() => {
-        fetchImages();
-    }, []);
 
 
     const toggleSelectImage = (image) => {
@@ -197,7 +187,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
 
     return (
         <div className={"min-h-screen"}>
-            {imagesLength === 0 && searchTags.length === 0?
+            {images.length === 0 && searchTags.length === 0?
                 <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                     <div>
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none"
@@ -244,7 +234,7 @@ function Library({ selectionMode, toggleSelectionMode, searchTags }) {
                     </div>
                 </div> :
 
-                imagesLength===0 && searchTags.length > 0 ?
+                images.length===0 && searchTags.length > 0 ?
                     <div className={"flex justify-center items-center w-screen h-screen flex-col"}>
                         <div>
 
