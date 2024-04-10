@@ -60,7 +60,7 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
                               }}
                         >
                             <input
-                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-100 mx-4 rounded-md"
                                 value={selectedAuthor}
                                 ref={searchInputRef}
                                 onChange={(e) => {setSelectedAuthor(e.target.value)}}
@@ -68,7 +68,7 @@ function Explore({filterButtonClicked, toggleFilterButtonClicked}) {
                                 placeholder="Search Author..."
                             />
                             <input
-                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-200 mx-4 rounded-md"
+                                className="border  h-full p-2 text-neutral-900 border-gray-400 bg-gray-100 mx-4 rounded-md"
                                 ref={maxPriceInputRef}
                                 value={maxPrice}
                                 onChange={(e) => {setMaxPrice(parseInt(e.target.value))}}

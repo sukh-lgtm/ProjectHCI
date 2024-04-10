@@ -129,12 +129,12 @@ function Account({setVisible}) {
 
                         <div class="flex flex-col mx-14 justify-center items-center gap-3">
                             <button type="submit"
-                                    class="bg-blue-600 text-white py-3 px-6 rounded-xl cursor-pointer w-full">
+                                    class="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-white bg-blue-600 px-12 pt-1 pb-2 rounded-3xl m-1 text-xl">
                                 Login
                             </button>
 
                             <button type="submit"
-                                    class="bg-blue-600 text-white py-3 px-6 rounded-xl cursor-pointer w-full">
+                                    class="backdrop-blur-[5rem] outline outline-blue-800 mx-2 bg-opacity-80 text-blue-800 bg-slate-300 px-10 pt-1 pb-2 rounded-3xl m-1 text-xl">
                                 Sign Up
                             </button>
                         </div>
